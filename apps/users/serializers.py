@@ -1,8 +1,9 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import User
+
 from helpers.main import generate_code
+from .models import User
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -47,4 +48,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 		
 		user.save()
 		return user
-		
+
+
+class RepairUserByPhoneSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ['phone_number']
+
+
+class CodeVerificationSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ['phone_number', 'verification_code']
