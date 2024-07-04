@@ -11,4 +11,8 @@ class User(AbstractUser):
 	verification_code = models.CharField(max_length=6, null=True)
 	is_verified = models.BooleanField(default=False)
 	
-	
+
+class PasswordReset(models.Model):
+	email = models.EmailField()
+	token = models.CharField(max_length=100)
+	created_at = models.DateTimeField(auto_now_add=True)

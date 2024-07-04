@@ -6,3 +6,10 @@ def validate_phone_number(instance, value):
     if not user.exists():
         raise ValidationError({"phone_number": "Пользователь с таким номером телефона не найден"})
     return value
+
+
+def validate_email(instance, value):
+    user = instance.objects.filter(email=value)
+    if not user.exists():
+        raise ValidationError({"email": "Пользователь с таким email не найден"})
+    return value
