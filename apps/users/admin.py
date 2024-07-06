@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext as _
 
-from .models import User
+from .models import User, Passport
 
 
 class CustomUserAdmin(UserAdmin):
@@ -25,9 +25,14 @@ class CustomUserAdmin(UserAdmin):
 	)
 
 
+class PassportAdmin(admin.ModelAdmin):
+	pass
+
+
 admin.site.site_title = 'Travella Admin'
 admin.site.site_header = 'Travella Administration'
 admin.site.index_title = "Site administration"
 
 
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Passport, PassportAdmin)

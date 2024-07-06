@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from helpers.main import generate_code
-from .models import User, PasswordReset
+from .models import User, PasswordReset, Passport
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -76,3 +76,18 @@ class CodeVerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['phone_number', 'verification_code']
+
+
+class PassportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Passport
+        fields = ['id', 'first_name', 'lastname', 'surname', 'birth_date', 'seria', 'issued_by', 'issued_date',
+                  'citizen', 'user_id']
+
+
+class UserDataSerializer(serializers.ModelSerializer):
+    passport_data = PassportSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'birth_date', 'email', 'phone_number', 'gender', 'passport_data']

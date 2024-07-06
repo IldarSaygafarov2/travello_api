@@ -130,6 +130,22 @@ class CheckVerificationCodeView(generics.GenericAPIView):
     def post(self):
         pass
 
+
+class UserDataView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserDataSerializer
+    # lookup_url_kwarg = 'username'
+
+
+class UserPassportView(generics.GenericAPIView):
+    serializer_class = serializers.PassportSerializer
+
+    def get(self, request, username):
+        user = User.objects.get(username=username)
+        passport = user.passport_data.first()
+        serializer = self.serializer_class(passport, many=False)
+        return Response(serializer.data, status=200)
+
 # /<username>/info/edit/
 # /<username>/passport/add/
 

@@ -16,3 +16,22 @@ class PasswordReset(models.Model):
 	email = models.EmailField()
 	token = models.CharField(max_length=100)
 	created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Passport(models.Model):
+	first_name = models.CharField(verbose_name='Имя', max_length=100)
+	lastname = models.CharField(verbose_name='Фамилия', max_length=100)
+	surname = models.CharField(verbose_name='Отчество', max_length=100)
+	birth_date = models.DateField()
+	seria = models.CharField(verbose_name='Серия', max_length=100)
+	issued_by = models.CharField(verbose_name='Кем выдан', max_length=150)
+	issued_date = models.DateField()
+	citizen = models.CharField(verbose_name='Гражданство', max_length=100)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='passport_data', verbose_name='Пользователь')
+
+	def __str__(self):
+		return f'{self.lastname} {self.first_name} {self.surname}: {self.seria}'
+
+	class Meta:
+		verbose_name = 'Паспортные данные'
+		verbose_name_plural = 'Паспортные данные'
