@@ -148,3 +148,7 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'sayildar17@gmail.com'
 EMAIL_HOST_PASSWORD = 'psff habd pjje wqqq'
+
+SMS_API_EMAIL = 'akhmedovkb@gmail.com'
+SMS_API_KEY = 'Xn7ZwIq0FX2wCxD8XwduIbbKcIfv3jeJnvQhwtDe'
+SMS_API_URL = 'https://notify.eskiz.uz/api/'

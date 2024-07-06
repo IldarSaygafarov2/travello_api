@@ -1,15 +1,16 @@
+from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import EmailMessage, get_connection
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.core.mail import EmailMessage, get_connection
-from helpers.main import generate_code
-from . import serializers
+
+from helpers.main import generate_code, SMSService
+from . import serializers, messages
 from .models import User, PasswordReset
 from .validators import validate_phone_number, validate_email
-from django.conf import settings
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 @extend_schema(tags=['Auth'])
@@ -45,8 +46,14 @@ class RepairUserByPhoneNumberView(generics.GenericAPIView):
         user = User.objects.get(phone_number=phone_number)
         user.verification_code = code
         # send_sms_code(code, phone_number)
+        SMSService.send_message(
+            phone_number=phone_number,
+            message=messages.SMS_REGISTRATION_MESSAGE.format(code=code)
+        )
         user.save()
-        return Response('ok')
+        return Response({
+            'status': True
+        })
 
 
 @extend_schema(tags=['Auth'])

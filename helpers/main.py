@@ -1,40 +1,42 @@
 import random
-
-import http.client
-import json
-
-API_URL = '/sms/3/messages'
-API_HOST = "8gwv4d.api.infobip.com"
-API_KEY = '45f8515bc8e0c47479c742afbaad4514-decc5867-5c17-4d44-80f3-796b4a690475'
+from travello import settings
+import requests
 
 
-def send_sms_code(text, phone_number):
-    phone_number = phone_number.replace('+', '')
-    conn = http.client.HTTPSConnection(API_HOST)
-    payload = json.dumps({
-        "messages": [
-            {
-                "sender": "579",
-                "destinations": [
-                    {
-                        "to": phone_number
-                    }
-                ],
-                "content": {
-                    "text": text
-                }
+class SMSService:
+    base_url = settings.SMS_API_URL
+
+    @classmethod
+    def __get_token(cls):
+        data = requests.post(
+            url=f'{cls.base_url}auth/login/',
+            data={
+                'email': settings.SMS_API_EMAIL,
+                'password': settings.SMS_API_KEY
             }
-        ]
-    })
-    headers = {
-        'Authorization': f'App {API_KEY}',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    }
-    conn.request("POST", API_URL, payload, headers)
-    res = conn.getresponse()
-    data = res.read()
-    print(data.decode("utf-8"))
+        )
+        res = data.json()
+        return res['data']['token']
+
+    @classmethod
+    def send_message(cls, phone_number, message):
+        token = cls.__get_token()
+        payload = {
+            'mobile_phone': phone_number,
+            'message': message,
+            'from': '4546'
+        }
+        headers = {
+            'Authorization': f'Bearer {token}'
+        }
+        res = requests.post(
+            url=f'{cls.base_url}message/sms/send',
+            headers=headers,
+            data=payload
+        )
+        print(res.text)
+
+# SMSService.get_token()
 
 
 def generate_code():
