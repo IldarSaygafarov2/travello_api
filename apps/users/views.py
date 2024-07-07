@@ -35,9 +35,6 @@ class UserLogoutView(APIView):
 class RepairUserByPhoneNumberView(generics.GenericAPIView):
     serializer_class = serializers.RepairUserByPhoneSerializer
 
-    # queryset = User.objects.all()
-    # lookup_field = None
-
     def post(self, request):
         data = request.data
         phone_number = validate_phone_number(User, data['phone_number'])
@@ -45,7 +42,6 @@ class RepairUserByPhoneNumberView(generics.GenericAPIView):
 
         user = User.objects.get(phone_number=phone_number)
         user.verification_code = code
-        # send_sms_code(code, phone_number)
         SMSService.send_message(
             phone_number=phone_number,
             message=messages.SMS_REGISTRATION_MESSAGE.format(code=code)
@@ -78,9 +74,7 @@ class RepairUserByEmailView(generics.GenericAPIView):
                 port=settings.EMAIL_PORT,
                 username=settings.EMAIL_HOST_USER,
                 password=settings.EMAIL_HOST_PASSWORD,
-                # use_tls=settings.EMAIL_USE_TLS
         ) as connection:
-            # print(connection)
             EmailMessage(
                 'Восстановление пароля',
                 f'Ссылка для восстановление пароля: {reset_url}',
@@ -134,7 +128,11 @@ class CheckVerificationCodeView(generics.GenericAPIView):
 class UserDataView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserDataSerializer
-    # lookup_url_kwarg = 'username'
+
+
+class UserDataUpdateView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserDataUpdateSerializer
 
 
 class UserPassportView(generics.GenericAPIView):

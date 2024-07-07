@@ -91,3 +91,10 @@ class UserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'birth_date', 'email', 'phone_number', 'gender', 'passport_data']
+
+
+class UserDataUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['gender', 'email', 'phone_number']
+

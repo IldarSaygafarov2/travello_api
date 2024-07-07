@@ -36,7 +36,20 @@ class SMSService:
         )
         print(res.text)
 
-# SMSService.get_token()
+    @classmethod
+    def get_template(cs):
+        token = cs.__get_token()
+        headers = {
+            'Authorization': f'Bearer {token}'
+        }
+        resp = requests.post(
+            url=f'{settings.SMS_API_URL}user/template',
+            headers=headers
+        )
+        print(resp.text)
+
+
+# SMSService.get_template()
 
 
 def generate_code():
