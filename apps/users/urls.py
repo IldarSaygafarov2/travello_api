@@ -10,8 +10,10 @@ urlpatterns = [
     path('auth/logout/', views.UserLogoutView.as_view(), name='logout'),
     path('auth/repair/phone/', views.RepairUserByPhoneNumberView.as_view(), name='repair_phone'),
     path('auth/repair/email/', views.RepairUserByEmailView.as_view(), name='repair_email'),
-    path('auth/password/reset/<str:token>/', views.ResetPasswordView.as_view()),
+    path('auth/password/reset/<str:token>/', views.ResetPasswordView.as_view(), name='reset_password'),
+    path('auth/code/check/', views.CheckVerificationCodeView.as_view(), name='code_check'),
     path('<int:pk>/info/', views.UserDataView.as_view(), name='user-data'),
     path('<int:pk>/info/update/', views.UserDataUpdateView.as_view(), name='user-data-update'),
+    path('<int:pk>/passport/add/', views.UserPassportView.as_view(), name='user-passport'),
     # path('data/<str:username>/passport/add/', )
 ]

@@ -75,14 +75,23 @@ class PasswordResetSerializer(serializers.Serializer):
 class CodeVerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['phone_number', 'verification_code']
+        fields = ['verification_code']
 
 
 class PassportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Passport
         fields = ['id', 'first_name', 'lastname', 'surname', 'birth_date', 'seria', 'issued_by', 'issued_date',
-                  'citizen', 'user_id']
+                  'citizen', 'user']
+        # read_only_fields = ('user',)
+
+    def create(self, validated_data):
+        user = User.objects.get(pk=self.context['user_pk'])
+        data = Passport(**validated_data)
+        data.user = user
+        data.save()
+
+        return data
 
 
 class UserDataSerializer(serializers.ModelSerializer):

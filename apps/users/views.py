@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMessage, get_connection
 from drf_spectacular.utils import extend_schema
-from rest_framework import generics
+from rest_framework import generics, validators
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -44,9 +44,10 @@ class RepairUserByPhoneNumberView(generics.GenericAPIView):
         user.verification_code = code
         SMSService.send_message(
             phone_number=phone_number,
-            message=messages.SMS_REGISTRATION_MESSAGE.format(code=code)
+            message=f'Код подтверждения для восстановления пароля на сайте travella.uz: {code}'
         )
         user.save()
+        print(code)
         return Response({
             'status': True
         })
@@ -121,8 +122,12 @@ class ResetPasswordView(generics.GenericAPIView):
 class CheckVerificationCodeView(generics.GenericAPIView):
     serializer_class = serializers.CodeVerificationSerializer
 
-    def post(self):
-        pass
+    def post(self, request):
+        data = request.data
+        user = User.objects.filter(verification_code=data['verification_code']).first()
+        if user is None:
+            return Response({'is_code_valid': False})
+        return Response({'is_code_valid': True})
 
 
 class UserDataView(generics.RetrieveAPIView):
@@ -138,11 +143,29 @@ class UserDataUpdateView(generics.UpdateAPIView):
 class UserPassportView(generics.GenericAPIView):
     serializer_class = serializers.PassportSerializer
 
-    def get(self, request, username):
-        user = User.objects.get(username=username)
-        passport = user.passport_data.first()
-        serializer = self.serializer_class(passport, many=False)
-        return Response(serializer.data, status=200)
+    # def get(self, request, pk):
+    #     user = User.objects.get(pk=pk)
+    #     passport = user.passport_data.first()
+    #     serializer = self.serializer_class(passport, many=False)
+    #     return Response(serializer.data, status=200)
+
+    def post(self, request, pk):
+        data = request.data
+        user = User.objects.get(pk=pk)
+        user_passport = user.passport_data.first()
+        user_serializer = serializers.UserDataSerializer(user, many=False)
+        if user_passport is not None:
+            update_passport_serializer = serializers.PassportSerializer(instance=user_passport, data=data)
+            update_passport_serializer.is_valid(raise_exception=True)
+            update_passport_serializer.save()
+            return Response(user_serializer.data)
+
+        # data['user'] = user
+        serializer = self.serializer_class(data=data, context={'user_pk': user.pk})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        print(serializer.data)
+        return Response(serializer.data)
 
 # /<username>/info/edit/
 # /<username>/passport/add/

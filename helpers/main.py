@@ -37,14 +37,15 @@ class SMSService:
         print(res.text)
 
     @classmethod
-    def get_template(cs):
-        token = cs.__get_token()
+    def get_template(cls):
+        token = cls.__get_token()
         headers = {
             'Authorization': f'Bearer {token}'
         }
         resp = requests.post(
-            url=f'{settings.SMS_API_URL}user/template',
-            headers=headers
+            url=f'{settings.SMS_API_URL}user/template/',
+            headers=headers,
+            # data={'template':}
         )
         print(resp.text)
 
