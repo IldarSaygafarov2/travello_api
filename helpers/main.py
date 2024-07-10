@@ -42,8 +42,8 @@ class SMSService:
         headers = {
             'Authorization': f'Bearer {token}'
         }
-        resp = requests.post(
-            url=f'{settings.SMS_API_URL}user/template/',
+        resp = requests.get(
+            url=f'{settings.SMS_API_URL}user/templates/',
             headers=headers,
             # data={'template':}
         )
@@ -51,7 +51,9 @@ class SMSService:
 
 
 # SMSService.get_template()
+# print(requests.get('https://notify.eskiz.uz/api/user/templates'))
+# SMSService.get_template()
 
 
 def generate_code():
-    return ''.join(random.sample([f"{i}" for i in range(10)], 6))
+    return ''.join(random.sample([f"{i}" for i in range(10)], 4))

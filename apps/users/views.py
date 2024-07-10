@@ -1,16 +1,12 @@
-from django.conf import settings
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.core.mail import EmailMessage, get_connection
 from drf_spectacular.utils import extend_schema
-from rest_framework import generics, validators
+from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from helpers.main import generate_code, SMSService
-from . import serializers, messages
-from .models import User, PasswordReset
-from .validators import validate_phone_number, validate_email
+from . import serializers
+from .models import User
+from .services.user import AuthService
 
 
 @extend_schema(tags=['Auth'])
@@ -36,21 +32,7 @@ class RepairUserByPhoneNumberView(generics.GenericAPIView):
     serializer_class = serializers.RepairUserByPhoneSerializer
 
     def post(self, request):
-        data = request.data
-        phone_number = validate_phone_number(User, data['phone_number'])
-        code = generate_code()
-
-        user = User.objects.get(phone_number=phone_number)
-        user.verification_code = code
-        SMSService.send_message(
-            phone_number=phone_number,
-            message=f'Код подтверждения для восстановления пароля на сайте travella.uz: {code}'
-        )
-        user.save()
-        print(code)
-        return Response({
-            'status': True
-        })
+        return AuthService.repair_by_phone_number(request)
 
 
 @extend_schema(tags=['Auth'])
@@ -58,32 +40,7 @@ class RepairUserByEmailView(generics.GenericAPIView):
     serializer_class = serializers.RepairUserByEmailSerializer
 
     def post(self, request):
-        data = request.data
-        email = validate_email(User, data['email'])
-
-        user = User.objects.get(email=email)
-
-        token_generator = PasswordResetTokenGenerator()
-        token = token_generator.make_token(user)
-        reset = PasswordReset(email=email, token=token)
-        reset.save()
-
-        reset_url = f'http://127.0.0.1:8000/api/v1/users/auth/password/reset/{token}'
-
-        with get_connection(
-                host=settings.EMAIL_HOST,
-                port=settings.EMAIL_PORT,
-                username=settings.EMAIL_HOST_USER,
-                password=settings.EMAIL_HOST_PASSWORD,
-        ) as connection:
-            EmailMessage(
-                'Восстановление пароля',
-                f'Ссылка для восстановление пароля: {reset_url}',
-                settings.EMAIL_HOST_USER,
-                [email],
-                connection=connection
-            ).send()
-        return Response({'status': True, 'reset_token': token})
+        return AuthService.repair_by_email(request)
 
 
 class ResetPasswordView(generics.GenericAPIView):
@@ -91,43 +48,21 @@ class ResetPasswordView(generics.GenericAPIView):
     permission_classes = []
 
     def post(self, request, token):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
-
-        new_password = data['new_password']
-        confirm_password = data['confirm_password']
-
-        if new_password != confirm_password:
-            return Response({"error": "Passwords do not match"}, status=400)
-
-        reset_obj = PasswordReset.objects.filter(token=token).first()
-
-        if not reset_obj:
-            return Response({'error': 'Invalid token'}, status=400)
-
-        user = User.objects.filter(email=reset_obj.email).first()
-
-        if user:
-            user.set_password(request.data['new_password'])
-            user.save()
-
-            reset_obj.delete()
-
-            return Response({'success': 'Password updated'})
-        else:
-            return Response({'error': 'No user found'}, status=404)
+        AuthService.reset_password(request, token)
 
 
 class CheckVerificationCodeView(generics.GenericAPIView):
     serializer_class = serializers.CodeVerificationSerializer
 
     def post(self, request):
-        data = request.data
-        user = User.objects.filter(verification_code=data['verification_code']).first()
-        if user is None:
-            return Response({'is_code_valid': False})
-        return Response({'is_code_valid': True})
+        return AuthService.check_verification_code(request)
+
+
+class UserRegistrationCheckVerificationCodeView(generics.GenericAPIView):
+    serializer_class = serializers.UserRegistrationCodeVerificationSerializer
+
+    def post(self, request):
+        pass
 
 
 class UserDataView(generics.RetrieveAPIView):
@@ -143,30 +78,8 @@ class UserDataUpdateView(generics.UpdateAPIView):
 class UserPassportView(generics.GenericAPIView):
     serializer_class = serializers.PassportSerializer
 
-    # def get(self, request, pk):
-    #     user = User.objects.get(pk=pk)
-    #     passport = user.passport_data.first()
-    #     serializer = self.serializer_class(passport, many=False)
-    #     return Response(serializer.data, status=200)
-
     def post(self, request, pk):
-        data = request.data
-        user = User.objects.get(pk=pk)
-        user_passport = user.passport_data.first()
-        user_serializer = serializers.UserDataSerializer(user, many=False)
-        if user_passport is not None:
-            update_passport_serializer = serializers.PassportSerializer(instance=user_passport, data=data)
-            update_passport_serializer.is_valid(raise_exception=True)
-            update_passport_serializer.save()
-            return Response(user_serializer.data)
-
-        # data['user'] = user
-        serializer = self.serializer_class(data=data, context={'user_pk': user.pk})
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        print(serializer.data)
-        return Response(serializer.data)
+        return AuthService.create_update_passport(request, pk)
 
 # /<username>/info/edit/
 # /<username>/passport/add/
-

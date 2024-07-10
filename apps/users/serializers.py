@@ -2,8 +2,9 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from helpers.main import generate_code
+from helpers.main import generate_code, SMSService
 from .models import User, PasswordReset, Passport
+from . import messages
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -43,8 +44,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.first_name = validated_data['username']
         user.set_password(password)
         user.verification_code = verification_code
+        user.is_active = False
 
         # нужно отправлять сообщение на номер телефона с кодом подтверждения
+        SMSService.send_message(
+            phone_number=validated_data['phone_number'],
+            message=messages.SMS_REGISTRATION_MESSAGE.format(code=verification_code)
+        )
 
         user.save()
         return user
@@ -78,6 +84,22 @@ class CodeVerificationSerializer(serializers.ModelSerializer):
         fields = ['verification_code']
 
 
+class UserRegistrationCodeVerificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['verification_code']
+
+    def validate(self, attrs):
+        verification_code = attrs.get('verification_code')
+        user = User.objects.filter(verification_code=verification_code).first()
+        if user is None:
+            raise serializers.ValidationError({'code': 'Неверный код', 'is_correct': False})
+        user.is_active = True
+        user.is_verified = True
+        user.save()
+        return attrs
+
+
 class PassportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Passport
@@ -90,7 +112,6 @@ class PassportSerializer(serializers.ModelSerializer):
         data = Passport(**validated_data)
         data.user = user
         data.save()
-
         return data
 
 
