@@ -43,6 +43,7 @@ class RepairUserByEmailView(generics.GenericAPIView):
         return AuthService.repair_by_email(request)
 
 
+@extend_schema(tags=['Auth'])
 class ResetPasswordView(generics.GenericAPIView):
     serializer_class = serializers.PasswordResetSerializer
     permission_classes = []
@@ -51,6 +52,7 @@ class ResetPasswordView(generics.GenericAPIView):
         AuthService.reset_password(request, token)
 
 
+@extend_schema(tags=['Auth'])
 class CheckVerificationCodeView(generics.GenericAPIView):
     serializer_class = serializers.CodeVerificationSerializer
 
@@ -58,6 +60,7 @@ class CheckVerificationCodeView(generics.GenericAPIView):
         return AuthService.check_verification_code(request)
 
 
+@extend_schema(tags=['Auth'])
 class UserRegistrationCheckVerificationCodeView(generics.GenericAPIView):
     serializer_class = serializers.UserRegistrationCodeVerificationSerializer
 
@@ -65,16 +68,19 @@ class UserRegistrationCheckVerificationCodeView(generics.GenericAPIView):
         pass
 
 
+@extend_schema(tags=['Users'])
 class UserDataView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserDataSerializer
 
 
+@extend_schema(tags=['Users'])
 class UserDataUpdateView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserDataUpdateSerializer
 
 
+@extend_schema(tags=['Users'])
 class UserPassportView(generics.GenericAPIView):
     serializer_class = serializers.PassportSerializer
 
