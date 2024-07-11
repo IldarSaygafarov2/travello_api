@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',
     'apps.reviews.apps.ReviewsConfig',
+    'apps.events.apps.EventsConfig',
 ]
 
 MIDDLEWARE = [
