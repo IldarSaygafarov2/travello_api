@@ -24,12 +24,12 @@ class Event(models.Model):
     full_description = models.TextField(verbose_name='Полное описание')
     preview = models.ImageField(verbose_name='Фото', upload_to=event_images_upload_to, blank=True)
     price = models.PositiveSmallIntegerField(verbose_name='Цена')
-    country = models.CharField(verbose_name='Страна ивента')
+    country = models.CharField(verbose_name='Страна ивента', max_length=100)
     event_start = models.SmallIntegerField(verbose_name='Число начала ивента')
     event_end = models.SmallIntegerField(verbose_name='Число конца ивента')
     days = models.SmallIntegerField(verbose_name='Количество дней тура')
     nights = models.SmallIntegerField(verbose_name='Количество ночей тура')
-    gathering_place = models.CharField(verbose_name='Место сбора группы')
+    gathering_place = models.CharField(verbose_name='Место сбора группы', max_length=100)
     minimum_age = models.IntegerField(verbose_name='Минимальный возраст')
     people_in_group = models.IntegerField(verbose_name='Количество человек в группе')
     event_type = models.CharField(verbose_name='Тип тура', max_length=20, choices=EventType.choices,
@@ -81,10 +81,18 @@ class EventTourProgramGallery(models.Model):
 # event_id
 # title
 class EventPriceIncluded(models.Model):
-    pass
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='price_included', verbose_name='Тур')
+    title = models.CharField(max_length=200, verbose_name='Текст')
+
+    def __str__(self):
+        return self.title
 
 
 # event_id
 # title
 class EventPriceNotIncluded(models.Model):
-    pass
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='price_not_included', verbose_name='Тур')
+    title = models.CharField(max_length=200, verbose_name='Текст')
+
+    def __str__(self):
+        return self.title
