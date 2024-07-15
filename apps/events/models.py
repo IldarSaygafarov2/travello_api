@@ -1,8 +1,5 @@
-from django.db import models
 from ckeditor.fields import RichTextField
-from django.template.defaultfilters import slugify
-
-slugify
+from django.db import models
 
 
 class EventType(models.TextChoices):
@@ -50,6 +47,17 @@ def event_images_gallery_upload_to(instance, filename):
 class EventGallery(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name='Ивент', related_name='images_gallery')
     image = models.ImageField(verbose_name='Фото', upload_to=event_images_gallery_upload_to, null=True, blank=True)
+    slug = models.SlugField(default='', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.event.slug
+
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Фото в галлерию'
+        verbose_name_plural = 'Галлерея тура'
 
 
 # title
@@ -59,13 +67,16 @@ class EventGallery(models.Model):
 
 class EventTourProgram(models.Model):
     title = models.CharField(verbose_name='Название', max_length=200)
-    slug = models.SlugField(verbose_name='Слаг')
     day = models.IntegerField(verbose_name='День', help_text='День тура, например: "1 день, 2 день"')
     description = RichTextField(verbose_name='Описание')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tour_program')
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'День программы тура'
+        verbose_name_plural = 'Дни программы тура'
 
 
 # def event_images_gallery_upload_to(instance, filename):
@@ -77,9 +88,11 @@ class EventTourProgramGallery(models.Model):
                                            related_name='tour_program_gallery')
     image = models.ImageField(verbose_name='Фото', )
 
+    class Meta:
+        verbose_name = 'Фото дня программы тура'
+        verbose_name_plural = 'Фото дней программы тура'
 
-# event_id
-# title
+
 class EventPriceIncluded(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='price_included', verbose_name='Тур')
     title = models.CharField(max_length=200, verbose_name='Текст')
@@ -87,12 +100,18 @@ class EventPriceIncluded(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Включено в цену'
+        verbose_name_plural = 'Условия (Включено в цену)'
 
-# event_id
-# title
+
 class EventPriceNotIncluded(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='price_not_included', verbose_name='Тур')
     title = models.CharField(max_length=200, verbose_name='Текст')
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Не включено в цену'
+        verbose_name_plural = 'Условия (Не включено в цену)'

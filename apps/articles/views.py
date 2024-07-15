@@ -1,8 +1,8 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from .models import Article
 from .serializers import ArticleSerializer
-from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(tags=['Articles'])
