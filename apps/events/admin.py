@@ -1,6 +1,7 @@
 from django.contrib import admin
-from . import models
 from nested_inline.admin import NestedTabularInline, NestedModelAdmin
+
+from . import models
 
 
 class EventGalleryInline(NestedTabularInline):
@@ -31,6 +32,10 @@ class EventTourProgramAdmin(NestedTabularInline):
 
 
 class EventAdmin(NestedModelAdmin):
+    list_display = ['pk', 'title', 'price', 'country', 'event_start', 'event_end', 'event_type']
+    list_display_links = ['pk', 'title']
+    list_editable = ['price', 'event_type', 'event_start', 'event_end',]
+    list_filter = ['event_type']
     inlines = [
         EventGalleryInline,
         EventTourProgramAdmin,

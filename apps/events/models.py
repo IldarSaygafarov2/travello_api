@@ -3,8 +3,8 @@ from django.db import models
 
 
 class EventType(models.TextChoices):
-    WORLD = 'Мировой'
-    LOCAL = 'По узбекистану'
+    WORLD = 'world', 'Мировой'
+    LOCAL = 'uzbekistan', 'По узбекистану'
 
     __empty__ = '-'
 
@@ -22,8 +22,8 @@ class Event(models.Model):
     preview = models.ImageField(verbose_name='Фото', upload_to=event_images_upload_to, blank=True)
     price = models.PositiveSmallIntegerField(verbose_name='Цена')
     country = models.CharField(verbose_name='Страна ивента', max_length=100)
-    event_start = models.SmallIntegerField(verbose_name='Число начала ивента')
-    event_end = models.SmallIntegerField(verbose_name='Число конца ивента')
+    event_start = models.DateField(verbose_name='Число начала ивента')
+    event_end = models.DateField(verbose_name='Число конца ивента')
     days = models.SmallIntegerField(verbose_name='Количество дней тура')
     nights = models.SmallIntegerField(verbose_name='Количество ночей тура')
     gathering_place = models.CharField(verbose_name='Место сбора группы', max_length=100)
