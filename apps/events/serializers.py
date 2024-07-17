@@ -64,3 +64,9 @@ class EventSerializer(serializers.ModelSerializer):
             'price_included',
             'price_not_included',
         ]
+
+
+class EventSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Event
+        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'event_start', 'event_end']
