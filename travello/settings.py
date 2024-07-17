@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'nested_inline',
     'django_filters',
+    'corsheaders',
 
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -132,3 +134,6 @@ SMS_API_URL = 'https://notify.eskiz.uz/api/'
 
 INSTAGRAM_APP_ID = os.getenv('INSTAGRAM_APP_ID')
 INSTAGRAM_APP_CLIENT_ID = os.getenv('INSTAGRAM_APP_CLIENT_ID')
+
+
+CORS_ALLOW_ALL_ORIGINS = True
