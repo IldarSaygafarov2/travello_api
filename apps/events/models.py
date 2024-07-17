@@ -60,11 +60,6 @@ class EventGallery(models.Model):
         verbose_name_plural = 'Галлерея тура'
 
 
-# title
-# day
-# description
-# event_id
-
 class EventTourProgram(models.Model):
     title = models.CharField(verbose_name='Название', max_length=200)
     day = models.IntegerField(verbose_name='День', help_text='День тура, например: "1 день, 2 день"')
@@ -77,10 +72,6 @@ class EventTourProgram(models.Model):
     class Meta:
         verbose_name = 'День программы тура'
         verbose_name_plural = 'Дни программы тура'
-
-
-# def event_images_gallery_upload_to(instance, filename):
-#     return f'images/events/{instance.slug}/gallery/{filename}'
 
 
 class EventTourProgramGallery(models.Model):

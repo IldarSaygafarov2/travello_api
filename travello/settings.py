@@ -26,11 +26,13 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'ckeditor',
     'nested_inline',
+    'django_filters',
 
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',
     'apps.reviews.apps.ReviewsConfig',
     'apps.events.apps.EventsConfig',
+    'apps.main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +108,10 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
