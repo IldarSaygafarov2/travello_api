@@ -10,7 +10,8 @@ from django_filters import rest_framework as filters
 class EventListView(generics.ListAPIView):
     serializer_class = serializers.EventSerializer
     queryset = models.Event.objects.all()
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (drf_filters.SearchFilter, filters.DjangoFilterBackend, )
+    search_fields = ('title', )
     filterset_fields = ('event_type',)
 
 
