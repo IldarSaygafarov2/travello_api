@@ -70,3 +70,9 @@ class EventSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'event_start', 'event_end']
+        
+        
+class EventSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Event
+        fields = ['country_from', 'country', 'event_start', 'nights', 'people_in_group']

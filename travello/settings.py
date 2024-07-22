@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'apps.reviews.apps.ReviewsConfig',
     'apps.events.apps.EventsConfig',
     'apps.main.apps.MainConfig',
+    'apps.hotels.apps.HotelsConfig',
 ]
 
 MIDDLEWARE = [
