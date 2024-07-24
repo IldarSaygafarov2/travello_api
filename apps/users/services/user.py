@@ -3,12 +3,12 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMessage, get_connection
 from rest_framework.response import Response
 from rest_framework.validators import ValidationError
+
 from helpers.main import SMSService, generate_code
 from .. import messages
+from .. import serializers
 from ..models import User, PasswordReset
 from ..validators import validate_phone_number, validate_email
-from .. import serializers
-
 
 
 class AuthService:

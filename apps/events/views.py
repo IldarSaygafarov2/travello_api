@@ -1,9 +1,9 @@
+from django_filters import rest_framework as filters
 from drf_spectacular.utils import extend_schema
-from rest_framework import generics
 from rest_framework import filters as drf_filters
+from rest_framework import generics
 
 from . import models, serializers
-from django_filters import rest_framework as filters
 
 
 @extend_schema(tags=['Events'])
@@ -29,6 +29,12 @@ class EventSimpleView(generics.ListAPIView):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('event_type',)
     
+
+@extend_schema(tags=['Events'])
+class EventTourBookingView(generics.CreateAPIView):
+    serializer_class = serializers.TourBookingSerializer
+    queryset = models.TourBooking.objects.all()
+
 
 # @extend_schema(tags=['Events'])
 # class EventSearchView(generics.ListAPIView):

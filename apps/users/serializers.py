@@ -1,10 +1,11 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework.validators import UniqueValidator
 
 from helpers.main import generate_code, SMSService
-from .models import User, PasswordReset, Passport
 from . import messages
+from .models import User, Passport, Tourist, Children
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -116,11 +117,16 @@ class PassportSerializer(serializers.ModelSerializer):
 
 
 class UserDataSerializer(serializers.ModelSerializer):
-    passport_data = PassportSerializer(many=True, read_only=True)
+    passport_data = serializers.SerializerMethodField(method_name='get_passport_data')
 
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'birth_date', 'email', 'phone_number', 'gender', 'passport_data']
+
+    def get_passport_data(self, obj) -> ReturnDict:
+        passport = obj.passport_data.first()
+        serializer = PassportSerializer(passport, many=False)
+        return serializer.data
 
 
 class UserDataUpdateSerializer(serializers.ModelSerializer):
@@ -128,3 +134,24 @@ class UserDataUpdateSerializer(serializers.ModelSerializer):
         model = User
         fields = ['gender', 'email', 'phone_number']
 
+
+class TouristSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tourist
+        fields = ['id', 'first_name', 'lastname', 'birth_date', 'passport_seria_and_number', 'expiration_date',
+                  'gender', 'citizen']
+
+    # def create(self, validated_data):
+    #     print(validated_data)
+    #     return
+
+class ChildrenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Children
+        fields = [
+            'id',
+            'fullname',
+            'gender',
+            'birth_date',
+            'birth_certificate'
+        ]

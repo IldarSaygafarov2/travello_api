@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from drf_spectacular.utils import extend_schema
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
 
-@api_view(['GET'])
-def hotels_root(request):
-	return Response({'hotels': 'working'})
+@extend_schema(tags=['Hotels'])
+class HotelList(generics.GenericAPIView):
+	def get(self, request):
+		return Response('working')

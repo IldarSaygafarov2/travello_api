@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.utils.serializer_helpers import ReturnList
 from .models import Article, ArticleDecoratedTextItem, ArticleTextItem, ArticleImageItem, ArticleTopParagraphs
 
 
@@ -57,7 +58,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'related_articles'
         ]
 
-    def get_related_articles(self, obj):
+    def get_related_articles(self, obj) -> ReturnList:
         articles = Article.objects.all()
         articles = [article for article in articles if article.id != obj.id]
         serializer = ArticleSerializer(articles, many=True)

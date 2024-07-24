@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from apps.users.serializers import TouristSerializer, ChildrenSerializer
 from . import models
+from ..users.models import Tourist
 
 
 class EventGallerySerializer(serializers.ModelSerializer):
@@ -76,3 +78,31 @@ class EventSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = ['country_from', 'country', 'event_start', 'nights', 'people_in_group']
+
+
+class TourBookingSerializer(serializers.ModelSerializer):
+    tourists = TouristSerializer(many=True)
+
+    class Meta:
+        model = models.TourBooking
+        fields = [
+            'id',
+            'number_of_people',
+            'number_of_children',
+            'tourists',
+            'event'
+        ]
+
+    def create(self, validated_data):
+        tourists = validated_data.pop('tourists')
+        tour_book = models.TourBooking(**validated_data)
+        tour_book.save()
+        for tourist in tourists:
+            # create tourist object
+            tourist_obj = Tourist.objects.create(**tourist)
+            tourist_obj.save()
+            tour_book.tourists.add(tourist_obj)
+        return tour_book
+        # tourists_serializer = TouristSerializer(tourists, many=True)
+        # validated_data['tourists'] = tourists_serializer.data
+        # return models.TourBooking.objects.create(**validated_data)
