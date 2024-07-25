@@ -38,6 +38,7 @@ class Passport(models.Model):
 
 
 class Tourist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tourist', null=True)
     first_name = models.CharField(max_length=100, verbose_name='Имя')
     lastname = models.CharField(max_length=100, verbose_name='Фамилия')
     birth_date = models.DateField(verbose_name='Дата рождения')
@@ -55,6 +56,7 @@ class Tourist(models.Model):
 
 
 class Children(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='children', null=True)
     fullname = models.CharField(verbose_name='Полное имя', max_length=100)
     gender = models.CharField(verbose_name='Гендер', max_length=100)
     birth_date = models.DateField(verbose_name='Дата рождения')

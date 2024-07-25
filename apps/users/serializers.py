@@ -138,18 +138,20 @@ class UserDataUpdateSerializer(serializers.ModelSerializer):
 class TouristSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tourist
-        fields = ['id', 'first_name', 'lastname', 'birth_date', 'passport_seria_and_number', 'expiration_date',
+        fields = ['id', 'user', 'first_name', 'lastname', 'birth_date', 'passport_seria_and_number', 'expiration_date',
                   'gender', 'citizen']
 
     # def create(self, validated_data):
     #     print(validated_data)
     #     return
 
+
 class ChildrenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Children
         fields = [
             'id',
+            'user',
             'fullname',
             'gender',
             'birth_date',

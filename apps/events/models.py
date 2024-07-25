@@ -1,7 +1,7 @@
 from ckeditor.fields import RichTextField
 from django.db import models
 
-from apps.users.models import Tourist, Children
+from apps.users.models import Tourist, Children, User
 
 
 class EventType(models.TextChoices):
@@ -113,12 +113,10 @@ class EventPriceNotIncluded(models.Model):
 
 class TourBooking(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tour_booking')
-    number_of_people = models.PositiveSmallIntegerField(verbose_name='Кол-во отдыхающих')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tour_booking_user', null=True)
+    number_of_adult = models.PositiveSmallIntegerField(verbose_name='Кол-во отдыхающих', default=0)
     number_of_children = models.PositiveSmallIntegerField(verbose_name='Кол-во детей', default=0)
-    tourists = models.ManyToManyField(Tourist, blank=True, related_name='tour_booking', null=True)
-
-    def __str__(self):
-        return f'{self.event.title}: {self.number_of_people} {self.number_of_children}'
+    number_of_babies = models.PositiveSmallIntegerField(verbose_name='Кол-во младенцев', default=0)
 
     class Meta:
         verbose_name = 'Бронь тура'

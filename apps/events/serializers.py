@@ -72,8 +72,8 @@ class EventSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'event_start', 'event_end']
-        
-        
+
+
 class EventSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
@@ -81,28 +81,16 @@ class EventSearchSerializer(serializers.ModelSerializer):
 
 
 class TourBookingSerializer(serializers.ModelSerializer):
-    tourists = TouristSerializer(many=True)
+    tourists = serializers.HyperlinkedIdentityField(view_name='users:tourist-create')
 
     class Meta:
         model = models.TourBooking
         fields = [
             'id',
-            'number_of_people',
+            'event',
+            'user',
+            'number_of_adult',
             'number_of_children',
-            'tourists',
-            'event'
+            'number_of_babies',
+            'tourists'
         ]
-
-    def create(self, validated_data):
-        tourists = validated_data.pop('tourists')
-        tour_book = models.TourBooking(**validated_data)
-        tour_book.save()
-        for tourist in tourists:
-            # create tourist object
-            tourist_obj = Tourist.objects.create(**tourist)
-            tourist_obj.save()
-            tour_book.tourists.add(tourist_obj)
-        return tour_book
-        # tourists_serializer = TouristSerializer(tourists, many=True)
-        # validated_data['tourists'] = tourists_serializer.data
-        # return models.TourBooking.objects.create(**validated_data)

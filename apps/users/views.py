@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from . import serializers
-from .models import User
+from .models import User, Tourist, Children
 from .services.user import AuthService
 
 
@@ -87,5 +87,15 @@ class UserPassportView(generics.GenericAPIView):
     def post(self, request, pk):
         return AuthService.create_update_passport(request, pk)
 
-# /<username>/info/edit/
-# /<username>/passport/add/
+
+@extend_schema(tags=['Users'])
+class TouristCreateView(generics.CreateAPIView):
+    """"""
+    queryset = Tourist.objects.all()
+    serializer_class = serializers.TouristSerializer
+
+
+@extend_schema(tags=['Users'])
+class ChildCreateView(generics.CreateAPIView):
+    queryset = Children.objects.all()
+    serializer_class = serializers.ChildrenSerializer

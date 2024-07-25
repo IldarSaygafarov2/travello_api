@@ -1,6 +1,6 @@
 from django.contrib import admin
 from nested_inline.admin import NestedTabularInline, NestedModelAdmin
-from apps.users.models import Tourist
+
 from . import models
 
 
