@@ -32,8 +32,13 @@ class EventSimpleView(generics.ListAPIView):
 
 @extend_schema(tags=['Events'])
 class EventBookingView(generics.ListCreateAPIView):
-    serializer_class = serializers.TourBookingSerializer
+    # serializer_class = serializers.EventBookingCreateSerializer
     queryset = models.TourBooking.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return serializers.EventBookingGetSerializer
+        return serializers.EventBookingCreateSerializer
 
 
 # @extend_schema(tags=['Events'])

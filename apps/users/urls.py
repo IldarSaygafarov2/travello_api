@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:pk>/info/update/', views.UserDataUpdateView.as_view(), name='user-data-update'),
     path('<int:pk>/passport/add/', views.UserPassportView.as_view(), name='user-passport'),
     path('<int:pk>/tourist/add/', views.TouristCreateView.as_view(), name='tourist-create'),
-    path('<int:pk>/childer/add/', views.ChildCreateView.as_view(), name='child-create'),
+    # path('<int:pk>/tourist/delete/', views.TouristCreateView.as_view(), name='tourist-delete'),
+    path('<int:pk>/children/add/', views.ChildCreateView.as_view(), name='child-create'),
     # path('data/<str:username>/passport/add/', )
 ]

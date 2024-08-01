@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'apps.events.apps.EventsConfig',
     'apps.main.apps.MainConfig',
     'apps.hotels.apps.HotelsConfig',
+    'apps.notifications.apps.NotificationsConfig',
+    'apps.corporate_clients.apps.CorporateClientsConfig',
 ]
 
 MIDDLEWARE = [
