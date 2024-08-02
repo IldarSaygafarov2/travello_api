@@ -1,6 +1,19 @@
 from django.urls import path
+from rest_framework_nested import routers
 
 from . import views
+
+router = routers.DefaultRouter()
+router.register('', views.UserDataView)
+
+tourists_router = routers.NestedDefaultRouter(router, '', lookup='user')
+tourists_router.register('tourists', views.TouristView)
+
+children_router = routers.NestedDefaultRouter(router, '', lookup='user')
+children_router.register('children', views.ChildrenView)
+
+passport_router = routers.NestedDefaultRouter(router, '', lookup='user')
+passport_router.register('passport', views.UserPassportView)
 
 app_name = 'users'
 
@@ -12,11 +25,7 @@ urlpatterns = [
     path('auth/repair/email/', views.RepairUserByEmailView.as_view(), name='repair_email'),
     path('auth/password/reset/<str:token>/', views.ResetPasswordView.as_view(), name='reset_password'),
     path('auth/code/check/', views.CheckVerificationCodeView.as_view(), name='code_check'),
-    path('<int:pk>/info/', views.UserDataView.as_view(), name='user-data'),
     path('<int:pk>/info/update/', views.UserDataUpdateView.as_view(), name='user-data-update'),
-    path('<int:pk>/passport/add/', views.UserPassportView.as_view(), name='user-passport'),
-    path('<int:pk>/tourist/add/', views.TouristCreateView.as_view(), name='tourist-create'),
-    # path('<int:pk>/tourist/delete/', views.TouristCreateView.as_view(), name='tourist-delete'),
-    path('<int:pk>/children/add/', views.ChildCreateView.as_view(), name='child-create'),
-    # path('data/<str:username>/passport/add/', )
 ]
+
+urlpatterns += router.urls + tourists_router.urls + children_router.urls + passport_router.urls

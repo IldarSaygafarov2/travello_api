@@ -1,11 +1,12 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from . import serializers
-from .models import User, Tourist, Children
+from .models import User, Tourist, Children, Passport
 from .services.user import AuthService
 
 
@@ -69,33 +70,33 @@ class UserRegistrationCheckVerificationCodeView(generics.GenericAPIView):
 
 
 @extend_schema(tags=['Users'])
-class UserDataView(generics.RetrieveAPIView):
+class UserDataView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserDataSerializer
 
 
-@extend_schema(tags=['Users'])
+@extend_schema(tags=['Users Personal Info'])
 class UserDataUpdateView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserDataUpdateSerializer
 
 
-@extend_schema(tags=['Users'])
-class UserPassportView(generics.GenericAPIView):
+@extend_schema(tags=['Users Passport Info'])
+class UserPassportView(viewsets.ModelViewSet):
     serializer_class = serializers.PassportSerializer
+    queryset = Passport.objects.all()
 
-    def post(self, request, pk):
-        return AuthService.create_update_passport(request, pk)
+    # def post(self, request, pk):
+    #     return AuthService.create_update_passport(request, pk)
 
 
-@extend_schema(tags=['Users'])
-class TouristCreateView(generics.CreateAPIView):
-    """"""
+@extend_schema(tags=['Users Tourist Info'])
+class TouristView(viewsets.ModelViewSet):
     queryset = Tourist.objects.all()
     serializer_class = serializers.TouristSerializer
 
 
-@extend_schema(tags=['Users'])
-class ChildCreateView(generics.CreateAPIView):
+@extend_schema(tags=['Users Children Info'])
+class ChildrenView(viewsets.ModelViewSet):
     queryset = Children.objects.all()
     serializer_class = serializers.ChildrenSerializer

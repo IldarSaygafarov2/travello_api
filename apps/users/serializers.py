@@ -106,33 +106,6 @@ class PassportSerializer(serializers.ModelSerializer):
         model = Passport
         fields = ['id', 'first_name', 'lastname', 'surname', 'birth_date', 'seria', 'issued_by', 'issued_date',
                   'citizen', 'user']
-        # read_only_fields = ('user',)
-
-    def create(self, validated_data):
-        user = User.objects.get(pk=self.context['user_pk'])
-        data = Passport(**validated_data)
-        data.user = user
-        data.save()
-        return data
-
-
-class UserDataSerializer(serializers.ModelSerializer):
-    passport_data = serializers.SerializerMethodField(method_name='get_passport_data')
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'first_name', 'birth_date', 'email', 'phone_number', 'gender', 'passport_data']
-
-    def get_passport_data(self, obj) -> ReturnDict:
-        passport = obj.passport_data.first()
-        serializer = PassportSerializer(passport, many=False)
-        return serializer.data
-
-
-class UserDataUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['gender', 'email', 'phone_number']
 
 
 class TouristSerializer(serializers.ModelSerializer):
@@ -140,10 +113,6 @@ class TouristSerializer(serializers.ModelSerializer):
         model = Tourist
         fields = ['id', 'user', 'first_name', 'lastname', 'birth_date', 'passport_seria_and_number', 'expiration_date',
                   'gender', 'citizen']
-
-    # def create(self, validated_data):
-    #     print(validated_data)
-    #     return
 
 
 class ChildrenSerializer(serializers.ModelSerializer):
@@ -157,6 +126,28 @@ class ChildrenSerializer(serializers.ModelSerializer):
             'birth_date',
             'birth_certificate'
         ]
+
+
+class UserDataSerializer(serializers.ModelSerializer):
+    passport_data = serializers.SerializerMethodField(method_name='get_passport_data')
+    tourists = TouristSerializer(many=True, source='tourist', required=False)
+    children = ChildrenSerializer(many=True, required=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'birth_date', 'email', 'phone_number', 'gender', 'passport_data',
+                  'tourists', 'children']
+
+    def get_passport_data(self, obj) -> ReturnDict:
+        passport = obj.passport_data.first()
+        serializer = PassportSerializer(passport, many=False)
+        return serializer.data
+
+
+class UserDataUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['gender', 'email', 'phone_number']
 
 # todo сделать сериалайзер для удаления туриста
 # todo переписать модель туриста и ребенка

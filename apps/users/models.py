@@ -39,13 +39,13 @@ class Passport(models.Model):
 
 class Tourist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tourist', null=True)
-    first_name = models.CharField(max_length=100, verbose_name='Имя')
-    lastname = models.CharField(max_length=100, verbose_name='Фамилия')
-    birth_date = models.DateField(verbose_name='Дата рождения')
-    gender = models.CharField(verbose_name='Гендер', max_length=20)
-    passport_seria_and_number = models.CharField(max_length=20, verbose_name='Серия и номер паспорта')
-    expiration_date = models.DateField(verbose_name='Дата окончания паспорта')
-    citizen = models.CharField(verbose_name='Гражданство', max_length=100)
+    first_name = models.CharField(max_length=100, verbose_name='Имя', null=True)
+    lastname = models.CharField(max_length=100, verbose_name='Фамилия', null=True)
+    birth_date = models.DateField(verbose_name='Дата рождения', null=True)
+    gender = models.CharField(verbose_name='Гендер', max_length=20, null=True)
+    passport_seria_and_number = models.CharField(max_length=20, verbose_name='Серия и номер паспорта', null=True)
+    expiration_date = models.DateField(verbose_name='Дата окончания паспорта', null=True)
+    citizen = models.CharField(verbose_name='Гражданство', max_length=100, null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.lastname}'
@@ -58,10 +58,10 @@ class Tourist(models.Model):
 class Children(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='children', null=True)
     fullname = models.CharField(verbose_name='Полное имя', max_length=100)
-    gender = models.CharField(verbose_name='Гендер', max_length=100)
-    birth_date = models.DateField(verbose_name='Дата рождения')
+    gender = models.CharField(verbose_name='Гендер', max_length=100, null=True)
+    birth_date = models.DateField(verbose_name='Дата рождения', null=True)
     birth_certificate = models.FileField(verbose_name='Свидетельство о рождении',
-                                         upload_to='users/children/birth_certificates/')
+                                         upload_to='users/children/birth_certificates/', null=True)
 
     def __str__(self):
         return f'{self.fullname}'
