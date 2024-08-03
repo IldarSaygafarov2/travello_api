@@ -109,15 +109,3 @@ class EventPriceNotIncluded(models.Model):
     class Meta:
         verbose_name = 'Не включено в цену'
         verbose_name_plural = 'Условия (Не включено в цену)'
-
-
-class TourBooking(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tour_booking')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tour_booking_user', null=True)
-    number_of_adult = models.PositiveSmallIntegerField(verbose_name='Кол-во отдыхающих', default=0)
-    number_of_children = models.PositiveSmallIntegerField(verbose_name='Кол-во детей', default=0)
-    number_of_babies = models.PositiveSmallIntegerField(verbose_name='Кол-во младенцев', default=0)
-
-    class Meta:
-        verbose_name = 'Бронь тура'
-        verbose_name_plural = 'Брони тура'

@@ -30,20 +30,3 @@ class EventSimpleView(generics.ListAPIView):
     filterset_fields = ('event_type',)
     
 
-@extend_schema(tags=['Events'])
-class EventBookingView(generics.ListCreateAPIView):
-    # serializer_class = serializers.EventBookingCreateSerializer
-    queryset = models.TourBooking.objects.all()
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return serializers.EventBookingGetSerializer
-        return serializers.EventBookingCreateSerializer
-
-
-# @extend_schema(tags=['Events'])
-# class EventSearchView(generics.ListAPIView):
-#     queryset = models.Event.objects.all()
-#     filter_backends = [drf_filters.SearchFilter]
-#     search_fields = ['country_from', 'country', 'event_start', 'people_in_group']
-    

@@ -78,35 +78,3 @@ class EventSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = ['country_from', 'country', 'event_start', 'nights', 'people_in_group']
-
-
-class EventBookingGetSerializer(serializers.ModelSerializer):
-    tourists = TouristSerializer(many=True, source='user.tourist')
-
-    class Meta:
-        model = models.TourBooking
-        fields = [
-            'id',
-            'event',
-            'user',
-            'number_of_adult',
-            'number_of_children',
-            'number_of_babies',
-            'tourists'
-        ]
-
-
-class EventBookingCreateSerializer(serializers.ModelSerializer):
-    tourists = serializers.HyperlinkedIdentityField(view_name='users:tourist-create')
-
-    class Meta:
-        model = models.TourBooking
-        fields = [
-            'id',
-            'event',
-            'user',
-            'number_of_adult',
-            'number_of_children',
-            'number_of_babies',
-            'tourists'
-        ]
