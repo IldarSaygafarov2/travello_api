@@ -1,26 +1,56 @@
 from django.db import models
+
 from apps.events.models import Event
 
 
-class Hotel(models.Model):
-    class HotelRatingChoices(models.IntegerChoices):
-        ONE = 1, 1
-        TWO = 2, 2
-        THREE = 3, 3
-        FOUR = 4, 4
-        FIVE = 5, 5
+class HotelRatingChoices(models.IntegerChoices):
+    ONE = 1, '1'
+    TWO = 2, '2'
+    THREE = 3, '3'
+    FOUR = 4, '4'
+    FIVE = 5, '5'
 
+
+class HotelTypeOfAllocation(models.TextChoices):
+    APART_HOTEL = 'apart_hotel', 'Апарт-отель'
+    APARTMENTS = 'apartments', 'Апартаменты'
+    VILLA = 'villa', 'Вилла'
+    COTTAGE = 'cottage', 'Котедж'
+    HOTEL = 'hotel', 'Отель'
+    HOSTEL = 'hostel', 'Хостел'
+
+
+class HotelBeachLineChoices(models.TextChoices):
+    FIRST = 'first', 'Первая'
+    SECOND = 'second', 'Вторая'
+    THIRD = 'third', 'Третья'
+
+
+class HotelBeachTypeChoices(models.TextChoices):
+    SAND = 'sand', 'Песок'
+    PEBBLE = 'pebble', 'Галька'
+    PLATFORM = 'platform', 'Платформа'
+
+
+class Hotel(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название отеля')
     preview = models.ImageField(upload_to='images/hotels/previews/', verbose_name='Превью фото')
     country = models.CharField(verbose_name='Страна', max_length=255)
     address = models.CharField(verbose_name='Адрес', max_length=500)
-    short_description = models.TextField(verbose_name='Описание')
+    short_description = models.TextField(verbose_name='Краткое описание')
+    full_description = models.TextField(verbose_name='Полное описание')
     rating = models.IntegerField(verbose_name='Рейтинг отеля', choices=HotelRatingChoices.choices,
                                  default=HotelRatingChoices.FIVE)
-    distance_to_beach = models.IntegerField(verbose_name='Расстояние до пляжа')
+    distance_to_beach = models.IntegerField(verbose_name='Расстояние до пляжа, м')
+    distance_to_airport = models.IntegerField(verbose_name='Расстояние до аэропорта, км')
     price = models.IntegerField(verbose_name='Цена')
     latitude = models.FloatField(verbose_name='Широта')
     longitude = models.FloatField(verbose_name='Долгота')
+    has_wifi = models.BooleanField(default=True, verbose_name='Есть вай-фай?')
+    beach_line = models.CharField(choices=HotelBeachLineChoices.choices, max_length=50,
+                                  default=HotelBeachLineChoices.FIRST, verbose_name='Линия пляжа')
+    beach_type = models.CharField(choices=HotelBeachTypeChoices.choices, max_length=50,
+                                  default=HotelBeachTypeChoices.SAND, verbose_name='Тип пляжа')
 
     def __str__(self):
         return self.name
@@ -55,4 +85,13 @@ class HotelFacility(models.Model):
         verbose_name_plural = 'Удобства отеля'
 
 
+class HotelEntertainment(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='entertainment', verbose_name='Отель')
+    name = models.TextField(verbose_name='Развлечение')
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Развлечение'
+        verbose_name_plural = 'Развлечения'
