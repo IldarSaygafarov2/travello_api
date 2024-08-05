@@ -78,3 +78,9 @@ class EventSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = ['country_from', 'country', 'event_start', 'nights', 'people_in_group']
+
+
+class EventBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.EventBooking
+        fields = ['id', 'user', 'event', 'total_adult', 'total_children']

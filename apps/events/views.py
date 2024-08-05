@@ -19,7 +19,6 @@ class EventListView(generics.ListAPIView):
 class EventDetailView(generics.RetrieveAPIView):
     serializer_class = serializers.EventSerializer
     queryset = models.Event.objects.all()
-    lookup_field = 'slug'
 
 
 @extend_schema(tags=['Events'])
@@ -29,4 +28,9 @@ class EventSimpleView(generics.ListAPIView):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('event_type',)
     
+
+@extend_schema(tags=['Events'])
+class EventBookingView(generics.ListCreateAPIView):
+    serializer_class = serializers.EventBookingSerializer
+    queryset = models.EventBooking.objects.all()
 

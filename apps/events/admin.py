@@ -45,4 +45,9 @@ class EventAdmin(NestedModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+class EventBookingAdmin(NestedModelAdmin):
+    list_display = ['id', 'event', 'user', 'total_adult', 'total_children']
+
+
 admin.site.register(models.Event, EventAdmin)
+admin.site.register(models.EventBooking, EventBookingAdmin)
