@@ -18,6 +18,7 @@ ALLOWED_HOSTS = [
 ]
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
     'nested_inline',
     'django_filters',
     'corsheaders',
+
 
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',

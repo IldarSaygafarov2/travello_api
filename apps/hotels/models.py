@@ -46,11 +46,15 @@ class Hotel(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     latitude = models.FloatField(verbose_name='Широта')
     longitude = models.FloatField(verbose_name='Долгота')
+    nights = models.IntegerField(verbose_name='Кол-во ночей', default=0)
+    total_people = models.IntegerField(verbose_name='Кол-во человек', default=0)
     has_wifi = models.BooleanField(default=True, verbose_name='Есть вай-фай?')
     beach_line = models.CharField(choices=HotelBeachLineChoices.choices, max_length=50,
                                   default=HotelBeachLineChoices.FIRST, verbose_name='Линия пляжа')
     beach_type = models.CharField(choices=HotelBeachTypeChoices.choices, max_length=50,
                                   default=HotelBeachTypeChoices.SAND, verbose_name='Тип пляжа')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotes', null=True, blank=True,
+                              verbose_name='Тур')
 
     def __str__(self):
         return self.name
@@ -95,3 +99,48 @@ class HotelEntertainment(models.Model):
     class Meta:
         verbose_name = 'Развлечение'
         verbose_name_plural = 'Развлечения'
+
+
+class HotelRoom(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='Отель', related_name='rooms')
+    name = models.CharField(verbose_name='Название номера', max_length=255)
+    is_all_inclusive = models.BooleanField(default=True, verbose_name='Все включено?')
+    description = models.TextField(verbose_name='Удобства в номере')
+    nights = models.IntegerField(verbose_name='Кол-во ночей')
+    price = models.IntegerField(verbose_name='Цена')
+    until = models.DateField(verbose_name='До')
+
+    def __str__(self):
+        return f'{self.hotel.name}: {self.name}'
+
+    class Meta:
+        verbose_name = 'Номер в отеле'
+        verbose_name_plural = 'Номера в отеле'
+
+
+def hotel_room_image_path(instance, filename):
+    return f'images/hotels/{instance.room.hotel.name}/{instance.room.name}/{filename}'
+
+
+class HotelRoomImages(models.Model):
+    room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE, related_name='room_images', verbose_name='Номер отеля')
+    image = models.ImageField(verbose_name='Фото номера', upload_to=hotel_room_image_path, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Фото номера'
+        verbose_name_plural = 'Фото номера'
+
+
+class HotelRoomFacilities(models.Model):
+    room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE, related_name='room_facilities',
+                             verbose_name='Номер отеля')
+    facility = models.CharField(verbose_name='Удобство', max_length=255)
+
+    def __str__(self):
+        return self.facility
+
+    class Meta:
+        verbose_name = 'Удобство номера'
+        verbose_name_plural = 'Удобства номера'
+
+
