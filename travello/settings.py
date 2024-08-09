@@ -19,6 +19,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'jazzmin',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,7 +34,6 @@ INSTALLED_APPS = [
     'nested_inline',
     'django_filters',
     'corsheaders',
-
 
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',
@@ -99,6 +99,28 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'ru'
+gettext = lambda s: s
+LANGUAGES = (
+    ('ru', gettext('Russian')),
+    ('uz', gettext('Uzbek')),
+    ('en', gettext('English')),
+
+)
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'apps.articles.translation',
+    'apps.corporate_clients.translation',
+    'apps.events.translation',
+    'apps.hotels.translation',
+    'apps.main.translation',
+    'apps.notifications.translation',
+    'apps.reviews.translation',
+    'apps.users.translation',
+)
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
+
+
+
 
 TIME_ZONE = 'Asia/Tashkent'
 
