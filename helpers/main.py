@@ -34,7 +34,6 @@ class SMSService:
             headers=headers,
             data=payload
         )
-        print(res.text)
 
     @classmethod
     def get_template(cls):
@@ -47,7 +46,6 @@ class SMSService:
             headers=headers,
             # data={'template':}
         )
-        print(resp.text)
 
 
 # SMSService.get_template()

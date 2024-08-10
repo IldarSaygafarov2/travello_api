@@ -2,6 +2,11 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+
+
+
 class User(AbstractUser):
     """Custom User model."""
     phone_number = models.CharField(verbose_name='Номер телефона', unique=True, max_length=15, null=True)
@@ -10,6 +15,21 @@ class User(AbstractUser):
     gender = models.CharField(verbose_name='Пол', max_length=10, null=True)
     verification_code = models.CharField(max_length=6, null=True)
     is_verified = models.BooleanField(default=False)
+
+
+class UserTemp(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    data = models.JSONField()
+
+
+# class UserVerificationCode(models.Model):
+#     class CodeType(models.TextChoices):
+#         REGISTRATION = 'registration', 'registration'
+#         PASSWORD_RESET = 'password_reset', 'password_reset'
+#
+#         __empty__ = 'None'
+#
+#     # user = models.OneToOneField()
 
 
 class PasswordReset(models.Model):
@@ -69,3 +89,11 @@ class Children(models.Model):
     class Meta:
         verbose_name = 'Ребенок'
         verbose_name_plural = 'Дети'
+
+
+# @receiver(post_save, sender=User)
+# def user_pre_save(sender,  **kwargs):
+#     print(kwargs)
+
+
+# pre_save.connect(user_pre_save, sender=User)
