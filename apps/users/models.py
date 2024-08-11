@@ -2,11 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
-
-
-
 class User(AbstractUser):
     """Custom User model."""
     phone_number = models.CharField(verbose_name='Номер телефона', unique=True, max_length=15, null=True)
@@ -18,7 +13,6 @@ class User(AbstractUser):
 
 
 class UserTemp(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     data = models.JSONField()
 
 

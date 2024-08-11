@@ -5,7 +5,41 @@ from rest_framework.validators import UniqueValidator
 
 from helpers.main import generate_code, SMSService
 from . import messages
-from .models import User, Passport, Tourist, Children
+from .models import User, Passport, Tourist, Children, UserTemp
+
+
+class UserTempSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserTemp
+        fields = ['data']
+
+    def validate(self, data):
+        password1 = data['data'].pop('password')
+        password2 = data['data'].pop('password2')
+
+        if password1 != password2:
+            raise serializers.ValidationError({'password': 'Пароли не совпадают'})
+
+        data['data']['password'] = password1
+        verification_code = generate_code()
+        SMSService.send_message(
+            phone_number=data['data']['phone_number'],
+            message=messages.SMS_REGISTRATION_MESSAGE.format(code=verification_code)
+        )
+        return data
+
+
+class UserTempCodeVerificationSerializer(serializers.ModelSerializer):
+    phone_number = serializers.CharField()
+    verification_code = serializers.CharField()
+
+    class Meta:
+        model = UserTemp
+        fields = ['phone_number', 'verification_code']
+
+    def validate(self, attrs):
+        print(attrs)
+        return attrs
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -39,20 +73,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict):
         password = validated_data.pop('password')
-        verification_code = generate_code()
-
         user = User(**validated_data)
         user.first_name = validated_data['username']
         user.set_password(password)
-        user.verification_code = verification_code
-        user.is_active = False
-
-        # нужно отправлять сообщение на номер телефона с кодом подтверждения
-        SMSService.send_message(
-            phone_number=validated_data['phone_number'],
-            message=messages.SMS_REGISTRATION_MESSAGE.format(code=verification_code)
-        )
-
         user.save()
         return user
 

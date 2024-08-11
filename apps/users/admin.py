@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext as _
 
-from .models import User, Passport, Tourist
+from .models import User, Passport, Tourist, UserTemp
 
 
 
@@ -39,3 +39,4 @@ admin.site.index_title = "Site administration"
 
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Passport, PassportAdmin)
+admin.site.register(UserTemp)

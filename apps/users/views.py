@@ -6,9 +6,23 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from . import serializers
-from .models import User, Tourist, Children, Passport
+from .models import User, Tourist, Children, Passport, UserTemp
 from .services.user import AuthService
 
+
+@extend_schema(tags=['Auth'])
+class UserTempAuth(generics.CreateAPIView):
+    serializer_class = serializers.UserTempSerializer
+    queryset = UserTemp.objects.all()
+
+    # def create(self, request, *args, **kwargs):
+
+
+@extend_schema(tags=['Auth'])
+class UserTempAuthCodeVerification(generics.CreateAPIView):
+    serializer_class = serializers.UserTempCodeVerificationSerializer
+    queryset = UserTemp.objects.all()
+    http_method_names = ['post']
 
 @extend_schema(tags=['Auth'])
 class UserRegistrationView(generics.CreateAPIView):
