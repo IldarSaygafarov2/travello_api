@@ -11,9 +11,11 @@ from .models import User, Passport, Tourist, Children, UserTemp
 class UserTempSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTemp
-        fields = ['data']
+        fields = ['data', 'phone_number', 'verification_code']
+        read_only_fields = ['phone_number', 'verification_code']
 
     def validate(self, data):
+        print(data)
         password1 = data['data'].pop('password')
         password2 = data['data'].pop('password2')
 
@@ -21,25 +23,36 @@ class UserTempSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password': 'Пароли не совпадают'})
 
         data['data']['password'] = password1
+
+        return data
+
+    def create(self, validated_data):
+        data = validated_data['data']
+
+        obj = UserTemp(**validated_data)
+
         verification_code = generate_code()
+
+        obj.phone_number = data['phone_number']
+        obj.verification_code = verification_code
+
         SMSService.send_message(
-            phone_number=data['data']['phone_number'],
+            phone_number=data['phone_number'],
             message=messages.SMS_REGISTRATION_MESSAGE.format(code=verification_code)
         )
-        return data
+
+        obj.save()
+        return obj
+
 
 
 class UserTempCodeVerificationSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField()
-    verification_code = serializers.CharField()
+    verification_code = serializers.CharField(required=False)
 
     class Meta:
         model = UserTemp
         fields = ['phone_number', 'verification_code']
-
-    def validate(self, attrs):
-        print(attrs)
-        return attrs
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):

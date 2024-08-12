@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.shortcuts import get_object_or_404
 from . import serializers
 from .models import User, Tourist, Children, Passport, UserTemp
 from .services.user import AuthService
@@ -23,6 +23,18 @@ class UserTempAuthCodeVerification(generics.CreateAPIView):
     serializer_class = serializers.UserTempCodeVerificationSerializer
     queryset = UserTemp.objects.all()
     http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        temp_data = get_object_or_404(UserTemp, phone_number=data['phone_number'])
+        if temp_data.verification_code == data['verification_code']:
+            password = temp_data.data.pop('password')
+            user = User(**temp_data.data)
+            user.set_password(password)
+            user.save()
+            return Response({'is_verified': True})
+        return Response({'is_verified': False})
+
 
 @extend_schema(tags=['Auth'])
 class UserRegistrationView(generics.CreateAPIView):

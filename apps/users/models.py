@@ -13,6 +13,8 @@ class User(AbstractUser):
 
 
 class UserTemp(models.Model):
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    verification_code = models.CharField(max_length=4, null=True, blank=True)
     data = models.JSONField()
 
 
