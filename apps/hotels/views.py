@@ -10,3 +10,8 @@ class HotelList(viewsets.ModelViewSet):
     queryset = models.Hotel.objects.all()
     serializer_class = serializers.HotelDetailSerializer
     http_method_names = ['get']
+
+    def list(self, request, *args, **kwargs):
+        qs = self.get_queryset()
+        serializer = serializers.HotelListSerializer(qs, many=True)
+        return Response(serializer.data)

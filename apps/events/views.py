@@ -15,6 +15,9 @@ class EventListView(generics.ListAPIView):
     filterset_fields = ('event_type',)
 
 
+
+
+
 @extend_schema(tags=['Events'])
 class EventDetailView(generics.RetrieveAPIView):
     serializer_class = serializers.EventSerializer

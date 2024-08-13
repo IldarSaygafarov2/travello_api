@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.translation import gettext as _
 from apps.events.models import Event
 
 
@@ -12,30 +12,31 @@ class HotelRatingChoices(models.IntegerChoices):
 
 
 class HotelTypeOfAllocation(models.TextChoices):
-    APART_HOTEL = 'apart_hotel', 'Апарт-отель'
-    APARTMENTS = 'apartments', 'Апартаменты'
-    VILLA = 'villa', 'Вилла'
-    COTTAGE = 'cottage', 'Котедж'
-    HOTEL = 'hotel', 'Отель'
-    HOSTEL = 'hostel', 'Хостел'
+    APART_HOTEL = 'apart_hotel', _('Апарт-отель')
+    APARTMENTS = 'apartments', _('Апартаменты')
+    VILLA = 'villa', _('Вилла')
+    COTTAGE = 'cottage', _('Котедж')
+    HOTEL = 'hotel', _('Отель')
+    HOSTEL = 'hostel', _('Хостел')
 
 
 class HotelBeachLineChoices(models.TextChoices):
-    FIRST = 'first', 'Первая'
-    SECOND = 'second', 'Вторая'
-    THIRD = 'third', 'Третья'
+    FIRST = 'first', _('Первая')
+    SECOND = 'second', _('Вторая')
+    THIRD = 'third', _('Третья')
 
 
 class HotelBeachTypeChoices(models.TextChoices):
-    SAND = 'sand', 'Песок'
-    PEBBLE = 'pebble', 'Галька'
-    PLATFORM = 'platform', 'Платформа'
+    SAND = 'sand', _('Песок')
+    PEBBLE = 'pebble', _('Галька')
+    PLATFORM = 'platform', _('Платформа')
 
 
 class Hotel(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название отеля')
     preview = models.ImageField(upload_to='images/hotels/previews/', verbose_name='Превью фото')
     country = models.CharField(verbose_name='Страна', max_length=255)
+    city = models.CharField(verbose_name='Город', max_length=100, null=True, blank=True)
     address = models.CharField(verbose_name='Адрес', max_length=500)
     short_description = models.TextField(verbose_name='Краткое описание')
     full_description = models.TextField(verbose_name='Полное описание')

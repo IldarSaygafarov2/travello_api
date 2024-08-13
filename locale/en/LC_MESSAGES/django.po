@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-13 12:39+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);"
+
+#: apps/hotels/models.py:15
+msgid "Апарт-отель"
+msgstr "Apart-hotel"
+
+#: apps/hotels/models.py:16
+msgid "Апартаменты"
+msgstr "Apartments"
+
+#: apps/hotels/models.py:17
+msgid "Вилла"
+msgstr "Villa"
+
+#: apps/hotels/models.py:18
+msgid "Котедж"
+msgstr "Cottage"
+
+#: apps/hotels/models.py:19
+msgid "Отель"
+msgstr "Hotel"
+
+#: apps/hotels/models.py:20
+msgid "Хостел"
+msgstr "Hostel"
+
+#: apps/hotels/models.py:24
+msgid "Первая"
+msgstr "First"
+
+#: apps/hotels/models.py:25
+msgid "Вторая"
+msgstr "Second"
+
+#: apps/hotels/models.py:26
+msgid "Третья"
+msgstr "Third"
+
+#: apps/hotels/models.py:30
+msgid "Песок"
+msgstr "Sand"
+
+#: apps/hotels/models.py:31
+msgid "Галька"
+msgstr "Pebbles"
+
+#: apps/hotels/models.py:32
+msgid "Платформа"
+msgstr "Platform"
+
+#: apps/users/admin.py:14
+msgid "Personal info"
+msgstr ""
+
+#: apps/users/admin.py:16
+msgid "Permissions"
+msgstr ""
+
+#: apps/users/admin.py:27
+msgid "Important dates"
+msgstr ""
+
+#: travello/settings.py:104
+msgid "Russian"
+msgstr ""
+
+#: travello/settings.py:105
+msgid "Uzbek"
+msgstr ""
+
+#: travello/settings.py:106
+msgid "English"
+msgstr ""

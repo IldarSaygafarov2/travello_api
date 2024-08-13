@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 
 
+
 class User(AbstractUser):
     """Custom User model."""
     phone_number = models.CharField(verbose_name='Номер телефона', unique=True, max_length=15, null=True)
@@ -81,9 +82,18 @@ class Children(models.Model):
         verbose_name_plural = 'Дети'
 
 
-# @receiver(post_save, sender=User)
-# def user_pre_save(sender,  **kwargs):
-#     print(kwargs)
+class UserHotelSearchHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hotels_history', null=True)
+    country_from = models.CharField(max_length=100, verbose_name='Откуда')
+    country_to = models.CharField(max_length=100, verbose_name='Куда')
+    departure_date = models.DateField(verbose_name='Дата вылета')
+    nights = models.PositiveSmallIntegerField(verbose_name='Кол-во ночей')
+    passengers = models.PositiveSmallIntegerField(verbose_name='Кол-во пассажиров')
 
+    def __str__(self):
+        return self.user.username
 
-# pre_save.connect(user_pre_save, sender=User)
+    class Meta:
+        verbose_name = 'История поиска тура'
+        verbose_name_plural = 'История поиска туров'
+

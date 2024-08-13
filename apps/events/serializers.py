@@ -87,6 +87,3 @@ class EventBookingSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'event', 'total_adult', 'total_children', 'event_type']
 
 
-class EventBookingAdvancedSerializer(serializers.ModelSerializer):
-    class Meta:
-        pass
