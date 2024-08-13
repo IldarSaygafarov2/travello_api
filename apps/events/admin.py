@@ -47,7 +47,8 @@ class EventAdmin(NestedModelAdmin, TranslationAdmin):
 
 
 class EventBookingAdmin(NestedModelAdmin):
-    list_display = ['id', 'event', 'user', 'total_adult', 'total_children']
+    list_display = ['id', 'event', 'user', 'total_adult', 'total_children', 'event_type']
+    list_filter = ['user', 'event_type', 'user']
 
 
 admin.site.register(models.Event, EventAdmin)

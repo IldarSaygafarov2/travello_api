@@ -74,6 +74,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
     rooms = HotelRoomSerializer(many=True, read_only=True)
     beach_line = serializers.SerializerMethodField(method_name='get_beach_line')
     beach_type = serializers.SerializerMethodField(method_name='get_beach_type')
+    allocation_type = serializers.SerializerMethodField(method_name='get_allocation_type')
 
     class Meta:
         model = models.Hotel
@@ -84,6 +85,8 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'address',
             'short_description',
             'full_description',
+            'is_meals_included',
+            'allocation_type',
             'rating',
             'distance_to_beach',
             'distance_to_airport',
@@ -108,5 +111,8 @@ class HotelDetailSerializer(serializers.ModelSerializer):
 
     def get_coordinates(self, obj) -> str:
         return f'{obj.latitude}, {obj.longitude}'
+
+    def get_allocation_type(self, obj):
+        return obj.get_allocation_type_display()
 
 # hotel serializers end

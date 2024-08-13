@@ -44,11 +44,14 @@ class Hotel(models.Model):
     distance_to_beach = models.IntegerField(verbose_name='Расстояние до пляжа, м')
     distance_to_airport = models.IntegerField(verbose_name='Расстояние до аэропорта, км')
     price = models.IntegerField(verbose_name='Цена')
-    latitude = models.FloatField(verbose_name='Широта')
-    longitude = models.FloatField(verbose_name='Долгота')
+    latitude = models.FloatField(verbose_name='Широта', null=True, blank=True)
+    longitude = models.FloatField(verbose_name='Долгота', null=True, blank=True)
     nights = models.IntegerField(verbose_name='Кол-во ночей', default=0)
     total_people = models.IntegerField(verbose_name='Кол-во человек', default=0)
     has_wifi = models.BooleanField(default=True, verbose_name='Есть вай-фай?')
+    is_meals_included = models.BooleanField(verbose_name='Питание включено?', default=True)
+    allocation_type = models.CharField(max_length=50, verbose_name='Тип размещения',
+                                       choices=HotelTypeOfAllocation.choices, default=HotelTypeOfAllocation.APART_HOTEL)
     beach_line = models.CharField(choices=HotelBeachLineChoices.choices, max_length=50,
                                   default=HotelBeachLineChoices.FIRST, verbose_name='Линия пляжа')
     beach_type = models.CharField(choices=HotelBeachTypeChoices.choices, max_length=50,
@@ -123,7 +126,8 @@ def hotel_room_image_path(instance, filename):
 
 
 class HotelRoomImages(models.Model):
-    room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE, related_name='room_images', verbose_name='Номер отеля')
+    room = models.ForeignKey(HotelRoom, on_delete=models.CASCADE, related_name='room_images',
+                             verbose_name='Номер отеля')
     image = models.ImageField(verbose_name='Фото номера', upload_to=hotel_room_image_path, blank=True, null=True)
 
     class Meta:
@@ -142,5 +146,3 @@ class HotelRoomFacilities(models.Model):
     class Meta:
         verbose_name = 'Удобство номера'
         verbose_name_plural = 'Удобства номера'
-
-

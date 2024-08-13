@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -16,16 +17,6 @@ class UserTemp(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     verification_code = models.CharField(max_length=4, null=True, blank=True)
     data = models.JSONField()
-
-
-# class UserVerificationCode(models.Model):
-#     class CodeType(models.TextChoices):
-#         REGISTRATION = 'registration', 'registration'
-#         PASSWORD_RESET = 'password_reset', 'password_reset'
-#
-#         __empty__ = 'None'
-#
-#     # user = models.OneToOneField()
 
 
 class PasswordReset(models.Model):
@@ -65,6 +56,9 @@ class Tourist(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.lastname}'
+
+    def display_reverse_url(self):
+        return reverse('users:tourist-list', kwargs={'user_pk': self.pk})
 
     class Meta:
         verbose_name = 'Турист'
