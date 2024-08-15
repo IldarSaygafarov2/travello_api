@@ -3,12 +3,18 @@ from django.utils.translation import gettext as _
 from apps.events.models import Event
 
 
-class HotelRatingChoices(models.IntegerChoices):
+class HotelStarsChoices(models.IntegerChoices):
     ONE = 1, '1'
     TWO = 2, '2'
     THREE = 3, '3'
     FOUR = 4, '4'
     FIVE = 5, '5'
+
+
+class HotelRatingChoices(models.TextChoices):
+    FOUR_POINT_FIVE = 'four_five', '4.5+'
+    FOUR = 'four', '4+'
+    THREE = 'three', '3+'
 
 
 class HotelTypeOfAllocation(models.TextChoices):
@@ -40,8 +46,10 @@ class Hotel(models.Model):
     address = models.CharField(verbose_name='Адрес', max_length=500)
     short_description = models.TextField(verbose_name='Краткое описание')
     full_description = models.TextField(verbose_name='Полное описание')
-    rating = models.IntegerField(verbose_name='Рейтинг отеля', choices=HotelRatingChoices.choices,
-                                 default=HotelRatingChoices.FIVE)
+    stars = models.IntegerField(verbose_name='Кол-во звёзд отеля', choices=HotelStarsChoices.choices,
+                                default=HotelStarsChoices.FIVE)
+    rating = models.CharField(max_length=15, choices=HotelRatingChoices.choices,
+                              default=HotelRatingChoices.FOUR_POINT_FIVE, verbose_name='Рейтинг')
     distance_to_beach = models.IntegerField(verbose_name='Расстояние до пляжа, м')
     distance_to_airport = models.IntegerField(verbose_name='Расстояние до аэропорта, км')
     price = models.IntegerField(verbose_name='Цена')

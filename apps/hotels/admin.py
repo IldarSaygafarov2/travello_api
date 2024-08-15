@@ -38,7 +38,7 @@ class HotelRoomInline(nested_admin.NestedStackedInline, TranslationStackedInline
 
 @admin.register(models.Hotel)
 class HotelAdmin(nested_admin.NestedModelAdmin, TranslationAdmin):
-    list_display = ['id', 'name', 'price', 'rating', 'event', 'allocation_type']
+    list_display = ['id', 'name', 'price', 'stars', 'event', 'allocation_type']
     list_display_links = ['id', 'name']
     list_filter = ['event', 'allocation_type']
     list_editable = ['event', 'allocation_type']

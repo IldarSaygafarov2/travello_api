@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import serializers
 from . import models
 from apps.events.serializers import EventSerializer
@@ -67,9 +68,15 @@ class HotelFacilitiesSerializer(serializers.ModelSerializer):
 
 
 class HotelListSerializer(serializers.ModelSerializer):
+    reviews_quantity = serializers.SerializerMethodField(method_name='get_reviews_quantity')
+
     class Meta:
         model = models.Hotel
-        fields = ['id', 'name', 'price', 'preview', 'city', 'country', 'rating']
+        fields = ['id', 'name', 'price', 'preview', 'city', 'country', 'rating', 'reviews_quantity']
+
+
+    def get_reviews_quantity(self, obj):
+        return obj.reviews.count()
 
 
 class HotelDetailSerializer(serializers.ModelSerializer):
@@ -94,7 +101,8 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'full_description',
             'is_meals_included',
             'allocation_type',
-            'rating',
+            'stars',
+            'price',
             'distance_to_beach',
             'distance_to_airport',
             'coordinates',
