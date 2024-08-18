@@ -38,6 +38,16 @@ class HotelBeachTypeChoices(models.TextChoices):
     PLATFORM = 'platform', _('Платформа')
 
 
+class HotelFoodChoices(models.TextChoices):
+    ALL_INCLUSIVE = 'all_inclusive', _('Все включено')
+    WITHOUT_FOOD = 'without_food', _('Без питания')
+    LUNCH_DINNER = 'lunch_dinner', _('Обед и ужин')
+    BREAKFAST_LUNCH_DINNER = 'breakfast_lunch_dinner', _('Завтрак, обед или ужин')
+
+
+
+
+
 class Hotel(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название отеля')
     preview = models.ImageField(upload_to='images/hotels/previews/', verbose_name='Превью фото')
