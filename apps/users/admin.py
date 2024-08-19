@@ -34,7 +34,7 @@ class PassportAdmin(admin.ModelAdmin):
 
 admin.site.site_title = 'Travella Admin'
 admin.site.site_header = 'Travella Administration'
-admin.site.index_title = "Site administration"
+admin.site.index_title = "Travella Site administration"
 
 
 admin.site.register(User, CustomUserAdmin)

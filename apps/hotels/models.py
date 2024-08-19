@@ -44,8 +44,16 @@ class HotelFoodChoices(models.TextChoices):
     LUNCH_DINNER = 'lunch_dinner', _('Обед и ужин')
     BREAKFAST_LUNCH_DINNER = 'breakfast_lunch_dinner', _('Завтрак, обед или ужин')
 
+    __empty__ = ''
 
 
+class HotelFacilitiesChoices(models.TextChoices):
+    BAR = 'bar', _("Бар")
+    AIR_CONDITIONER = 'air_conditioner', _('Кондиционер')
+    SPA = 'spa', _('Спа')
+    PARKING = 'parking', _('Парковка')
+
+    __empty__ = ''
 
 
 class Hotel(models.Model):
@@ -75,6 +83,8 @@ class Hotel(models.Model):
                                   default=HotelBeachLineChoices.FIRST, verbose_name='Линия пляжа')
     beach_type = models.CharField(choices=HotelBeachTypeChoices.choices, max_length=50,
                                   default=HotelBeachTypeChoices.SAND, verbose_name='Тип пляжа')
+    food_type = models.CharField(choices=HotelFoodChoices.choices, max_length=50, null=True, blank=True)
+    facility = models.CharField(choices=HotelFacilitiesChoices.choices, max_length=50, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotes', null=True, blank=True,
                               verbose_name='Тур')
 

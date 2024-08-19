@@ -1,13 +1,16 @@
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
+
 from . import serializers
-from .models import User, Tourist, Children, Passport, UserTemp
+from .models import User, Tourist, Children, Passport, UserTemp, UserFavoriteTour
 from .services.user import AuthService
+from apps.events.serializers import EventSimpleSerializer
+from apps.events.models import Event
 
 
 @extend_schema(tags=['Auth'])

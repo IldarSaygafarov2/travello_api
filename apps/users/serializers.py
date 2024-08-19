@@ -15,7 +15,6 @@ class UserTempSerializer(serializers.ModelSerializer):
         read_only_fields = ['phone_number', 'verification_code']
 
     def validate(self, data):
-        print(data)
         password1 = data['data'].pop('password')
         password2 = data['data'].pop('password2')
 
@@ -43,7 +42,6 @@ class UserTempSerializer(serializers.ModelSerializer):
 
         obj.save()
         return obj
-
 
 
 class UserTempCodeVerificationSerializer(serializers.ModelSerializer):
@@ -184,6 +182,8 @@ class UserDataUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['gender', 'email', 'phone_number']
+
+
 
 # todo сделать сериалайзер для удаления туриста
 # todo переписать модель туриста и ребенка

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 12:39+0500\n"
+"POT-Creation-Date: 2024-08-19 13:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,55 +16,71 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/hotels/models.py:15
+#: apps/hotels/models.py:21
 msgid "Апарт-отель"
 msgstr "Apart-hotel"
 
-#: apps/hotels/models.py:16
+#: apps/hotels/models.py:22
 msgid "Апартаменты"
 msgstr "Apartments"
 
-#: apps/hotels/models.py:17
+#: apps/hotels/models.py:23
 msgid "Вилла"
 msgstr "Villa"
 
-#: apps/hotels/models.py:18
+#: apps/hotels/models.py:24
 msgid "Котедж"
 msgstr "Cottage"
 
-#: apps/hotels/models.py:19
+#: apps/hotels/models.py:25
 msgid "Отель"
 msgstr "Hotel"
 
-#: apps/hotels/models.py:20
+#: apps/hotels/models.py:26
 msgid "Хостел"
 msgstr "Hostel"
 
-#: apps/hotels/models.py:24
+#: apps/hotels/models.py:30
 msgid "Первая"
 msgstr "First"
 
-#: apps/hotels/models.py:25
+#: apps/hotels/models.py:31
 msgid "Вторая"
 msgstr "Second"
 
-#: apps/hotels/models.py:26
+#: apps/hotels/models.py:32
 msgid "Третья"
 msgstr "Third"
 
-#: apps/hotels/models.py:30
+#: apps/hotels/models.py:36
 msgid "Песок"
 msgstr "Sand"
 
-#: apps/hotels/models.py:31
+#: apps/hotels/models.py:37
 msgid "Галька"
 msgstr "Pebbles"
 
-#: apps/hotels/models.py:32
+#: apps/hotels/models.py:38
 msgid "Платформа"
 msgstr "Platform"
+
+#: apps/hotels/models.py:42
+msgid "Все включено"
+msgstr "All inclusive"
+
+#: apps/hotels/models.py:43
+msgid "Без питания"
+msgstr "Without food"
+
+#: apps/hotels/models.py:44
+msgid "Обед и ужин"
+msgstr "Lunch and dinner"
+
+#: apps/hotels/models.py:45
+msgid "Завтрак, обед или ужин"
+msgstr "Breakfast, lunch or dinner"
 
 #: apps/users/admin.py:14
 msgid "Personal info"

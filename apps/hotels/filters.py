@@ -11,4 +11,4 @@ class HotelAirPortDistanceFilter(FilterSet):
     class Meta:
         model = Hotel
         fields = ['allocation_type', 'rating', 'beach_type',
-                  'beach_line', 'stars', 'has_wifi']
+                  'beach_line', 'stars', 'has_wifi', 'food_type', 'facility']
