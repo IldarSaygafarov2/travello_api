@@ -125,3 +125,5 @@ class EventBooking(models.Model):
     class Meta:
         verbose_name = 'Бронь тура'
         verbose_name_plural = 'Брони туров'
+
+

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.hotels.apps.HotelsConfig',
     'apps.notifications.apps.NotificationsConfig',
     'apps.corporate_clients.apps.CorporateClientsConfig',
+    'apps.tours_favorites.apps.ToursFavoritesConfig',
 ]
 
 MIDDLEWARE = [

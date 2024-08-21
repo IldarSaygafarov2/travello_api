@@ -71,7 +71,7 @@ class EventSerializer(serializers.ModelSerializer):
 class EventSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
-        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'event_start', 'event_end']
+        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'event_start', 'event_end', 'event_type']
 
 
 class EventSearchSerializer(serializers.ModelSerializer):
@@ -85,5 +85,6 @@ class EventBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EventBooking
         fields = ['id', 'user', 'event', 'total_adult', 'total_children', 'event_type']
+
 
 

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from . import serializers
-from .models import User, Tourist, Children, Passport, UserTemp, UserFavoriteTour
+from .models import User, Tourist, Children, Passport, UserTemp
 from .services.user import AuthService
 from apps.events.serializers import EventSimpleSerializer
 from apps.events.models import Event
