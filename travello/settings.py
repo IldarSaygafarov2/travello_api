@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.notifications.apps.NotificationsConfig',
     'apps.corporate_clients.apps.CorporateClientsConfig',
     'apps.tours_favorites.apps.ToursFavoritesConfig',
+    'apps.tours_booked.apps.ToursBookedConfig',
 ]
 
 MIDDLEWARE = [

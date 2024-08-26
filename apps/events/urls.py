@@ -1,10 +1,15 @@
 from django.urls import path
-
+from rest_framework import routers
+from apps.tours_booked.urls import urlpatterns as tours_booked_urlpatterns
 from . import views
 
+
+router = routers.DefaultRouter()
+router.register(r'', views.EventViewSet)
+
+
 urlpatterns = [
-    path('', views.EventSimpleView.as_view(), name='events'),
-    path('<int:pk>/', views.EventDetailView.as_view(), name='event-detail'),
-    path('<int:pk>/book/', views.EventBookingView.as_view(), name='event-booking'),
 
 ]
+
+urlpatterns += router.urls + tours_booked_urlpatterns

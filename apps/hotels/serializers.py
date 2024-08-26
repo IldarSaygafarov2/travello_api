@@ -74,8 +74,8 @@ class HotelListSerializer(serializers.ModelSerializer):
         model = models.Hotel
         fields = ['id', 'name', 'price', 'preview', 'city', 'country', 'rating', 'reviews_quantity']
 
-
-    def get_reviews_quantity(self, obj):
+    @staticmethod
+    def get_reviews_quantity(obj) -> int:
         return obj.reviews.count()
 
 
