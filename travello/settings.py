@@ -165,6 +165,6 @@ INSTAGRAM_APP_CLIENT_ID = os.getenv('INSTAGRAM_APP_CLIENT_ID')
 
 
 CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS = [
-    'https://travella-admin.uz'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://travella-admin.uz'
+# ]
