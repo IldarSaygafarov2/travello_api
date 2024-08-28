@@ -14,7 +14,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'travelloapi.pythonanywhere.com',
     '127.0.0.1',
-    '45.138.158.114'
+    '45.138.158.114',
+    'travella-admin.uz'
 ]
 
 INSTALLED_APPS = [
@@ -121,9 +122,6 @@ MODELTRANSLATION_TRANSLATION_FILES = (
 
 LOCALE_PATHS = [BASE_DIR / 'locale']
 
-
-
-
 TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
@@ -167,3 +165,6 @@ INSTAGRAM_APP_CLIENT_ID = os.getenv('INSTAGRAM_APP_CLIENT_ID')
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://travella-admin.uz'
+]
