@@ -1,7 +1,6 @@
-from django.db.models import Count
 from rest_framework import serializers
+
 from . import models
-from apps.events.serializers import EventSerializer
 
 
 # hotel room serializers start
@@ -131,3 +130,15 @@ class HotelDetailSerializer(serializers.ModelSerializer):
         return obj.get_allocation_type_display()
 
 # hotel serializers end
+
+
+class SearchHotelByEventSerializer(serializers.ModelSerializer):
+    country_from = serializers.CharField()
+    country_to = serializers.CharField()
+    start_date = serializers.DateField()
+    nights = serializers.IntegerField()
+    passengers = serializers.IntegerField()
+
+    class Meta:
+        model = models.Event
+        fields = ['country_from', 'country_to', 'start_date', 'nights', 'passengers']

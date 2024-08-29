@@ -1,9 +1,6 @@
-from django.urls import reverse
 from django_filters import rest_framework as filters
 from drf_spectacular.utils import extend_schema
-from rest_framework import filters as drf_filters
-from rest_framework import generics, viewsets
-from rest_framework.response import Response
+from rest_framework import viewsets
 
 from . import models, serializers
 
@@ -19,8 +16,3 @@ class EventViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return serializers.EventSimpleSerializer
         return serializers.EventSerializer
-
-
-
-
-

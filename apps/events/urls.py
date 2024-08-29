@@ -8,8 +8,6 @@ router = routers.DefaultRouter()
 router.register(r'', views.EventViewSet)
 
 
-urlpatterns = [
-
-]
+urlpatterns = []
 
 urlpatterns += router.urls + tours_booked_urlpatterns

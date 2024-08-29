@@ -10,7 +10,6 @@ router.register(r'list', views.HotelList)
 
 
 urlpatterns = [
-
 ]
 
 urlpatterns += router.urls
