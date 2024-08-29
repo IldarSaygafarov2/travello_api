@@ -15,7 +15,7 @@ ALLOWED_HOSTS = [
     'travelloapi.pythonanywhere.com',
     '127.0.0.1',
     '45.138.158.114',
-    # 'travella-admin.uz'
+    'travella-admin.uz'
 ]
 
 INSTALLED_APPS = [
