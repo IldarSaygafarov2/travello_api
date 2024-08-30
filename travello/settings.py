@@ -168,3 +168,5 @@ CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
     'https://travella-admin.uz'
 ]
+
+CURRENCY_API_KEY = 'fca_live_73iJi9CwrqHPSSHxeUt8lcURW7qYXN692Qaa2yTS'

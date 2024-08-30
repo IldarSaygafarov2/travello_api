@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from .services.currency import service
 from . import models
 
 
@@ -88,6 +88,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
     coordinates = serializers.SerializerMethodField(method_name='get_coordinates')
     beach_type = serializers.SerializerMethodField(method_name='get_beach_type')
     allocation_type = serializers.SerializerMethodField(method_name='get_allocation_type')
+    rub_price = serializers.SerializerMethodField(method_name='get_rub_price')
 
     class Meta:
         model = models.Hotel
@@ -102,7 +103,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'allocation_type',
             'stars',
             'price',
-            'distance_to_beach',
+            'rub_price',
             'distance_to_airport',
             'coordinates',
             'nights',
@@ -116,6 +117,9 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'hotel_entertainment',
             'rooms'
         ]
+
+    def get_rub_price(self, obj) -> float:
+        return obj.price * service.get_data()
 
     def get_beach_line(self, obj) -> str:
         return obj.get_beach_line_display()
@@ -131,14 +135,3 @@ class HotelDetailSerializer(serializers.ModelSerializer):
 
 # hotel serializers end
 
-
-class SearchHotelByEventSerializer(serializers.ModelSerializer):
-    country_from = serializers.CharField()
-    country_to = serializers.CharField()
-    start_date = serializers.DateField()
-    nights = serializers.IntegerField()
-    passengers = serializers.IntegerField()
-
-    class Meta:
-        model = models.Event
-        fields = ['country_from', 'country_to', 'start_date', 'nights', 'passengers']
