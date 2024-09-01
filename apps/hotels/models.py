@@ -78,11 +78,11 @@ class Hotel(models.Model):
     has_wifi = models.BooleanField(default=True, verbose_name='Есть вай-фай?')
     is_meals_included = models.BooleanField(verbose_name='Питание включено?', default=True)
     allocation_type = models.CharField(max_length=50, verbose_name='Тип размещения',
-                                       choices=HotelTypeOfAllocation.choices, null=True)
+                                       choices=HotelTypeOfAllocation.choices, null=True, blank=True)
     beach_line = models.CharField(choices=HotelBeachLineChoices.choices, max_length=50, verbose_name='Линия пляжа',
-                                  null=True)
+                                  null=True, blank=True)
     beach_type = models.CharField(choices=HotelBeachTypeChoices.choices, max_length=50, verbose_name='Тип пляжа',
-                                  null=True)
+                                  null=True, blank=True)
     food_type = models.CharField(choices=HotelFoodChoices.choices, max_length=50, null=True, blank=True)
     facility = models.CharField(choices=HotelFacilitiesChoices.choices, max_length=50, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotes', null=True, blank=True,
