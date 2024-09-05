@@ -1,10 +1,12 @@
 from django.conf import settings
 from django.core import mail
 from drf_spectacular.utils import extend_schema
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.response import Response
+
 from . import messages
-from .serializers import NewsletterSerializer
+from .models import StaticMediaContent
+from .serializers import NewsletterSerializer, StaticMediaContentSerializer
 
 
 @extend_schema(tags=['Common'])
@@ -28,3 +30,8 @@ class NewsletterView(generics.GenericAPIView):
         )
         return Response({'is_send': True})
 
+
+@extend_schema(tags=['Common'])
+class StaticMediaContentView(viewsets.ModelViewSet):
+    serializer_class = StaticMediaContentSerializer
+    queryset = StaticMediaContent.objects.all()
