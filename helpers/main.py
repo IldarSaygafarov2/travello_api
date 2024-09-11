@@ -1,6 +1,9 @@
+import json
 import random
-from travello import settings
+
 import requests
+
+from travello import settings
 
 
 class SMSService:
@@ -55,3 +58,30 @@ class SMSService:
 
 def generate_code():
     return ''.join(random.sample([f"{i}" for i in range(10)], 4))
+
+
+def send_message_to_channel(**kwargs):
+    keyboard = {
+        'inline_keyboard': [
+            [
+                {
+                    'text': 'Завершить',
+                    'callback_data': f'answer_yes'
+                }
+            ],
+        ]
+    }
+    text = f'''
+🚫
+Имя отправителя: {kwargs['name']}
+Почта отправителя: {kwargs['email']}
+Сообщение: 
+{kwargs['message']}
+    '''
+
+    url = settings.TG_API_URL.format(
+        token=settings.BOT_TOKEN,
+        channel_id=settings.CHANNEL_CHAT_ID,
+        text=text
+    )
+    return requests.post(url, data={'reply_markup': json.dumps(keyboard)})

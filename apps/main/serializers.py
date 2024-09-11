@@ -3,9 +3,11 @@ from .models import Newsletter, StaticMediaContent, StaticMediaContentItem
 
 
 class NewsletterSerializer(serializers.ModelSerializer):
+    is_answered = serializers.BooleanField(required=False)
+
     class Meta:
         model = Newsletter
-        fields = ['id', 'name', 'email', 'text']
+        fields = ['id', 'name', 'email', 'text', 'is_answered']
 
 
 class StaticMediaContentItemSerializer(serializers.ModelSerializer):

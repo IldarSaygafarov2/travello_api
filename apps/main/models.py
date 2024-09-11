@@ -5,6 +5,7 @@ class Newsletter(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя отправителя')
     email = models.EmailField(verbose_name='Почта отправителя')
     text = models.TextField(verbose_name='Сообщение')
+    is_answered = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.name}: {self.email}'
@@ -32,6 +33,6 @@ def static_media_content_file_path(instance, filename):
 
 class StaticMediaContentItem(models.Model):
     static_media = models.ForeignKey(StaticMediaContent, on_delete=models.CASCADE, related_name='media_content')
-    media = models.FileField(verbose_name='Медиа контет для страницы', upload_to=static_media_content_file_path,
+    media = models.FileField(verbose_name='Медиа контент для страницы', upload_to=static_media_content_file_path,
                              null=True, blank=True)
 

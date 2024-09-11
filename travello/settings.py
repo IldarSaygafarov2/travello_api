@@ -170,4 +170,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://travella-admin.uz'
 ]
 
-CURRENCY_API_KEY = 'fca_live_73iJi9CwrqHPSSHxeUt8lcURW7qYXN692Qaa2yTS'
+CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+CHANNEL_CHAT_ID = os.getenv('CHANNEL_CHAT_ID')
+TG_API_URL = 'https://api.telegram.org/bot{token}/sendMessage?chat_id={channel_id}&text={text}'
