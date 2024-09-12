@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Отчеты
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-5">{{ request.user.username }}</h1>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#home">
+                    Форма дневной продажи
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#menu1">
+                    Отчет агент
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#menu2">
+                    Отчет поставщик
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content mt-5">
+            <div class="tab-pane container active" id="home">
+                <h2 class="mb-5">Форма дневной продажи</h2>
+                <form action="{% url 'reports:create_daily_report' %}" method="post">
+                    {% csrf_token %}
+                    {{ daily_report_form.as_p }}
+                    <button class="btn btn-dark">Отправить</button>
+                </form>
+            </div>
+            <div class="tab-pane container fade" id="menu1">
+                <h2 class="mb-5">Отчет агент</h2>
+                <form action="{% url 'reports:create_agent_report' %}" method="post">
+                    {% csrf_token %}
+                    {{ agent_report_form.as_p }}
+                    <button class="btn btn-dark">Отправить</button>
+                </form>
+            </div>
+            <div class="tab-pane container fade" id="menu2">
+                <h2 class="mb-5">Отчет поставщик</h2>
+                <form action="{% url 'reports:create_supplier_report' %}" method="post">
+                    {% csrf_token %}
+                    {{ supplier_report_form.as_p }}
+                    <button class="btn btn-dark">Отправить</button>
+                </form>
+            </div>
+        </div>
+        <a href="{% url 'reports:download_reports' %}">Скачать отчеты</a>
+    </div>
+{% endblock %}

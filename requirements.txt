@@ -1,7 +1,10 @@
 asgiref==3.8.1
 attrs==23.2.0
 certifi==2024.7.4
+cffi==1.17.1
+chardet==5.2.0
 charset-normalizer==3.3.2
+clr-loader==0.2.6
 Django==4.2.13
 django-ckeditor==6.7.1
 django-cors-headers==4.4.0
@@ -13,6 +16,7 @@ django-nested-inline==0.4.6
 djangorestframework==3.15.2
 drf-nested-routers==0.94.1
 drf-spectacular==0.27.2
+et-xmlfile==1.1.0
 everapi==0.1.1
 freecurrencyapi==0.1.0
 gunicorn==22.0.0
@@ -20,9 +24,12 @@ idna==3.7
 inflection==0.5.1
 jsonschema==4.22.0
 jsonschema-specifications==2023.12.1
+openpyxl==3.1.5
 packaging==24.1
 pillow==10.3.0
+pycparser==2.22
 python-dotenv==1.0.1
+pythonnet==3.0.3
 PyYAML==6.0.1
 referencing==0.35.1
 requests==2.32.3

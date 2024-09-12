@@ -85,3 +85,12 @@ def send_message_to_channel(**kwargs):
         text=text
     )
     return requests.post(url, data={'reply_markup': json.dumps(keyboard)})
+
+
+def send_document_to_channel(**kwargs):
+    url = settings.TG_API_URL.format(
+        token=settings.BOT_TOKEN,
+        channel_id=settings.SECOND_CHANNEL_CHAT_ID,
+        text=kwargs['msg']
+    )
+    return requests.post(url)

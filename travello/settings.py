@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'apps.corporate_clients.apps.CorporateClientsConfig',
     'apps.tours_favorites.apps.ToursFavoritesConfig',
     'apps.tours_booked.apps.ToursBookedConfig',
+    'apps.roles.apps.RolesConfig',
+    'apps.reports.apps.ReportsConfig'
 ]
 
 MIDDLEWARE = [
@@ -65,7 +67,9 @@ ROOT_URLCONF = 'travello.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -173,4 +177,5 @@ CSRF_TRUSTED_ORIGINS = [
 CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 CHANNEL_CHAT_ID = os.getenv('CHANNEL_CHAT_ID')
+SECOND_CHANNEL_CHAT_ID = os.getenv('SECOND_CHANNEL_CHAT_ID')
 TG_API_URL = 'https://api.telegram.org/bot{token}/sendMessage?chat_id={channel_id}&text={text}'
