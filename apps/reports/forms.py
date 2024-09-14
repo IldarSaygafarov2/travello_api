@@ -29,7 +29,7 @@ class DailySalesForm(forms.ModelForm):
         ]
         widgets = {
             'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'agent': forms.Select(attrs={'class': 'form-select'}),
             'supplier': forms.Select(attrs={'class': 'form-select'}),
             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -54,7 +54,7 @@ class AgentReportForm(forms.ModelForm):
         ]
         widgets = {
             'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
             'direction': forms.TextInput(attrs={'class': 'form-control'}),
             'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -77,7 +77,7 @@ class SupplierReportForm(forms.ModelForm):
         ]
         widgets = {
             'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
             'direction': forms.TextInput(attrs={'class': 'form-control'}),
             'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
