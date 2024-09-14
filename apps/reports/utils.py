@@ -15,7 +15,8 @@ def create_report_file(**kwargs):
 
 
 def create_report_message(**kwargs):
-    return f'''
+    return f'''{kwargs['report_type']}
+
 Порядковый номер: {kwargs['serial_number']}
 Дата: {kwargs['date']}
 Агент: {kwargs['agent']}
@@ -27,3 +28,16 @@ def create_report_message(**kwargs):
 Маржа: {kwargs['marja']}    
 '''
 
+
+def create_agent_report_message(**kwargs):
+    report_type = 'Отчет агент' if kwargs['repory_type'] == 'agent' else 'Отчет поставщик'
+    return f'''{report_type}
+    
+Порядковый номер: {kwargs['serial_number']}
+Дата: {kwargs['date']}
+Сумма агента: {kwargs['agent_sum']}
+Баланс: {kwargs['balance']}
+Оплата агент: {kwargs['agent_payment']}
+Направление: {kwargs['direction']}
+Комментарий: {kwargs['comment']}
+'''

@@ -89,7 +89,7 @@ def send_message_to_channel(**kwargs):
 
 def send_document_to_channel(**kwargs):
     url = settings.TG_API_URL.format(
-        token=settings.BOT_TOKEN,
+        token=settings.SECOND_BOT_TOKEN,
         channel_id=settings.SECOND_CHANNEL_CHAT_ID,
         text=kwargs['msg']
     )

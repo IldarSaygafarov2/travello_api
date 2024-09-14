@@ -176,6 +176,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+SECOND_BOT_TOKEN = os.getenv('SECOND_BOT_TOKEN')
 CHANNEL_CHAT_ID = os.getenv('CHANNEL_CHAT_ID')
 SECOND_CHANNEL_CHAT_ID = os.getenv('SECOND_CHANNEL_CHAT_ID')
 TG_API_URL = 'https://api.telegram.org/bot{token}/sendMessage?chat_id={channel_id}&text={text}'

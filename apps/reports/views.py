@@ -50,6 +50,7 @@ def create_daily_report(request):
         supplier = models.Supplier.objects.get(pk=new_obj['supplier_id'])
 
         msg = utils.create_report_message(
+            report_type='Дневная оплата',
             serial_number=new_obj['serial_number'],
             date=new_obj['date'],
             agent=agent.name,
@@ -60,9 +61,9 @@ def create_daily_report(request):
             comment=new_obj['comment'],
             marja=new_obj['marja']
         )
-        res = send_document_to_channel(msg=msg)
-        print(res.text)
-        utils.create_report_file(report=msg)
+        # send message to telegram channel
+        send_document_to_channel(msg=msg)
+        # utils.create_report_file(report=msg)
         messages.success(request, 'Отчет добавлен')
         return redirect('reports:reports_page')
     else:
@@ -78,6 +79,20 @@ def create_agent_report(request):
         form = form.save(commit=False)
         form.user = user
         form.save()
+
+        new_obj = models.AgentReport.objects.values().get(pk=form.pk)
+        msg = utils.create_agent_report_message(
+            repory_type='agent',
+            serial_number=new_obj['serial_number'],
+            date=new_obj['date'],
+            agent_sum=new_obj['agent_sum'],
+            direction=new_obj['direction'],
+            comment=new_obj['comment'],
+            balance=new_obj['balance'],
+            agent_payment=new_obj['agent_payment'],
+        )
+        # send message to telegram channel
+        send_document_to_channel(msg=msg)
         messages.success(request, 'Отчет добавлен')
         return redirect('reports:reports_page')
     else:
@@ -93,6 +108,19 @@ def create_supplier_report(request):
         form = form.save(commit=False)
         form.user = user
         form.save()
+        new_obj = models.SupplierReport.objects.values().get(pk=form.pk)
+        msg = utils.create_agent_report_message(
+            repory_type='supplier',
+            serial_number=new_obj['serial_number'],
+            date=new_obj['date'],
+            agent_sum=new_obj['agent_sum'],
+            direction=new_obj['direction'],
+            comment=new_obj['comment'],
+            balance=new_obj['balance'],
+            agent_payment=new_obj['agent_payment'],
+        )
+        # send message to telegram channel
+        send_document_to_channel(msg=msg)
         messages.success(request, 'отчет добавлен')
         return redirect('reports:reports_page')
     else:
