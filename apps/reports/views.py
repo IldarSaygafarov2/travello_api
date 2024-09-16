@@ -4,13 +4,14 @@ import openpyxl
 import pandas as pd
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 from apps.users.models import User
 from helpers.main import send_document_to_channel
 from . import forms, models, utils
 from .services.reports import DailyReportService
+
 
 daily_report_service = DailyReportService()
 
@@ -150,3 +151,8 @@ def download_reports(request):
     data_daily_reports.to_excel(f'{settings.MEDIA_ROOT}/reports.xlsx', sheet_name='Дневная продажа')
 
     return render(request, 'reports/success.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('reports:reports_index')

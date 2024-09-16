@@ -4,13 +4,33 @@
     Главная страница
 {% endblock %}
 
+{% block extra_styles %}
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            flex-grow: 1;
+        }
+    </style>
+{% endblock %}
+
 
 {% block content %}
-    <div class="container">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
 {% endblock %}

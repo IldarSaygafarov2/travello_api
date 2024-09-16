@@ -3,7 +3,7 @@ from . import models
 
 
 class DailySalesAdmin(admin.ModelAdmin):
-    list_display = ['id', 'serial_number', 'date', 'agent',
+    list_display = ['id', 'date', 'agent',
                     'supplier']
     list_editable = ['agent', 'supplier']
     list_filter = ['date', 'agent', 'supplier']

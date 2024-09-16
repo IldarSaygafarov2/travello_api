@@ -25,6 +25,7 @@ class Agent(models.Model):
     class Meta:
         verbose_name = 'Агент'
         verbose_name_plural = 'Агенты'
+        ordering = ['name']
 
 
 class Supplier(models.Model):
@@ -36,10 +37,11 @@ class Supplier(models.Model):
     class Meta:
         verbose_name = 'Поставщик'
         verbose_name_plural = 'Поставщики'
+        ordering = ['name']
 
 
 class DailySales(models.Model):
-    serial_number = models.IntegerField(verbose_name='Порядковый номер')
+    # serial_number = models.IntegerField(verbose_name='Порядковый номер')
     date = models.DateField(verbose_name='Дата')
     agent = models.ForeignKey(Agent, on_delete=models.CASCADE, verbose_name='Агент', related_name='daily_sales')
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, verbose_name='Поставщик',
@@ -52,7 +54,7 @@ class DailySales(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Сотрудник')
 
     def __str__(self):
-        return str(self.serial_number)
+        return str(self.pk)
 
     class Meta:
         verbose_name = 'Дневная продажа'

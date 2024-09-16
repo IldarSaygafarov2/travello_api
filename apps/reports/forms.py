@@ -17,18 +17,18 @@ class DailySalesForm(forms.ModelForm):
     class Meta:
         model = models.DailySales
         fields = [
-            'serial_number',
+            # 'serial_number',
             'date',
             'agent',
             'supplier',
             'agent_sum',
             'supplier_sum',
             'direction',
+            # 'marja',
             'comment',
-            'marja',
         ]
         widgets = {
-            'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'agent': forms.Select(attrs={'class': 'form-select'}),
             'supplier': forms.Select(attrs={'class': 'form-select'}),
@@ -36,7 +36,7 @@ class DailySalesForm(forms.ModelForm):
             'supplier_sum': forms.NumberInput(attrs={'class': 'form-control'}),
             'direction': forms.TextInput(attrs={'class': 'form-control'}),
             'comment': forms.Textarea(attrs={'class': 'form-control'}),
-            'marja': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'marja': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 

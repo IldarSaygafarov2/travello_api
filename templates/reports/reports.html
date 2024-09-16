@@ -6,25 +6,37 @@
 
 {% block content %}
     <div class="container mb-5">
-        <h1 class="my-5 d-flex justify-content-between align-items-center">{{ request.user.username }}
-        <a href="{% url 'reports:download_reports' %}" class="fs-5">Скачать отчеты</a></h1>
+        <h1 class="my-5 d-flex justify-content-between align-items-center">
+            {{ request.user.username }}
+            <span>
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'reports:download_reports' %}" class="fs-5">Скачать отчеты</a>
+                {% endif %}
+
+                <a href="{% url 'reports:reports_user_logout' %}" class="text-danger fs-5">Выйти</a>
+
+            </span>
+
+        </h1>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-            <li class="nav-item">
+            <li class="nav-item flex-shrink-0">
                 <a class="nav-link active" data-bs-toggle="tab" href="#home">
                     Форма дневной продажи
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#menu1">
-                    Отчет агент
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#menu2">
-                    Отчет поставщик
-                </a>
-            </li>
+            {% if request.user.is_superuser %}
+                <li class="nav-item flex-shrink-0">
+                    <a class="nav-link" data-bs-toggle="tab" href="#menu1">
+                        Отчет агент
+                    </a>
+                </li>
+                <li class="nav-item flex-shrink-0">
+                    <a class="nav-link" data-bs-toggle="tab" href="#menu2">
+                        Отчет поставщик
+                    </a>
+                </li>
+            {% endif %}
         </ul>
 
         <!-- Tab panes -->
@@ -33,28 +45,49 @@
                 <h2 class="mb-5">Форма дневной продажи</h2>
                 <form action="{% url 'reports:create_daily_report' %}" method="post">
                     {% csrf_token %}
-                    {{ daily_report_form.as_p }}
+                    <div class="row row-gap-4">
 
-                    
-                    <button class="btn btn-dark">Отправить</button>
+
+                        {% for field in daily_report_form %}
+                            <div class="{% if field.name == 'comment' %}col-sm-12{% else %}col-sm-6{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <button class="btn btn-dark mt-4">Отправить</button>
                 </form>
             </div>
-            <div class="tab-pane container fade" id="menu1">
-                <h2 class="mb-5">Отчет агент</h2>
-                <form action="{% url 'reports:create_agent_report' %}" method="post">
-                    {% csrf_token %}
-                    {{ agent_report_form.as_p }}
-                    <button class="btn btn-dark">Отправить</button>
-                </form>
-            </div>
-            <div class="tab-pane container fade" id="menu2">
-                <h2 class="mb-5">Отчет поставщик</h2>
-                <form action="{% url 'reports:create_supplier_report' %}" method="post">
-                    {% csrf_token %}
-                    {{ supplier_report_form.as_p }}
-                    <button class="btn btn-dark">Отправить</button>
-                </form>
-            </div>
+            {% if request.user.is_superuser %}
+                <div class="tab-pane container fade" id="menu1">
+                    <h2 class="mb-5">Отчет агент</h2>
+                    <form action="{% url 'reports:create_agent_report' %}" method="post">
+
+                        {% csrf_token %}
+                        <div class="row row-gap-4">
+
+
+                            {% for field in agent_report_form %}
+                                <div class="{% if field.name == 'comment' %}col-sm-12{% else %}col-sm-6{% endif %}">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <button class="btn btn-dark mt-4">Отправить</button>
+                    </form>
+                </div>
+                <div class="tab-pane container fade" id="menu2">
+                    <h2 class="mb-5">Отчет поставщик</h2>
+                    <form action="{% url 'reports:create_supplier_report' %}" method="post">
+                        {% csrf_token %}
+                        {{ supplier_report_form.as_p }}
+                        <button class="btn btn-dark">Отправить</button>
+                    </form>
+                </div>
+            {% endif %}
         </div>
 
     </div>
