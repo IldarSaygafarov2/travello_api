@@ -62,6 +62,36 @@
             {% if request.user.is_superuser %}
                 <div class="tab-pane container fade" id="menu1">
                     <h2 class="mb-5">Отчет агент</h2>
+{#                    <table class="table">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <th scope="col">#</th>#}
+{#                            <th scope="col">First</th>#}
+{#                            <th scope="col">Last</th>#}
+{#                            <th scope="col">Handle</th>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        <tr>#}
+{#                            <th scope="row">1</th>#}
+{#                            <td>Mark</td>#}
+{#                            <td>Otto</td>#}
+{#                            <td>@mdo</td>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                            <th scope="row">2</th>#}
+{#                            <td>Jacob</td>#}
+{#                            <td>Thornton</td>#}
+{#                            <td>@fat</td>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                            <th scope="row">3</th>#}
+{#                            <td>Larry</td>#}
+{#                            <td>the Bird</td>#}
+{#                            <td>@twitter</td>#}
+{#                        </tr>#}
+{#                        </tbody>#}
+{#                    </table>#}
                     <form action="{% url 'reports:create_agent_report' %}" method="post">
 
                         {% csrf_token %}
@@ -81,11 +111,12 @@
                 </div>
                 <div class="tab-pane container fade" id="menu2">
                     <h2 class="mb-5">Отчет поставщик</h2>
-                    <form action="{% url 'reports:create_supplier_report' %}" method="post">
-                        {% csrf_token %}
-                        {{ supplier_report_form.as_p }}
-                        <button class="btn btn-dark">Отправить</button>
-                    </form>
+
+                    {#                    <form action="{% url 'reports:create_supplier_report' %}" method="post">#}
+                    {#                        {% csrf_token %}#}
+                    {#                        {{ supplier_report_form.as_p }}#}
+                    {#                        <button class="btn btn-dark">Отправить</button>#}
+                    {#                    </form>#}
                 </div>
             {% endif %}
         </div>

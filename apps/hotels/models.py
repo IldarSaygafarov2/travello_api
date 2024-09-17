@@ -68,9 +68,9 @@ class Hotel(models.Model):
                                 default=HotelStarsChoices.FIVE)
     rating = models.CharField(max_length=15, choices=HotelRatingChoices.choices,
                               default=HotelRatingChoices.FOUR_POINT_FIVE, verbose_name='Рейтинг')
-    distance_to_beach = models.IntegerField(verbose_name='Расстояние до пляжа, м')
+    # distance_to_beach = models.IntegerField(verbose_name='Расстояние до пляжа, м')
     distance_to_airport = models.IntegerField(verbose_name='Расстояние до аэропорта, км')
-    price = models.IntegerField(verbose_name='Цена')
+    # price = models.IntegerField(verbose_name='Цена')
     latitude = models.FloatField(verbose_name='Широта', null=True, blank=True)
     longitude = models.FloatField(verbose_name='Долгота', null=True, blank=True)
     nights = models.IntegerField(verbose_name='Кол-во ночей', default=0)

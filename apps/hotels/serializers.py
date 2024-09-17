@@ -71,7 +71,7 @@ class HotelListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Hotel
-        fields = ['id', 'name', 'price', 'preview', 'city', 'country', 'rating', 'reviews_quantity']
+        fields = ['id', 'name', 'preview', 'city', 'country', 'rating', 'reviews_quantity']
 
     @staticmethod
     def get_reviews_quantity(obj) -> int:
@@ -102,7 +102,6 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'is_meals_included',
             'allocation_type',
             'stars',
-            'price',
             'rub_price',
             'distance_to_airport',
             'coordinates',

@@ -17,7 +17,6 @@ def create_report_file(**kwargs):
 def create_report_message(**kwargs):
     return f'''{kwargs['report_type']}
 
-Порядковый номер: {kwargs['serial_number']}
 Дата: {kwargs['date']}
 Агент: {kwargs['agent']}
 Поставщик: {kwargs['supplier']}

@@ -15,7 +15,6 @@ class DailyReportService(BaseReportService):
     def make_columns_dict(self):
         return {
             'id': [],
-            'serial_number': [],
             'date': [],
             'agent_id': [],
             'supplier_id': [],

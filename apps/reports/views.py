@@ -39,7 +39,7 @@ def reports_page(request):
     context = {
         'daily_report_form': forms.DailySalesForm(),
         'agent_report_form': forms.AgentReportForm(),
-        'supplier_report_form': forms.SupplierReportForm(),
+        # 'supplier_report_form': forms.SupplierReportForm(),
     }
 
     return render(request, 'reports/reports.html', context)
@@ -59,7 +59,7 @@ def create_daily_report(request):
 
         msg = utils.create_report_message(
             report_type='Дневная оплата',
-            serial_number=new_obj['serial_number'],
+            # serial_number=new_obj['serial_number'],
             date=new_obj['date'],
             agent=agent.name,
             supplier=supplier.name,

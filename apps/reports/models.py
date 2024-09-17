@@ -1,5 +1,6 @@
 from django.db import models
 from apps.users.models import User
+from datetime import datetime
 
 """
 форма дневной продажи:
@@ -42,7 +43,7 @@ class Supplier(models.Model):
 
 class DailySales(models.Model):
     # serial_number = models.IntegerField(verbose_name='Порядковый номер')
-    date = models.DateField(verbose_name='Дата')
+    date = models.DateField(verbose_name='Дата', default=datetime.today().strftime('%Y-%m-%d'))
     agent = models.ForeignKey(Agent, on_delete=models.CASCADE, verbose_name='Агент', related_name='daily_sales')
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, verbose_name='Поставщик',
                                  related_name='daily_sales')
@@ -55,6 +56,10 @@ class DailySales(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+    def save(self, *args, **kwargs):
+        self.marja = self.supplier_sum - self.agent_sum
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Дневная продажа'
