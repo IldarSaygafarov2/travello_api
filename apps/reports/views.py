@@ -36,10 +36,12 @@ def reports_index(request):
 
 
 def reports_page(request):
+    agent_reports = models.AgentReport.objects.all()
+
     context = {
         'daily_report_form': forms.DailySalesForm(),
-        'agent_report_form': forms.AgentReportForm(),
-        # 'supplier_report_form': forms.SupplierReportForm(),
+        'agent_reports': agent_reports.values(),
+        'model': models.AgentReport,
     }
 
     return render(request, 'reports/reports.html', context)
@@ -53,6 +55,17 @@ def create_daily_report(request):
         form.user = user
         form.save()
         new_obj = models.DailySales.objects.values().get(pk=form.pk)
+
+        new_agent_report_obj = models.AgentReport.objects.create(
+            date=form.date,
+            agent_payment=form.agent_sum,
+            comment=form.comment,
+            direction=form.direction,
+            user=user,
+            balance=0,
+            agent_sum=0
+        )
+        new_agent_report_obj.save()
 
         agent = models.Agent.objects.get(pk=new_obj['agent_id'])
         supplier = models.Supplier.objects.get(pk=new_obj['supplier_id'])
@@ -77,63 +90,6 @@ def create_daily_report(request):
     else:
         messages.error(request, 'Ошибка')
         print(form.errors)
-    return redirect('reports:reports_page')
-
-
-def create_agent_report(request):
-    form = forms.AgentReportForm(data=request.POST)
-    user = request.user
-    if form.is_valid():
-        form = form.save(commit=False)
-        form.user = user
-        form.save()
-
-        new_obj = models.AgentReport.objects.values().get(pk=form.pk)
-        msg = utils.create_agent_report_message(
-            repory_type='agent',
-            serial_number=new_obj['serial_number'],
-            date=new_obj['date'],
-            agent_sum=new_obj['agent_sum'],
-            direction=new_obj['direction'],
-            comment=new_obj['comment'],
-            balance=new_obj['balance'],
-            agent_payment=new_obj['agent_payment'],
-        )
-        # send message to telegram channel
-        send_document_to_channel(msg=msg)
-        messages.success(request, 'Отчет добавлен')
-        return redirect('reports:reports_page')
-    else:
-        print(form.errors)
-        messages.error(request, 'Ошибка')
-    return redirect('reports:reports_page')
-
-
-def create_supplier_report(request):
-    form = forms.SupplierReportForm(data=request.POST)
-    user = request.user
-    if form.is_valid():
-        form = form.save(commit=False)
-        form.user = user
-        form.save()
-        new_obj = models.SupplierReport.objects.values().get(pk=form.pk)
-        msg = utils.create_agent_report_message(
-            repory_type='supplier',
-            serial_number=new_obj['serial_number'],
-            date=new_obj['date'],
-            agent_sum=new_obj['agent_sum'],
-            direction=new_obj['direction'],
-            comment=new_obj['comment'],
-            balance=new_obj['balance'],
-            agent_payment=new_obj['agent_payment'],
-        )
-        # send message to telegram channel
-        send_document_to_channel(msg=msg)
-        messages.success(request, 'отчет добавлен')
-        return redirect('reports:reports_page')
-    else:
-        print(form.errors)
-        messages.error(request, 'Ошибка')
     return redirect('reports:reports_page')
 
 

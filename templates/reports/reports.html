@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
+{% load reports_tags %}
+
+
+
+
 
 {% block title %}
     Отчеты
 {% endblock %}
 
 {% block content %}
+    {% get_model_verbose_names as fields %}
+
     <div class="container mb-5">
         <h1 class="my-5 d-flex justify-content-between align-items-center">
             {{ request.user.username }}
@@ -62,61 +69,38 @@
             {% if request.user.is_superuser %}
                 <div class="tab-pane container fade" id="menu1">
                     <h2 class="mb-5">Отчет агент</h2>
-{#                    <table class="table">#}
-{#                        <thead>#}
-{#                        <tr>#}
-{#                            <th scope="col">#</th>#}
-{#                            <th scope="col">First</th>#}
-{#                            <th scope="col">Last</th>#}
-{#                            <th scope="col">Handle</th>#}
-{#                        </tr>#}
-{#                        </thead>#}
-{#                        <tbody>#}
-{#                        <tr>#}
-{#                            <th scope="row">1</th>#}
-{#                            <td>Mark</td>#}
-{#                            <td>Otto</td>#}
-{#                            <td>@mdo</td>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <th scope="row">2</th>#}
-{#                            <td>Jacob</td>#}
-{#                            <td>Thornton</td>#}
-{#                            <td>@fat</td>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <th scope="row">3</th>#}
-{#                            <td>Larry</td>#}
-{#                            <td>the Bird</td>#}
-{#                            <td>@twitter</td>#}
-{#                        </tr>#}
-{#                        </tbody>#}
-{#                    </table>#}
-                    <form action="{% url 'reports:create_agent_report' %}" method="post">
-
-                        {% csrf_token %}
-                        <div class="row row-gap-4">
-
-
-                            {% for field in agent_report_form %}
-                                <div class="{% if field.name == 'comment' %}col-sm-12{% else %}col-sm-6{% endif %}">
-                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                    {{ field }}
-                                </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            {% for verbose_name in fields %}
+                                <th scope="col">{{ verbose_name }}</th>
                             {% endfor %}
-                        </div>
-
-                        <button class="btn btn-dark mt-4">Отправить</button>
-                    </form>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for rep in agent_reports %}
+                            <tr>
+                                {% for key, value in rep.items %}
+                                    <th scope="row">{{ value }}</th>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        {#                        <tr>#}
+                        {#                            <th scope="row">2</th>#}
+                        {#                            <td>Jacob</td>#}
+                        {#                            <td>Thornton</td>#}
+                        {#                            <td>@fat</td>#}
+                        {#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <th scope="row">3</th>#}
+                        {#                            <td colspan="2">Larry the Bird</td>#}
+                        {#                            <td>@twitter</td>#}
+                        {#                        </tr>#}
+                        </tbody>
+                    </table>
                 </div>
                 <div class="tab-pane container fade" id="menu2">
                     <h2 class="mb-5">Отчет поставщик</h2>
-
-                    {#                    <form action="{% url 'reports:create_supplier_report' %}" method="post">#}
-                    {#                        {% csrf_token %}#}
-                    {#                        {{ supplier_report_form.as_p }}#}
-                    {#                        <button class="btn btn-dark">Отправить</button>#}
-                    {#                    </form>#}
                 </div>
             {% endif %}
         </div>

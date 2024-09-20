@@ -67,17 +67,19 @@ class DailySales(models.Model):
 
 
 class AgentReport(models.Model):
-    serial_number = models.IntegerField(verbose_name='Порядковый номер')
     date = models.DateField(verbose_name='Дата')
-    agent_sum = models.IntegerField(verbose_name='Сумма агент')
     direction = models.TextField(verbose_name='Направление')
+    agent_sum = models.IntegerField(verbose_name='Сумма агент')
     agent_payment = models.IntegerField(verbose_name='Оплата агент')
     balance = models.IntegerField(verbose_name='Баланс')
     comment = models.TextField(verbose_name='Комментарий')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Сотрудник')
 
+    # def get_fields_names(self):
+    #     print(self._meta.fields)
+
     def __str__(self):
-        return str(self.serial_number)
+        return str(self.pk)
 
     class Meta:
         verbose_name = 'отчет агент'
@@ -85,7 +87,6 @@ class AgentReport(models.Model):
 
 
 class SupplierReport(models.Model):
-    serial_number = models.IntegerField(verbose_name='Порядковый номер')
     date = models.DateField(verbose_name='Дата')
     agent_sum = models.IntegerField(verbose_name='Сумма агент')
     direction = models.TextField(verbose_name='Направление')
@@ -95,7 +96,7 @@ class SupplierReport(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Сотрудник')
 
     def __str__(self):
-        return str(self.serial_number)
+        return str(self.pk)
 
     class Meta:
         verbose_name = 'Отчет поставщик'

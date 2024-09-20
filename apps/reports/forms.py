@@ -17,7 +17,6 @@ class DailySalesForm(forms.ModelForm):
     class Meta:
         model = models.DailySales
         fields = [
-            # 'serial_number',
             'date',
             'agent',
             'supplier',
@@ -28,7 +27,6 @@ class DailySalesForm(forms.ModelForm):
             'comment',
         ]
         widgets = {
-            # 'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'agent': forms.Select(attrs={'class': 'form-select'}),
             'supplier': forms.Select(attrs={'class': 'form-select'}),
@@ -36,51 +34,46 @@ class DailySalesForm(forms.ModelForm):
             'supplier_sum': forms.NumberInput(attrs={'class': 'form-control'}),
             'direction': forms.TextInput(attrs={'class': 'form-control'}),
             'comment': forms.Textarea(attrs={'class': 'form-control'}),
-            # 'marja': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 
-class AgentReportForm(forms.ModelForm):
-    class Meta:
-        model = models.AgentReport
-        fields = [
-            'serial_number',
-            'date',
-            'agent_sum',
-            'direction',
-            'agent_payment',
-            'balance',
-            'comment',
-        ]
-        widgets = {
-            'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
-            'direction': forms.TextInput(attrs={'class': 'form-control'}),
-            'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
-            'balance': forms.NumberInput(attrs={'class': 'form-control'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control'}),
-        }
+# class AgentReportForm(forms.ModelForm):
+#     class Meta:
+#         model = models.AgentReport
+#         fields = [
+#             'date',
+#             'agent_sum',
+#             'direction',
+#             'agent_payment',
+#             'balance',
+#             'comment',
+#         ]
+#         widgets = {
+#             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+#             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'direction': forms.TextInput(attrs={'class': 'form-control'}),
+#             'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'balance': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'comment': forms.Textarea(attrs={'class': 'form-control'}),
+#         }
 
 
-class SupplierReportForm(forms.ModelForm):
-    class Meta:
-        model = models.SupplierReport
-        fields = [
-            'serial_number',
-            'date',
-            'agent_sum',
-            'direction',
-            'agent_payment',
-            'balance',
-            'comment',
-        ]
-        widgets = {
-            'serial_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
-            'direction': forms.TextInput(attrs={'class': 'form-control'}),
-            'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
-            'balance': forms.NumberInput(attrs={'class': 'form-control'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control'}),
-        }
+# class SupplierReportForm(forms.ModelForm):
+#     class Meta:
+#         model = models.SupplierReport
+#         fields = [
+#             'date',
+#             'agent_sum',
+#             'direction',
+#             'agent_payment',
+#             'balance',
+#             'comment',
+#         ]
+#         widgets = {
+#             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+#             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'direction': forms.TextInput(attrs={'class': 'form-control'}),
+#             'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'balance': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'comment': forms.Textarea(attrs={'class': 'form-control'}),
+#         }
