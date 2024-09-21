@@ -39,7 +39,8 @@ def reports_page(request):
     agent_reports = models.AgentReport.objects.all()
 
     context = {
-        'daily_report_form': forms.DailySalesForm(),
+        # 'daily_report_form': forms.DailySalesForm(),
+        'daily_sale_item_form': forms.DailySaleItemForm(),
         'agent_reports': agent_reports.values(),
         'model': models.AgentReport,
     }
@@ -48,24 +49,24 @@ def reports_page(request):
 
 
 def create_daily_report(request):
-    form = forms.DailySalesForm(data=request.POST)
+    form = forms.DailySaleItemForm(data=request.POST)
     user = request.user
     if form.is_valid():
         form = form.save(commit=False)
         form.user = user
         form.save()
-        new_obj = models.DailySales.objects.values().get(pk=form.pk)
+        new_obj = models.DailySaleItem.objects.values().get(pk=form.pk)
 
-        new_agent_report_obj = models.AgentReport.objects.create(
-            date=form.date,
-            agent_payment=form.agent_sum,
-            comment=form.comment,
-            direction=form.direction,
-            user=user,
-            balance=0,
-            agent_sum=0
-        )
-        new_agent_report_obj.save()
+        # new_agent_report_obj = models.AgentReport.objects.create(
+        #     date=form.date,
+        #     agent_payment=form.agent_sum,
+        #     comment=form.comment,
+        #     direction=form.direction,
+        #     user=user,
+        #     balance=0,
+        #     agent_sum=0
+        # )
+        # new_agent_report_obj.save()
 
         agent = models.Agent.objects.get(pk=new_obj['agent_id'])
         supplier = models.Supplier.objects.get(pk=new_obj['supplier_id'])
@@ -84,7 +85,6 @@ def create_daily_report(request):
         )
         # send message to telegram channel
         send_document_to_channel(msg=msg)
-        # utils.create_report_file(report=msg)
         messages.success(request, 'Отчет добавлен')
         return redirect('reports:reports_page')
     else:
@@ -94,7 +94,7 @@ def create_daily_report(request):
 
 
 def download_reports(request):
-    daily_reports = models.DailySales.objects.values().all()
+    daily_reports = models.DailySaleItem.objects.values().all()
     agent_reports = models.AgentReport.objects.values().all()
 
     # daily reports data
@@ -105,8 +105,10 @@ def download_reports(request):
 
     data_daily_reports = pd.DataFrame(columns_daily_reports)
     data_daily_reports.to_excel(f'{settings.MEDIA_ROOT}/reports.xlsx', sheet_name='Дневная продажа')
-
-    return render(request, 'reports/success.html')
+    context = {
+        'media_url': settings.MEDIA_URL
+    }
+    return render(request, 'reports/success.html', context)
 
 
 def user_logout(request):

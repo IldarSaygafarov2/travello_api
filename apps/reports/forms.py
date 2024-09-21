@@ -23,7 +23,6 @@ class DailySalesForm(forms.ModelForm):
             'agent_sum',
             'supplier_sum',
             'direction',
-            # 'marja',
             'comment',
         ]
         widgets = {
@@ -37,43 +36,29 @@ class DailySalesForm(forms.ModelForm):
         }
 
 
-# class AgentReportForm(forms.ModelForm):
-#     class Meta:
-#         model = models.AgentReport
-#         fields = [
-#             'date',
-#             'agent_sum',
-#             'direction',
-#             'agent_payment',
-#             'balance',
-#             'comment',
-#         ]
-#         widgets = {
-#             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-#             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'direction': forms.TextInput(attrs={'class': 'form-control'}),
-#             'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'balance': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'comment': forms.Textarea(attrs={'class': 'form-control'}),
-#         }
+class DailySaleItemForm(forms.ModelForm):
+    class Meta:
+        model = models.DailySaleItem
+        fields = [
+            'date',
+            'passenger',
+            'direction',
+            'agent',
+            'agent_sum',
+            'supplier',
+            'supplier_sum',
+            'comment'
+        ]
 
-
-# class SupplierReportForm(forms.ModelForm):
-#     class Meta:
-#         model = models.SupplierReport
-#         fields = [
-#             'date',
-#             'agent_sum',
-#             'direction',
-#             'agent_payment',
-#             'balance',
-#             'comment',
-#         ]
-#         widgets = {
-#             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-#             'agent_sum': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'direction': forms.TextInput(attrs={'class': 'form-control'}),
-#             'agent_payment': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'balance': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'comment': forms.Textarea(attrs={'class': 'form-control'}),
-#         }
+        widgets = {
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'passenger': forms.TextInput(attrs={'class': 'form-control'}),
+            'direction': forms.TextInput(attrs={'class': 'form-control'}),
+            'agent': forms.Select(attrs={'class': 'form-select'}),
+            'agent_sum': forms.NumberInput(attrs={
+                'class': 'form-control',
+            }),
+            'supplier': forms.Select(attrs={'class': 'form-select'}),
+            'supplier_sum': forms.NumberInput(attrs={'class': 'form-control'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'required': False}),
+        }

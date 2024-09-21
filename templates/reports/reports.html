@@ -55,7 +55,7 @@
                     <div class="row row-gap-4">
 
 
-                        {% for field in daily_report_form %}
+                        {% for field in daily_sale_item_form %}
                             <div class="{% if field.name == 'comment' %}col-sm-12{% else %}col-sm-6{% endif %}">
                                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                                 {{ field }}
@@ -106,4 +106,8 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block extra_script %}
+    <script lang="js"></script>
 {% endblock %}

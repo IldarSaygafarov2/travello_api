@@ -41,8 +41,30 @@ class Supplier(models.Model):
         ordering = ['name']
 
 
+class DailySaleItem(models.Model):
+    date = models.DateField(default=datetime.today().strftime('%Y-%m-%d'), verbose_name='Дата')
+    passenger = models.CharField(verbose_name='Пассажир', max_length=100)
+    direction = models.CharField(verbose_name='Направление', max_length=100)
+    agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, verbose_name='Агент')
+    agent_sum = models.FloatField(verbose_name='Сумма агент', default=0)
+    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, verbose_name='Поставщик', null=True)
+    supplier_sum = models.FloatField(verbose_name='Сумма поставщик', default=0)
+    margin = models.FloatField(verbose_name='Маржа', default=0)
+    comment = models.TextField(verbose_name='Комментарий', default='', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.marja = self.agent_sum - self.supplier_sum
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.pk} - {self.date}'
+
+    class Meta:
+        verbose_name = 'Дневная продажа'
+        verbose_name_plural = 'Дневные продажи'
+
+
 class DailySales(models.Model):
-    # serial_number = models.IntegerField(verbose_name='Порядковый номер')
     date = models.DateField(verbose_name='Дата', default=datetime.today().strftime('%Y-%m-%d'))
     agent = models.ForeignKey(Agent, on_delete=models.CASCADE, verbose_name='Агент', related_name='daily_sales')
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, verbose_name='Поставщик',
