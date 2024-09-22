@@ -69,17 +69,17 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class EventSimpleSerializer(serializers.ModelSerializer):
+    rating = serializers.SerializerMethodField(method_name='get_rating')
+
     class Meta:
         model = models.Event
-        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'event_start', 'event_end', 'event_type']
+        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'rating', 'event_start', 'event_end', 'event_type']
+
+    def get_rating(self, obj):
+        return obj.get_rating_display()
 
 
 class EventSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = ['country_from', 'country', 'event_start', 'nights', 'people_in_group']
-
-
-
-
-

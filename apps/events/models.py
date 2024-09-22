@@ -4,6 +4,12 @@ from django.db import models
 from apps.users.models import Tourist, Children, User
 
 
+class HotelRatingChoices(models.TextChoices):
+    FOUR_POINT_FIVE = 'four_five', '4.5+'
+    FOUR = 'four', '4+'
+    THREE = 'three', '3+'
+
+
 class EventType(models.TextChoices):
     WORLD = 'world', 'Мировой'
     LOCAL = 'uzbekistan', 'По узбекистану'
@@ -34,6 +40,8 @@ class Event(models.Model):
     people_in_group = models.IntegerField(verbose_name='Количество человек в группе')
     event_type = models.CharField(verbose_name='Тип тура', max_length=20, choices=EventType.choices,
                                   default=EventType.WORLD)
+    rating = models.CharField(max_length=15, choices=HotelRatingChoices.choices,
+                              default=HotelRatingChoices.FOUR_POINT_FIVE, verbose_name='Рейтинг')
 
     def __str__(self):
         return self.title
@@ -109,7 +117,3 @@ class EventPriceNotIncluded(models.Model):
     class Meta:
         verbose_name = 'Не включено в цену'
         verbose_name_plural = 'Условия (Не включено в цену)'
-
-
-
-

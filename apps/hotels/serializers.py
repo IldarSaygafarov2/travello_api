@@ -68,6 +68,7 @@ class HotelFacilitiesSerializer(serializers.ModelSerializer):
 
 class HotelListSerializer(serializers.ModelSerializer):
     reviews_quantity = serializers.SerializerMethodField(method_name='get_reviews_quantity')
+    rating = serializers.SerializerMethodField(method_name='get_rating')
 
     class Meta:
         model = models.Hotel
@@ -76,6 +77,10 @@ class HotelListSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_reviews_quantity(obj) -> int:
         return obj.reviews.count()
+
+    @staticmethod
+    def get_rating(obj) -> int:
+        return obj.get_rating_display()
 
 
 class HotelDetailSerializer(serializers.ModelSerializer):
