@@ -42,6 +42,7 @@ class HotelAdmin(nested_admin.NestedModelAdmin, TranslationAdmin):
     list_display_links = ['id', 'name']
     list_filter = ['event', 'allocation_type']
     list_editable = ['event', 'allocation_type']
+    prepopulated_fields = {'slug': ('name',)}
     inlines = [
         HotelGalleryInline,
         HotelFacilityInline,

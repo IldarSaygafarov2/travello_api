@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from apps.events.models import Event
+from django.template.defaultfilters import slugify
 
 
 class HotelStarsChoices(models.IntegerChoices):
@@ -58,6 +59,7 @@ class HotelFacilitiesChoices(models.TextChoices):
 
 class Hotel(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название отеля')
+    slug = models.SlugField(null=True, verbose_name='Слаг')
     preview = models.ImageField(upload_to='images/hotels/previews/', verbose_name='Превью фото')
     country = models.CharField(verbose_name='Страна', max_length=255)
     city = models.CharField(verbose_name='Город', max_length=100, null=True, blank=True)
@@ -88,6 +90,11 @@ class Hotel(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Отель'

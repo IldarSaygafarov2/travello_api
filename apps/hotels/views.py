@@ -14,6 +14,8 @@ class HotelList(viewsets.ModelViewSet):
     filter_backends = (filters.OrderingFilter, DjangoFilterBackend,)
     filterset_class = HotelAirPortDistanceFilter
     ordering_fields = ['price', ]
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'hotel_slug'
 
     def get_serializer_class(self):
         if self.action == 'list':

@@ -72,7 +72,7 @@ class HotelListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Hotel
-        fields = ['id', 'name', 'preview', 'city', 'country', 'rating', 'reviews_quantity']
+        fields = ['id', 'name', 'preview', 'city', 'country', 'rating', 'reviews_quantity', 'slug']
 
     @staticmethod
     def get_reviews_quantity(obj) -> int:
@@ -93,7 +93,6 @@ class HotelDetailSerializer(serializers.ModelSerializer):
     coordinates = serializers.SerializerMethodField(method_name='get_coordinates')
     beach_type = serializers.SerializerMethodField(method_name='get_beach_type')
     allocation_type = serializers.SerializerMethodField(method_name='get_allocation_type')
-    rub_price = serializers.SerializerMethodField(method_name='get_rub_price')
 
     class Meta:
         model = models.Hotel
@@ -107,7 +106,6 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'is_meals_included',
             'allocation_type',
             'stars',
-            'rub_price',
             'distance_to_airport',
             'coordinates',
             'nights',
@@ -115,15 +113,13 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'has_wifi',
             'beach_line',
             'beach_type',
+            'slug',
             'event',
             'hotel_gallery',
             'hotel_facilities',
             'hotel_entertainment',
             'rooms'
         ]
-
-    def get_rub_price(self, obj) -> float:
-        return obj.price * service.get_data()
 
     def get_beach_line(self, obj) -> str:
         return obj.get_beach_line_display()
