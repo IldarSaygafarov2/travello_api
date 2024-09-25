@@ -1,17 +1,14 @@
 import os
 
-import openpyxl
 import pandas as pd
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
-from apps.users.models import User
 from helpers.main import send_document_to_channel
 from . import forms, models, utils
 from .services.reports import DailyReportService
-
 
 daily_report_service = DailyReportService()
 
@@ -39,7 +36,6 @@ def reports_page(request):
     agent_reports = models.AgentReport.objects.all()
 
     context = {
-        # 'daily_report_form': forms.DailySalesForm(),
         'daily_sale_item_form': forms.DailySaleItemForm(),
         'agent_reports': agent_reports.values(),
         'model': models.AgentReport,
@@ -57,23 +53,11 @@ def create_daily_report(request):
         form.save()
         new_obj = models.DailySaleItem.objects.values().get(pk=form.pk)
 
-        # new_agent_report_obj = models.AgentReport.objects.create(
-        #     date=form.date,
-        #     agent_payment=form.agent_sum,
-        #     comment=form.comment,
-        #     direction=form.direction,
-        #     user=user,
-        #     balance=0,
-        #     agent_sum=0
-        # )
-        # new_agent_report_obj.save()
-
         agent = models.Agent.objects.get(pk=new_obj['agent_id'])
         supplier = models.Supplier.objects.get(pk=new_obj['supplier_id'])
 
         msg = utils.create_report_message(
             report_type='Дневная оплата',
-            # serial_number=new_obj['serial_number'],
             date=new_obj['date'],
             agent=agent.name,
             supplier=supplier.name,
