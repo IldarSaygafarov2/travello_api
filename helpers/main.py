@@ -94,3 +94,7 @@ def send_document_to_channel(**kwargs):
         text=kwargs['msg']
     )
     return requests.post(url)
+
+
+# test_endpoint = 'http://127.0.0.1:8000/api/v1/main/services/steps/'
+# print(requests.get(test_endpoint))

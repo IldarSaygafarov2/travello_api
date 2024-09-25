@@ -36,3 +36,25 @@ class StaticMediaContentItem(models.Model):
     media = models.FileField(verbose_name='Медиа контент для страницы', upload_to=static_media_content_file_path,
                              null=True, blank=True)
 
+
+class ServiceWorkingStep(models.Model):
+    title = models.CharField(verbose_name='Заголовок', max_length=100)
+    subtitle = models.CharField(verbose_name='Подзаголовок', max_length=150)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Работа сервиса'
+        verbose_name_plural = 'Работа сервиса'
+
+
+class Tag(models.Model):
+    name = models.CharField(verbose_name='название', max_length=100)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'

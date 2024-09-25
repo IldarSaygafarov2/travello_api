@@ -1,5 +1,17 @@
 from rest_framework import serializers
-from .models import Newsletter, StaticMediaContent, StaticMediaContentItem
+from .models import Newsletter, StaticMediaContent, StaticMediaContentItem, ServiceWorkingStep, Tag
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('id', 'name')
+
+
+class ServiceWorkingStepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceWorkingStep
+        fields = ['id', 'title', 'subtitle']
 
 
 class NewsletterSerializer(serializers.ModelSerializer):

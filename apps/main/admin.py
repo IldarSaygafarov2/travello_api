@@ -1,5 +1,15 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
+
 from . import models
+
+
+class TagAdmin(TranslationAdmin):
+    list_display = ('name', )
+
+
+class ServiceWorkingStepAdmin(TranslationAdmin):
+    pass
 
 
 class NewsLetterAdmin(admin.ModelAdmin):
@@ -20,3 +30,5 @@ class StaticMediaContentAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Newsletter, NewsLetterAdmin)
 admin.site.register(models.StaticMediaContent, StaticMediaContentAdmin)
+admin.site.register(models.ServiceWorkingStep, ServiceWorkingStepAdmin)
+admin.site.register(models.Tag, TagAdmin)

@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
+from django.conf.urls import i18n
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.reports.urls')),
@@ -17,7 +19,8 @@ urlpatterns = [
     # path('api/v1/favorite_tours/', include('apps.tours_favorites.urls')),
 
     path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/v1/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs')
+    path('api/v1/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 if settings.DEBUG:

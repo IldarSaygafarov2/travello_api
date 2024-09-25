@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -124,6 +125,7 @@ MODELTRANSLATION_TRANSLATION_FILES = (
     'apps.reviews.translation',
     'apps.users.translation',
 )
+# MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
 LOCALE_PATHS = [BASE_DIR / 'locale']
 
@@ -180,3 +182,8 @@ SECOND_BOT_TOKEN = os.getenv('SECOND_BOT_TOKEN')
 CHANNEL_CHAT_ID = os.getenv('CHANNEL_CHAT_ID')
 SECOND_CHANNEL_CHAT_ID = os.getenv('SECOND_CHANNEL_CHAT_ID')
 TG_API_URL = 'https://api.telegram.org/bot{token}/sendMessage?chat_id={channel_id}&text={text}'
+
+
+JAZZMIN_SETTINGS = {
+    'language_chooser': True
+}

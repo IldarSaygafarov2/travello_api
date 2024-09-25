@@ -1,9 +1,22 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
+
 from helpers.main import send_message_to_channel
-from .models import StaticMediaContent
-from .serializers import NewsletterSerializer, StaticMediaContentSerializer
+from .models import StaticMediaContent, ServiceWorkingStep, Tag
+from .serializers import NewsletterSerializer, StaticMediaContentSerializer, ServiceWorkingStepSerializer, TagSerializer
+
+
+@extend_schema(tags=['Common'])
+class ServiceWorkingStepList(generics.ListAPIView):
+    serializer_class = ServiceWorkingStepSerializer
+    queryset = ServiceWorkingStep.objects.all()
+
+
+@extend_schema(tags=['Common'])
+class TagListView(generics.ListAPIView):
+    serializer_class = TagSerializer
+    queryset = Tag.objects.all()
 
 
 @extend_schema(tags=['Common'])
