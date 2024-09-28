@@ -8,6 +8,8 @@ router = routers.DefaultRouter()
 router.register(r'', views.EventViewSet)
 
 
-urlpatterns = []
+urlpatterns = [
+    path('popular/', views.TopEventsListView.as_view())
+]
 
 urlpatterns += router.urls + tours_booked_urlpatterns

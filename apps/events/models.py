@@ -42,6 +42,10 @@ class Event(models.Model):
                                   default=EventType.WORLD)
     rating = models.CharField(max_length=15, choices=HotelRatingChoices.choices,
                               default=HotelRatingChoices.FOUR_POINT_FIVE, verbose_name='Рейтинг')
+    is_event_top = models.BooleanField(
+        verbose_name='Топовый тур?', default=False,
+        help_text='Выберите этот пункт, если тур является популряным. Тур отобразится на главной странице'
+    )
 
     def __str__(self):
         return self.title
