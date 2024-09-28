@@ -3,6 +3,13 @@ from django.db import models
 from django.urls import reverse
 
 
+class UserTypeChoices(models.TextChoices):
+    GUIDE = 'guide', 'Гид'
+    TRANSPORT_WORKER = 'transport_worker', 'Транспортник'
+
+    __empty__ = 'Неизвестно'
+
+
 class User(AbstractUser):
     """Custom User model."""
     phone_number = models.CharField(verbose_name='Номер телефона', unique=True, max_length=15, null=True, blank=True)
@@ -11,6 +18,15 @@ class User(AbstractUser):
     gender = models.CharField(verbose_name='Пол', max_length=10, null=True, blank=True)
     verification_code = models.CharField(max_length=6, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    user_type = models.CharField(verbose_name='Тип пользователя', max_length=100, choices=UserTypeChoices.choices,
+                                 null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.user_type == 'guide' or self.user_type == 'transport_worker':
+            self.is_staff = True
+            self.user_permissions.add()
+
+        super().save(*args, **kwargs)
 
 
 class UserTemp(models.Model):
@@ -95,4 +111,3 @@ class UserHotelSearchHistory(models.Model):
     class Meta:
         verbose_name = 'История поиска тура'
         verbose_name_plural = 'История поиска туров'
-
