@@ -1,4 +1,5 @@
 from django.db import models
+
 from apps.events.models import Event, EventType
 from apps.users.models import User
 

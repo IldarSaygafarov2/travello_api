@@ -87,6 +87,8 @@ def send_message_to_channel(**kwargs):
     return requests.post(url, data={'reply_markup': json.dumps(keyboard)})
 
 
+
+
 def send_document_to_channel(**kwargs):
     url = settings.TG_API_URL.format(
         token=settings.SECOND_BOT_TOKEN,
@@ -98,3 +100,7 @@ def send_document_to_channel(**kwargs):
 
 # test_endpoint = 'http://127.0.0.1:8000/api/v1/main/services/steps/'
 # print(requests.get(test_endpoint))
+
+def send_message_for_booking():
+    """Sending message of booked event to tg channel."""
+
