@@ -33,6 +33,7 @@ def static_media_content_file_path(instance, filename):
 
 class StaticMediaContentItem(models.Model):
     static_media = models.ForeignKey(StaticMediaContent, on_delete=models.CASCADE, related_name='media_content')
+    object_slug = models.SlugField(verbose_name='Название объекта для добавления фото', null=True, blank=True)
     media = models.FileField(verbose_name='Медиа контент для страницы', upload_to=static_media_content_file_path,
                              null=True, blank=True)
 

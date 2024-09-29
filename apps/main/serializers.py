@@ -25,7 +25,7 @@ class NewsletterSerializer(serializers.ModelSerializer):
 class StaticMediaContentItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaticMediaContentItem
-        fields = ['pk', 'media']
+        fields = ['pk', 'media', 'object_slug']
 
 
 class StaticMediaContentSerializer(serializers.ModelSerializer):

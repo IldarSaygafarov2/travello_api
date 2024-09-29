@@ -40,3 +40,5 @@ class NewsletterView(generics.GenericAPIView):
 class StaticMediaContentView(viewsets.ModelViewSet):
     serializer_class = StaticMediaContentSerializer
     queryset = StaticMediaContent.objects.all()
+    lookup_field = 'page_slug'
+    lookup_url_kwarg = 'page_slug'
