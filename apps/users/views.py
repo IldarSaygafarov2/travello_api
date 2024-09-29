@@ -129,3 +129,6 @@ class TouristView(viewsets.ModelViewSet):
 class ChildrenView(viewsets.ModelViewSet):
     queryset = Children.objects.all()
     serializer_class = serializers.ChildrenSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'user_pk': self.kwargs['user_pk']}

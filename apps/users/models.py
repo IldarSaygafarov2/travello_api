@@ -3,6 +3,13 @@ from django.db import models
 from django.urls import reverse
 
 
+class GenderChoices(models.TextChoices):
+    MALE = 'male', 'Мужской'
+    FEMALE = 'female', 'Женский'
+
+    __empty__ = 'Не выбрано'
+
+
 class UserTypeChoices(models.TextChoices):
     GUIDE = 'guide', 'Гид'
     TRANSPORT_WORKER = 'transport_worker', 'Транспортник'
@@ -15,7 +22,7 @@ class User(AbstractUser):
     phone_number = models.CharField(verbose_name='Номер телефона', unique=True, max_length=15, null=True, blank=True)
     surname = models.CharField(verbose_name='Отчество', max_length=30, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    gender = models.CharField(verbose_name='Пол', max_length=10, null=True, blank=True)
+    gender = models.CharField(verbose_name='Пол', max_length=10, null=True, blank=True, choices=GenderChoices.choices)
     verification_code = models.CharField(max_length=6, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     user_type = models.CharField(verbose_name='Тип пользователя', max_length=100, choices=UserTypeChoices.choices,
@@ -45,10 +52,10 @@ class Passport(models.Model):
     first_name = models.CharField(verbose_name='Имя', max_length=100)
     lastname = models.CharField(verbose_name='Фамилия', max_length=100)
     surname = models.CharField(verbose_name='Отчество', max_length=100)
-    birth_date = models.DateField()
+    birth_date = models.DateField(verbose_name='Дата рождения')
     seria = models.CharField(verbose_name='Серия', max_length=100)
     issued_by = models.CharField(verbose_name='Кем выдан', max_length=150)
-    issued_date = models.DateField()
+    issued_date = models.DateField(verbose_name='Дата выдачи')
     citizen = models.CharField(verbose_name='Гражданство', max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='passport_data', verbose_name='Пользователь')
 
@@ -65,7 +72,8 @@ class Tourist(models.Model):
     first_name = models.CharField(max_length=100, verbose_name='Имя', null=True)
     lastname = models.CharField(max_length=100, verbose_name='Фамилия', null=True)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True)
-    gender = models.CharField(verbose_name='Гендер', max_length=20, null=True)
+    gender = models.CharField(verbose_name='Гендер', max_length=20, null=True, blank=True,
+                              choices=GenderChoices.choices)
     passport_seria_and_number = models.CharField(max_length=20, verbose_name='Серия и номер паспорта', null=True)
     expiration_date = models.DateField(verbose_name='Дата окончания паспорта', null=True)
     citizen = models.CharField(verbose_name='Гражданство', max_length=100, null=True)
@@ -84,7 +92,8 @@ class Tourist(models.Model):
 class Children(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='children', null=True)
     fullname = models.CharField(verbose_name='Полное имя', max_length=100)
-    gender = models.CharField(verbose_name='Гендер', max_length=100, null=True)
+    gender = models.CharField(verbose_name='Гендер', max_length=100, null=True, blank=True,
+                              choices=GenderChoices.choices)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True)
     birth_certificate = models.FileField(verbose_name='Свидетельство о рождении',
                                          upload_to='users/children/birth_certificates/', null=True)

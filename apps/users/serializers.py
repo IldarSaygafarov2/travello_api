@@ -161,6 +161,13 @@ class ChildrenSerializer(serializers.ModelSerializer):
             'birth_certificate'
         ]
 
+    def create(self, validated_data):
+        user = User.objects.get(pk=self.context['user_pk'])
+        validated_data['user'] = user
+        obj = Children(**validated_data)
+        obj.save()
+        return obj
+
 
 class UserDataSerializer(serializers.ModelSerializer):
     passport_data = serializers.SerializerMethodField(method_name='get_passport_data')
@@ -182,22 +189,3 @@ class UserDataUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['gender', 'email', 'phone_number']
-
-
-
-# todo сделать сериалайзер для удаления туриста
-# todo переписать модель туриста и ребенка
-# todo переписать добавление туриста для пользователя
-# todo добавить возможность обновления данных о конкретном туристе и пользователя
-# todo сделать добавление заявок от корпоративных клиентов, добавить возможность шифрования данных
-# todo написать модель для отеля которые привязываются к туру
-# todo бронирование мирового тура и бронирование отеля
-# todo сделать уведомления для пользователя, описать модели уведомлений
-# todo удаление тура пользователем
-# todo добавление тура в избранное пользователем
-# todo добавить фильтрацию отелей для оперделенного тура
-# todo
-# todo
-# todo
-# todo
-# todo
