@@ -9,6 +9,7 @@ urlpatterns = [
     path('newsletter/send/', views.NewsletterView.as_view()),
     path('steps/', views.ServiceWorkingStepList.as_view()),
     path('tags/', views.TagListView.as_view()),
+    path('map/', views.ContactsPageMapView.as_view(), name='map'),
 ]
 
 

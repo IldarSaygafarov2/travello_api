@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'nested_inline',
     'django_filters',
     'corsheaders',
+    'constance',
 
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',
@@ -186,4 +187,10 @@ TG_API_URL = 'https://api.telegram.org/bot{token}/sendMessage?chat_id={channel_i
 
 JAZZMIN_SETTINGS = {
     'language_chooser': True
+}
+
+
+# Constance django
+CONSTANCE_CONFIG = {
+    'MAP_CODE': ('Office map', ''),
 }
