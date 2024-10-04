@@ -194,3 +194,4 @@ JAZZMIN_SETTINGS = {
 CONSTANCE_CONFIG = {
     'MAP_CODE': ('Office map', ''),
 }
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
