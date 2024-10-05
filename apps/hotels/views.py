@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
-from rest_framework import filters, viewsets
+from rest_framework import filters, viewsets, generics
 
 from . import models, serializers
 from .filters import HotelAirPortDistanceFilter
@@ -21,3 +21,8 @@ class HotelList(viewsets.ModelViewSet):
         if self.action == 'list':
             return serializers.HotelListSerializer
         return serializers.HotelDetailSerializer
+
+
+@extend_schema(tags=['Hotels'])
+class HotelBookingCreateView(generics.CreateAPIView):
+    serializer_class = serializers.HotelBookingSerializer

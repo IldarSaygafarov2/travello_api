@@ -10,6 +10,7 @@ router.register(r'list', views.HotelList)
 
 
 urlpatterns = [
+    path('book/', views.HotelBookingCreateView.as_view())
 ]
 
 urlpatterns += router.urls
