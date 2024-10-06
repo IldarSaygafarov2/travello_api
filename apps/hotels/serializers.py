@@ -6,6 +6,12 @@ from . import models
 # hotel room serializers start
 
 
+class HotelBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.HotelBooking
+        fields = ['id', 'hotel', 'hotel_room', 'event', 'total_adult', 'total_children']
+
+
 class HotelRoomImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelRoomImages
@@ -134,4 +140,3 @@ class HotelDetailSerializer(serializers.ModelSerializer):
         return obj.get_allocation_type_display()
 
 # hotel serializers end
-
