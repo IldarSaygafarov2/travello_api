@@ -11,6 +11,8 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = models.Event.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('event_type',)
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'slug'
 
     def get_serializer_class(self):
         if self.action == 'list':
