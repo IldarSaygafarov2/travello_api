@@ -39,3 +39,16 @@ class CorporateClientRequest(models.Model):
     class Meta:
         verbose_name = 'Заявка корпоративного клиента'
         verbose_name_plural = 'Заявки корпоративных клиентов'
+
+
+
+class OurClient(models.Model):
+    name = models.CharField(verbose_name='Название', max_length=200)
+    image = models.ImageField(upload_to='our_clients/', blank=True, null=True, verbose_name='Фото')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Наши клиенты'
+        verbose_name_plural = 'Наши клиенты'

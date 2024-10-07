@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import CorporateClientRequest
+from modeltranslation.admin import TranslationAdmin
+
+from .models import CorporateClientRequest, OurClient
 
 
 class CorporateClientRequestAdmin(admin.ModelAdmin):
@@ -7,4 +9,9 @@ class CorporateClientRequestAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'name']
 
 
+class OurClientAdmin(TranslationAdmin):
+    pass
+
+
 admin.site.register(CorporateClientRequest, CorporateClientRequestAdmin)
+admin.site.register(OurClient, OurClientAdmin)
