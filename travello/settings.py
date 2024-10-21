@@ -1,4 +1,6 @@
+import datetime
 import os
+
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -30,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'drf_spectacular',
     'ckeditor',
     'nested_inline',
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'constance',
 
+    'apps.users_auth.apps.UsersAuthConfig',
     'apps.users.apps.UsersConfig',
     'apps.articles.apps.ArticlesConfig',
     'apps.reviews.apps.ReviewsConfig',
@@ -148,9 +152,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
@@ -195,3 +199,8 @@ CONSTANCE_CONFIG = {
     'MAP_CODE': ('Office map', ''),
 }
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+}

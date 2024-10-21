@@ -70,7 +70,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone_number', 'password', 'password2']
+        fields = ['username', 'email', 'phone_number', 'password', 'password2', 'is_verified']
+        read_only_fields = ['is_verified']
 
     def validate(self, attrs: dict):
         password = attrs.pop('password')
@@ -88,6 +89,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.first_name = validated_data['username']
         user.set_password(password)
         user.save()
+        SMSService.send_message(
+            phone_number=user.phone_number,
+            message=messages.SMS_REGISTRATION_MESSAGE.format(code=user.verification_code),
+        )
         return user
 
 

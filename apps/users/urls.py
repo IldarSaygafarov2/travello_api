@@ -27,8 +27,8 @@ app_name = 'users'
 
 urlpatterns = [
     path('auth/registration/', views.UserRegistrationView.as_view()),
-    path('auth/temp/registration/', views.UserTempAuth.as_view()),
-    path('auth/temp/code/check/', views.UserTempAuthCodeVerification.as_view()),
+    # path('auth/temp/registration/', views.UserTempAuth.as_view()),
+    # path('auth/temp/code/check/', views.UserTempAuthCodeVerification.as_view()),
     path('auth/login/', views.UserLoginView.as_view(), name='login'),
     path('auth/logout/', views.UserLogoutView.as_view(), name='logout'),
     path('auth/repair/phone/', views.RepairUserByPhoneNumberView.as_view(), name='repair_phone'),

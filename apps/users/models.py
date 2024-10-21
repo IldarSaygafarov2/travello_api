@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from helpers.main import generate_code
 
 class GenderChoices(models.TextChoices):
     MALE = 'male', 'Мужской'
@@ -29,12 +30,18 @@ class User(AbstractUser):
                                  null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if self.user_type == 'guide' or self.user_type == 'transport_worker':
-            self.is_staff = True
-            self.user_permissions.add()
+        if not self.verification_code:
+            code = generate_code()
+            self.verification_code = code
 
         super().save(*args, **kwargs)
 
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
 
 class UserTemp(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)

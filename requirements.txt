@@ -16,6 +16,7 @@ django-modeltranslation==0.19.6
 django-nested-inline==0.4.6
 django-unfold==0.39.0
 djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
 drf-nested-routers==0.94.1
 drf-spectacular==0.27.2
 et-xmlfile==1.1.0
@@ -32,6 +33,7 @@ packaging==24.1
 pandas==2.2.2
 pillow==10.3.0
 pycparser==2.22
+PyJWT==2.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pythonnet==3.0.3
