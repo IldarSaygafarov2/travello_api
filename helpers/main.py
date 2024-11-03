@@ -104,3 +104,15 @@ def send_document_to_channel(**kwargs):
 def send_message_for_booking():
     """Sending message of booked event to tg channel."""
 
+
+def read_json(file_path: str):
+    with open(file_path, mode='r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def make_tuple_choices(file_path: str):
+    data = read_json(file_path)
+    return [(i['code'], i['lang']) for i in data]
+
+
+

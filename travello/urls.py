@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/v1/hotels/', include('apps.hotels.urls')),
     path('api/v1/reviews/', include('apps.reviews.urls')),
     path('api/v1/clients/', include('apps.corporate_clients.urls')),
+    path('api/v1/roles/', include('apps.roles.urls')),
     # path('api/v1/favorite_tours/', include('apps.tours_favorites.urls')),
     # path('api/v1/users_auth/', include('apps.users_auth.urls')),
 

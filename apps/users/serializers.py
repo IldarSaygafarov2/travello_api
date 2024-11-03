@@ -194,3 +194,16 @@ class UserDataUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['gender', 'email', 'phone_number']
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'surname',
+            'email',
+            'phone_number',
+            'gender',
+        ]
