@@ -118,4 +118,4 @@ class GuideSchedule(models.Model):
 
 
 class GuideTourPhoto(models.Model):
-    guide_tour = models.ForeignKey(GuideTour, on_delete=models.CASCADE, verbose_name)
+    guide_tour = models.ForeignKey(GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут тура')
