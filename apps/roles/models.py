@@ -1,14 +1,26 @@
+from curses.ascii import NAK
 from django.db import models
 
 from apps.users.models import User
 from helpers.main import make_tuple_choices
 
-LANGUAGES_CHOICES = make_tuple_choices('../../client/langs.json')
+LANGUAGES_CHOICES = make_tuple_choices('langs.json')
 
 
 class Guide(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь', null=True, blank=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        null=True, blank=True
+    )
     about_me = models.TextField(verbose_name='О гиде', null=True, blank=True)
+    avatar = models.ImageField(
+        verbose_name='Фото гида',
+        upload_to='guides/avatars/',
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.user.first_name
@@ -19,8 +31,14 @@ class Guide(models.Model):
 
 
 class GuideLanguage(models.Model):
-    guide = models.ForeignKey(Guide, on_delete=models.CASCADE, verbose_name='Гид', related_name='languages', null=True,
-                              blank=True)
+    guide = models.ForeignKey(
+        Guide,
+        on_delete=models.CASCADE,
+        verbose_name='Гид',
+        related_name='languages',
+        null=True,
+        blank=True
+    )
     lang = models.CharField(verbose_name='Язык', max_length=50)
 
     def __str__(self):
@@ -64,24 +82,54 @@ class GuideTour(models.Model):
 
         __empty__ = ''
 
-    guide = models.ForeignKey(Guide, on_delete=models.CASCADE, verbose_name='Гид')
+    guide = models.ForeignKey(
+        Guide,
+        on_delete=models.CASCADE,
+        verbose_name='Гид'
+    )
     title = models.CharField(verbose_name='Название маршрута', max_length=255)
     description = models.TextField(verbose_name='Описание программы')
     additional = models.TextField(verbose_name='Дополнительно')
     city = models.CharField(verbose_name='Город', max_length=255)
     gathering_place = models.TextField(verbose_name='Место встречи')
-    language = models.CharField(verbose_name='Язык', max_length=50, choices=LANGUAGES_CHOICES, null=True, blank=True)
-    tour_duration = models.CharField(verbose_name='Длительность проведения',
-                                     choices=TourDurationChoices.choices, blank=True, null=True)
-    number_of_people = models.CharField(verbose_name='Количество участников', choices=NumberOfPeopleChoices.choices,
-                                        blank=True, null=True)
-    mode_of_transportation = models.CharField(verbose_name='Способ передвижения',
-                                              choices=ModeOfTransportationChoices.choices, blank=True, null=True)
-    working_with_orders = models.CharField(verbose_name='Работа с заказами', choices=WorkingWithOrders.choices,
-                                           blank=True, null=True, max_length=100)
+    language = models.CharField(
+        verbose_name='Язык',
+        max_length=50,
+        choices=LANGUAGES_CHOICES,
+        null=True, blank=True
+    )
+    tour_duration = models.CharField(
+        verbose_name='Длительность проведения',
+        choices=TourDurationChoices.choices,
+        blank=True, null=True,
+        max_length=100
+    )
+    number_of_people = models.CharField(
+        verbose_name='Количество участников',
+        choices=NumberOfPeopleChoices.choices,
+        blank=True, null=True, max_length=100
+    )
+    mode_of_transportation = models.CharField(
+        verbose_name='Способ передвижения',
+        choices=ModeOfTransportationChoices.choices,
+        blank=True, null=True,
+        max_length=100
+    )
+    working_with_orders = models.CharField(
+        verbose_name='Работа с заказами',
+        choices=WorkingWithOrders.choices,
+        blank=True, null=True,
+        max_length=100
+    )
     price = models.IntegerField(verbose_name='Цена', default=0)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата добавления'
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата обновления'
+    )
 
     def __str__(self):
         return self.title
@@ -92,7 +140,8 @@ class GuideTour(models.Model):
 
 
 class GuideTourExpectation(models.Model):
-    guide_tour = models.ForeignKey(GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут')
+    guide_tour = models.ForeignKey(
+        GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут', related_name='expectations')
     text = models.TextField(verbose_name='Ожидание туриста')
 
     def __str__(self):
@@ -100,12 +149,14 @@ class GuideTourExpectation(models.Model):
 
 
 class GuideTourOrganizationalDetail(models.Model):
-    guide_tour = models.ForeignKey(GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут гида')
+    guide_tour = models.ForeignKey(
+        GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут гида', related_name='organizational_details')
     text = models.TextField(verbose_name='Текст')
 
 
 class GuideSchedule(models.Model):
-    guide_tour = models.ForeignKey(GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут тура')
+    guide_tour = models.ForeignKey(
+        GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут тура', related_name='schedules')
     date = models.DateField(verbose_name='Дата')
     time = models.TimeField(verbose_name='Время')
 
@@ -118,4 +169,8 @@ class GuideSchedule(models.Model):
 
 
 class GuideTourPhoto(models.Model):
-    guide_tour = models.ForeignKey(GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут тура')
+    guide_tour = models.ForeignKey(
+        GuideTour, on_delete=models.CASCADE, verbose_name='Маршрут тура', related_name='photos')
+    image = models.ImageField(
+        verbose_name='Фото тура', upload_to='guides/routes/tours/', blank=True, null=True
+    )
