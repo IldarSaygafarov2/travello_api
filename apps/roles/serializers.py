@@ -1,28 +1,38 @@
 from rest_framework import serializers
 
-from apps.users.serializers import UserInfoSerializer
-from .models import Guide, GuideLanguage, GuideTour, GuideTourExpectation, GuideTourOrganizationalDetail, GuideSchedule, \
-    GuideTourPhoto
+from apps.users.serializers import UserInfoSerializer, PassportSerializer
+
+from . import models
+
 
 
 class GuideLanguageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GuideLanguage
+        model = models.GuideLanguage
         fields = ['pk', 'lang']
 
 
+class GuidePassportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.GuidePassport
+        fields = ['id', 'seria_and_number', 'issued_date', 'issued_by',
+                  'citizen', 'agree_to_save_data', 'ready_for_trip']
+
+
+
 class GuideSerializer(serializers.ModelSerializer):
-    languages = GuideLanguageSerializer(many=True)
-    info = UserInfoSerializer(many=False, source='user')
+    languages = GuideLanguageSerializer(many=True, required=False, read_only=True)
+    info = UserInfoSerializer(many=False, source='user', required=False, read_only=True)
+    passport_data = GuidePassportSerializer(many=False, required=False, source='passports', read_only=True)
 
     class Meta:
-        model = Guide
-        fields = ['pk', 'info', 'about_me', 'avatar', 'languages']
+        model = models.Guide
+        fields = ['pk', 'info', 'passport_data', 'about_me', 'avatar', 'languages']
 
 
 class GuideTourCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GuideTour
+        model = models.GuideTour
         fields = [
             'title',
             'description',
@@ -40,25 +50,25 @@ class GuideTourCreateSerializer(serializers.ModelSerializer):
 
 class GuideTourExpectationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GuideTourExpectation
+        model = models.GuideTourExpectation
         fields = ['id', 'text']
 
 
 class GuideTourOrganizationalDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GuideTourOrganizationalDetail
+        model = models.GuideTourOrganizationalDetail
         fields = ['id', 'text']
 
 
 class GuideScheduleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GuideSchedule
+        model = models.GuideSchedule
         fields = ['id', 'date', 'time']
 
 
 class GuideTourPhotoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GuideTourPhoto
+        model = models.GuideTourPhoto
         fields = ['id', 'image']
 
 
@@ -74,7 +84,7 @@ class GuideTourSerializer(serializers.ModelSerializer):
     working_with_orders = serializers.SerializerMethodField(method_name='get_working_with_orders')
 
     class Meta:
-        model = GuideTour
+        model = models.GuideTour
         fields = [
             'id',
             'title',
@@ -95,21 +105,21 @@ class GuideTourSerializer(serializers.ModelSerializer):
         ]
 
     @staticmethod
-    def get_language(obj: GuideTour) -> str:
+    def get_language(obj: models.GuideTour) -> str:
         return obj.get_language_display()
 
     @staticmethod
-    def get_tour_duration(obj) -> str:
+    def get_tour_duration(obj: models.GuideTour) -> str:
         return obj.get_tour_duration_display()
 
     @staticmethod
-    def get_number_of_people(obj) -> str:
+    def get_number_of_people(obj: models.GuideTour) -> str:
         return obj.get_number_of_people_display()
 
     @staticmethod
-    def get_mode_of_transportation(obj) -> str:
+    def get_mode_of_transportation(obj: models.GuideTour) -> str:
         return obj.get_mode_of_transportation_display()
 
     @staticmethod
-    def get_working_with_orders(obj) -> str:
+    def get_working_with_orders(obj: models.GuideTour) -> str:
         return obj.get_working_with_orders_display()

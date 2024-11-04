@@ -1,4 +1,3 @@
-from curses.ascii import NAK
 from django.db import models
 
 from apps.users.models import User
@@ -174,3 +173,30 @@ class GuideTourPhoto(models.Model):
     image = models.ImageField(
         verbose_name='Фото тура', upload_to='guides/routes/tours/', blank=True, null=True
     )
+
+
+class GuidePassport(models.Model):
+    guide = models.OneToOneField(Guide, on_delete=models.CASCADE, verbose_name='Гид', related_name='passports')
+    seria_and_number = models.CharField(verbose_name='Серия и номер', max_length=100, unique=True,
+                                        blank=True,
+                                        null=True)
+    issued_date = models.DateField(
+        verbose_name='Дата выдачи',
+        blank=True,
+        null=True
+    )
+    issued_by = models.CharField(verbose_name='Кем выдан', max_length=100, blank=True,
+                                 null=True)
+    citizen = models.CharField(verbose_name='Гражданство', max_length=100, blank=True,
+                               null=True)
+    agree_to_save_data = models.BooleanField(verbose_name='Согласен на сохранение паспортных данных', blank=True,
+                                             null=True)
+    ready_for_trip = models.BooleanField(verbose_name='Готов к международным поездкам', blank=True,
+                                         null=True)
+
+    def __str__(self):
+        return f'{self.guide.user.first_name}'
+
+    class Meta:
+        verbose_name = 'Паспорт гида'
+        verbose_name_plural = 'Паспортные данные гида'
