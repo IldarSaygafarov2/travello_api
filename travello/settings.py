@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'apps.tours_favorites.apps.ToursFavoritesConfig',
     'apps.tours_booked.apps.ToursBookedConfig',
     'apps.roles.apps.RolesConfig',
-    'apps.reports.apps.ReportsConfig'
 ]
 
 MIDDLEWARE = [
@@ -128,7 +127,6 @@ MODELTRANSLATION_TRANSLATION_FILES = (
     'apps.main.translation',
     'apps.notifications.translation',
     'apps.reviews.translation',
-    'apps.users.translation',
 )
 # MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
@@ -170,7 +168,9 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 SMS_API_EMAIL = os.getenv('SMS_API_EMAIL')
 SMS_API_KEY = os.getenv('SMS_API_KEY')
-SMS_API_URL = 'https://notify.eskiz.uz/api/'
+SMS_API_URL = os.getenv('SMS_API_URL')
+
+API_URL = os.getenv('API_URL')
 
 INSTAGRAM_APP_ID = os.getenv('INSTAGRAM_APP_ID')
 INSTAGRAM_APP_CLIENT_ID = os.getenv('INSTAGRAM_APP_CLIENT_ID')
@@ -201,6 +201,6 @@ CONSTANCE_CONFIG = {
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
 }

@@ -8,8 +8,8 @@ from django.conf.urls import i18n
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.reports.urls')),
     path('api/v1/users/', include('apps.users.urls')),
+    path('api/v1/auth/', include('apps.users_auth.urls')),
     path('api/v1/articles/', include('apps.articles.urls')),
     path('api/v1/events/', include('apps.events.urls')),
     path('api/v1/main/', include('apps.main.urls')),
@@ -17,9 +17,6 @@ urlpatterns = [
     path('api/v1/reviews/', include('apps.reviews.urls')),
     path('api/v1/clients/', include('apps.corporate_clients.urls')),
     path('api/v1/roles/', include('apps.roles.urls')),
-    # path('api/v1/favorite_tours/', include('apps.tours_favorites.urls')),
-    # path('api/v1/users_auth/', include('apps.users_auth.urls')),
-
     path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/v1/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
     path('i18n/', include('django.conf.urls.i18n')),

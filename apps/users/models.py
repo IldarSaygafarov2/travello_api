@@ -1,8 +1,13 @@
+from datetime import datetime, timedelta
+
+import jwt
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
-from rest_framework_simplejwt.tokens import RefreshToken
+
 from helpers.main import generate_code
+from travello import settings
+
 
 class GenderChoices(models.TextChoices):
     MALE = 'male', 'Мужской'
@@ -14,6 +19,7 @@ class GenderChoices(models.TextChoices):
 class UserTypeChoices(models.TextChoices):
     GUIDE = 'guide', 'Гид'
     TRANSPORT_WORKER = 'transport_worker', 'Транспортник'
+    SIMPLE = 'simple', 'Обычный пользователь'
 
     __empty__ = 'Неизвестно'
 
@@ -27,7 +33,7 @@ class User(AbstractUser):
     verification_code = models.CharField(max_length=6, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     user_type = models.CharField(verbose_name='Тип пользователя', max_length=100, choices=UserTypeChoices.choices,
-                                 null=True, blank=True)
+                                 default=UserTypeChoices.SIMPLE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.verification_code:
@@ -36,17 +42,20 @@ class User(AbstractUser):
 
         super().save(*args, **kwargs)
 
-    def tokens(self):
-        refresh = RefreshToken.for_user(self)
-        return {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        }
+    @property
+    def token(self):
+        return self._generate_jwt_token()
 
-class UserTemp(models.Model):
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
-    verification_code = models.CharField(max_length=4, null=True, blank=True)
-    data = models.JSONField()
+    def _generate_jwt_token(self):
+        dt = datetime.now() + timedelta(days=1)
+        token = jwt.encode({
+            'id': self.pk,
+            'username': self.username,
+            'user_type': self.user_type,
+            'exp': int(dt.strftime('%s')),
+        }, settings.SECRET_KEY, algorithm='HS256')
+
+        return token
 
 
 class PasswordReset(models.Model):
@@ -113,17 +122,4 @@ class Children(models.Model):
         verbose_name_plural = 'Дети'
 
 
-class UserHotelSearchHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hotels_history', null=True)
-    country_from = models.CharField(max_length=100, verbose_name='Откуда')
-    country_to = models.CharField(max_length=100, verbose_name='Куда')
-    departure_date = models.DateField(verbose_name='Дата вылета')
-    nights = models.PositiveSmallIntegerField(verbose_name='Кол-во ночей')
-    passengers = models.PositiveSmallIntegerField(verbose_name='Кол-во пассажиров')
 
-    def __str__(self):
-        return self.user.username
-
-    class Meta:
-        verbose_name = 'История поиска тура'
-        verbose_name_plural = 'История поиска туров'

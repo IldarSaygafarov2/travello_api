@@ -41,7 +41,7 @@ class AuthService:
         reset = PasswordReset(email=email, token=token)
         reset.save()
 
-        reset_url = f'http://127.0.0.1:8000/api/v1/users/auth/password/reset/{token}'
+        reset_url = f'{settings.API_URL}/auth/password/reset/{token}'
 
         with get_connection(
                 host=settings.EMAIL_HOST,
@@ -97,9 +97,17 @@ class AuthService:
     @classmethod
     def check_verification_code(cls, request):
         data = request.data
-        user = User.objects.filter(verification_code=data['verification_code']).first()
+        verification_code = data.get('verification_code')
+        phone_number = data.get('phone_number')
+
+        if not phone_number:
+            return Response({'error': 'Phone number required'}, status=400)
+
+        user = User.objects.filter(verification_code=verification_code, phone_number=phone_number).first()
         if user is None:
             return Response({'is_code_valid': False})
+        user.is_verified = True
+        user.save()
         return Response({'is_code_valid': True})
 
     @classmethod
