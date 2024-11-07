@@ -123,3 +123,5 @@ class Children(models.Model):
 
 
 
+# class UserTourRoute(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')

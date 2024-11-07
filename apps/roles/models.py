@@ -20,6 +20,7 @@ class Guide(models.Model):
         null=True,
         blank=True
     )
+    experience = models.IntegerField(verbose_name='Стаж', null=True, blank=True)
 
     def __str__(self):
         return self.user.first_name

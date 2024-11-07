@@ -29,6 +29,11 @@ class TouristView(viewsets.ModelViewSet):
     queryset = Tourist.objects.all()
     serializer_class = serializers.TouristSerializer
 
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_pk')
+        tourists = Tourist.objects.filter(user_id=user_id)
+        return tourists
+
 
 @extend_schema(tags=['Users Children Info'])
 class ChildrenView(viewsets.ModelViewSet):

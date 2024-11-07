@@ -3,7 +3,7 @@ from rest_framework import serializers
 from apps.users.serializers import UserInfoSerializer, PassportSerializer
 
 from . import models
-
+from .models import Guide
 
 
 class GuideLanguageSerializer(serializers.ModelSerializer):
@@ -29,6 +29,17 @@ class GuideSerializer(serializers.ModelSerializer):
         model = models.Guide
         fields = ['pk', 'info', 'passport_data', 'about_me', 'avatar', 'languages']
 
+
+class GuideProfileSerializer(serializers.ModelSerializer):
+    first_name = serializers.SerializerMethodField(method_name='get_first_name')
+
+    class Meta:
+        model = models.Guide
+        fields = ['pk', 'first_name', 'experience', 'avatar']
+
+    @staticmethod
+    def get_first_name(obj: Guide) -> str:
+        return obj.user.first_name
 
 class GuideTourCreateSerializer(serializers.ModelSerializer):
     class Meta:
