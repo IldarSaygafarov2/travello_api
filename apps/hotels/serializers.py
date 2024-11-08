@@ -1,15 +1,14 @@
 from rest_framework import serializers
-from .services.currency import service
 from . import models
 
 
 # hotel room serializers start
 
 
-class HotelBookingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.HotelBooking
-        fields = ['id', 'hotel', 'hotel_room', 'event', 'total_adult', 'total_children']
+# class HotelBookingSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.HotelBooking
+#         fields = ['id', 'hotel', 'hotel_room', 'event', 'total_adult', 'total_children']
 
 
 class HotelRoomImagesSerializer(serializers.ModelSerializer):

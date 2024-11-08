@@ -23,6 +23,6 @@ class HotelList(viewsets.ModelViewSet):
         return serializers.HotelDetailSerializer
 
 
-@extend_schema(tags=['Hotels'])
-class HotelBookingCreateView(generics.CreateAPIView):
-    serializer_class = serializers.HotelBookingSerializer
+# @extend_schema(tags=['Hotels'])
+# class HotelBookingCreateView(generics.CreateAPIView):
+#     serializer_class = serializers.HotelBookingSerializer

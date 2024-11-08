@@ -9,7 +9,8 @@ router.register(r'', views.EventViewSet)
 
 
 urlpatterns = [
-    path('popular/', views.TopEventsListView.as_view())
+    path('popular/', views.TopEventsListView.as_view()),
+    path('search/', views.EventSearchView.as_view())
 ]
 
 urlpatterns += router.urls + tours_booked_urlpatterns

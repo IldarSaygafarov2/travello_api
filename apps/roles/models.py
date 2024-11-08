@@ -201,3 +201,4 @@ class GuidePassport(models.Model):
     class Meta:
         verbose_name = 'Паспорт гида'
         verbose_name_plural = 'Паспортные данные гида'
+

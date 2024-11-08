@@ -1,7 +1,8 @@
 from django.db import models
-from django.utils.translation import gettext as _
-from apps.events.models import Event
 from django.template.defaultfilters import slugify
+from django.utils.translation import gettext as _
+
+from apps.events.models import Event
 
 
 class HotelStarsChoices(models.IntegerChoices):
@@ -101,20 +102,20 @@ class Hotel(models.Model):
         verbose_name_plural = 'Отели'
 
 
-class HotelBooking(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='hotel_booking', verbose_name='Отель')
-    hotel_room = models.ForeignKey('HotelRoom', on_delete=models.CASCADE, related_name='hotel_booking',
-                                   verbose_name='Номер отеля')
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotel', verbose_name='Тур')
-    total_adult = models.PositiveIntegerField(verbose_name='Количество отдыхающих', default=0)
-    total_children = models.PositiveIntegerField(verbose_name='Количество детей', default=0)
-
-    def __str__(self):
-        return f'{self.hotel} - {self.event}'
-
-    class Meta:
-        verbose_name = 'Бронь отеля'
-        verbose_name_plural = 'Брони отелей'
+# class HotelBooking(models.Model):
+#     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='hotel_booking', verbose_name='Отель')
+#     hotel_room = models.ForeignKey('HotelRoom', on_delete=models.CASCADE, related_name='hotel_booking',
+#                                    verbose_name='Номер отеля')
+#     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotel', verbose_name='Тур')
+#     total_adult = models.PositiveIntegerField(verbose_name='Количество отдыхающих', default=0)
+#     total_children = models.PositiveIntegerField(verbose_name='Количество детей', default=0)
+#
+#     def __str__(self):
+#         return f'{self.hotel} - {self.event}'
+#
+#     class Meta:
+#         verbose_name = 'Бронь отеля'
+#         verbose_name_plural = 'Брони отелей'
 
 
 def gallery_image_path(instance, filename):

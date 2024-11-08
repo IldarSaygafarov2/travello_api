@@ -5,7 +5,7 @@ from rest_framework.validators import UniqueValidator
 
 from helpers.main import SMSService
 from . import messages
-from .models import User, Passport, Tourist, Children
+from .models import User, Passport, Tourist, Children, UserTourRoute
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -162,3 +162,56 @@ class UserInfoSerializer(serializers.ModelSerializer):
             'phone_number',
             'gender',
         ]
+
+
+class UserRouteSerializer(serializers.ModelSerializer):
+    tourists = serializers.SerializerMethodField(method_name='get_tourists')
+    hotels = serializers.SerializerMethodField(method_name='get_hotels')
+    transports = serializers.SerializerMethodField(method_name='get_transports')
+    guide = serializers.SerializerMethodField(method_name='get_guide')
+    insurance = serializers.SerializerMethodField(method_name='get_insurance')
+    additional_services = serializers.SerializerMethodField(method_name='get_additional_services')
+
+    class Meta:
+        model = UserTourRoute
+        fields = [
+            'pk',
+            'tourists',
+            'hotels',
+            'transports',
+            'guide',
+            'insurance',
+            'additional_services'
+        ]
+
+    @staticmethod
+    def get_tourists(obj):
+        return []
+
+    @staticmethod
+    def get_hotels(obj):
+        return []
+
+    @staticmethod
+    def get_transports(obj):
+        return []
+
+    @staticmethod
+    def get_guide(obj):
+        return []
+
+    @staticmethod
+    def get_insurance(obj):
+        return []
+
+    @staticmethod
+    def get_additional_services(obj):
+        return []
+
+
+class UserRouteCreateSerializer(serializers.ModelSerializer):
+    tourists = TouristSerializer(many=True, source='user.tourists', required=False)
+
+    class Meta:
+        model = UserTourRoute
+        fields = ['tourists']

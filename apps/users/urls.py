@@ -27,6 +27,8 @@ app_name = 'users'
 
 urlpatterns = [
     path('<int:pk>/info/update/', views.UserDataUpdateView.as_view(), name='user-data-update'),
+    path('<int:pk>/routes/', views.UserTourRouteView.as_view(), name='user-routes'),
+    path('<int:pk>/routes/', views.UserTourCreateView.as_view(), name='user-routes-create'),
 ]
 
 urlpatterns += (router.urls +

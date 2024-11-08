@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 
+
 from helpers.main import generate_code
 from travello import settings
 
@@ -122,6 +123,10 @@ class Children(models.Model):
         verbose_name_plural = 'Дети'
 
 
+class UserTourRoute(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
-# class UserTourRoute(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+
+# class UserTourHotel(models.Model):
+#     user_tour = models.ForeignKey(UserTourRoute, on_delete=models.CASCADE, related_name='user_tour_route')
+#     hotel = models.ForeignKey("Hotel", on_delete=models.SET_NULL, related_name='user_tour_route')

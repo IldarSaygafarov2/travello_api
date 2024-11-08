@@ -5,7 +5,6 @@ from apps.users.serializers import UserInfoSerializer, PassportSerializer
 from . import models
 from .models import Guide
 
-
 class GuideLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GuideLanguage
@@ -17,7 +16,6 @@ class GuidePassportSerializer(serializers.ModelSerializer):
         model = models.GuidePassport
         fields = ['id', 'seria_and_number', 'issued_date', 'issued_by',
                   'citizen', 'agree_to_save_data', 'ready_for_trip']
-
 
 
 class GuideSerializer(serializers.ModelSerializer):
@@ -40,6 +38,7 @@ class GuideProfileSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_first_name(obj: Guide) -> str:
         return obj.user.first_name
+
 
 class GuideTourCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -134,3 +133,5 @@ class GuideTourSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_working_with_orders(obj: models.GuideTour) -> str:
         return obj.get_working_with_orders_display()
+
+
