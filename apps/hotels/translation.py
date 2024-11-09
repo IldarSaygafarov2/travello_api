@@ -7,7 +7,6 @@ class HotelsTranslationOptions(TranslationOptions):
         'name',
         'country',
         'address',
-        'short_description',
         'full_description',
     )
 

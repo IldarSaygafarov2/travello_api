@@ -130,3 +130,4 @@ class UserTourRoute(models.Model):
 # class UserTourHotel(models.Model):
 #     user_tour = models.ForeignKey(UserTourRoute, on_delete=models.CASCADE, related_name='user_tour_route')
 #     hotel = models.ForeignKey("Hotel", on_delete=models.SET_NULL, related_name='user_tour_route')
+#

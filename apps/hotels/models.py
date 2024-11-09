@@ -60,30 +60,20 @@ class HotelFacilitiesChoices(models.TextChoices):
 
 class Hotel(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название отеля')
-    slug = models.SlugField(null=True, verbose_name='Слаг')
     preview = models.ImageField(upload_to='images/hotels/previews/', verbose_name='Превью фото')
     country = models.CharField(verbose_name='Страна', max_length=255)
     city = models.CharField(verbose_name='Город', max_length=100, null=True, blank=True)
     address = models.CharField(verbose_name='Адрес', max_length=500)
-    short_description = models.TextField(verbose_name='Краткое описание')
     full_description = models.TextField(verbose_name='Полное описание')
     stars = models.IntegerField(verbose_name='Кол-во звёзд отеля', choices=HotelStarsChoices.choices,
                                 default=HotelStarsChoices.FIVE)
     rating = models.CharField(max_length=15, choices=HotelRatingChoices.choices,
                               default=HotelRatingChoices.FOUR_POINT_FIVE, verbose_name='Рейтинг')
-    distance_to_airport = models.IntegerField(verbose_name='Расстояние до аэропорта, км')
-    latitude = models.FloatField(verbose_name='Широта', null=True, blank=True)
-    longitude = models.FloatField(verbose_name='Долгота', null=True, blank=True)
+
     nights = models.IntegerField(verbose_name='Кол-во ночей', default=0)
     total_people = models.IntegerField(verbose_name='Кол-во человек', default=0)
-    has_wifi = models.BooleanField(default=True, verbose_name='Есть вай-фай?')
-    is_meals_included = models.BooleanField(verbose_name='Питание включено?', default=True)
     allocation_type = models.CharField(max_length=50, verbose_name='Тип размещения',
                                        choices=HotelTypeOfAllocation.choices, null=True, blank=True)
-    beach_line = models.CharField(choices=HotelBeachLineChoices.choices, max_length=50, verbose_name='Линия пляжа',
-                                  null=True, blank=True)
-    beach_type = models.CharField(choices=HotelBeachTypeChoices.choices, max_length=50, verbose_name='Тип пляжа',
-                                  null=True, blank=True)
     food_type = models.CharField(choices=HotelFoodChoices.choices, max_length=50, null=True, blank=True)
     facility = models.CharField(choices=HotelFacilitiesChoices.choices, max_length=50, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotes', null=True, blank=True,
@@ -92,30 +82,10 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = 'Отель'
         verbose_name_plural = 'Отели'
 
-
-# class HotelBooking(models.Model):
-#     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='hotel_booking', verbose_name='Отель')
-#     hotel_room = models.ForeignKey('HotelRoom', on_delete=models.CASCADE, related_name='hotel_booking',
-#                                    verbose_name='Номер отеля')
-#     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotel', verbose_name='Тур')
-#     total_adult = models.PositiveIntegerField(verbose_name='Количество отдыхающих', default=0)
-#     total_children = models.PositiveIntegerField(verbose_name='Количество детей', default=0)
-#
-#     def __str__(self):
-#         return f'{self.hotel} - {self.event}'
-#
-#     class Meta:
-#         verbose_name = 'Бронь отеля'
-#         verbose_name_plural = 'Брони отелей'
 
 
 def gallery_image_path(instance, filename):
