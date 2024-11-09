@@ -111,8 +111,10 @@ def read_json(file_path: str):
 
 
 def make_tuple_choices(file_path: str):
-    data = read_json(file_path)
-    return [(i['code'], i['lang']) for i in data]
-
+    try:
+        data = read_json(file_path)
+        return [(i['code'], i['lang']) for i in data]
+    finally:
+        return []
 
 
