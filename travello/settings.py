@@ -14,11 +14,10 @@ SECRET_KEY = 'django-insecure-za7%24*32r%#r$!^25znrlooo5=5sz=dh(owsph%7f!g^z9&b$
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'travelloapi.pythonanywhere.com',
     '127.0.0.1',
-    '45.138.158.114',
+    '176.96.243.220',
     'travella-admin.uz',
-    '176.96.243.220'
+    'travellatestapi.pythonanywhere.com'
 ]
 
 INSTALLED_APPS = [
