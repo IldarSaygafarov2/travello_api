@@ -29,6 +29,7 @@ class Event(models.Model):
     full_description = models.TextField(verbose_name='Полное описание')
     preview = models.ImageField(verbose_name='Фото', upload_to=event_images_upload_to, blank=True)
     price = models.PositiveSmallIntegerField(verbose_name='Цена')
+    corporate_client_price = models.PositiveSmallIntegerField(default=0, verbose_name='Цена для корпоративных клиентов')
     country_from = models.CharField(verbose_name='Страна вылета', max_length=100, default='Ташкент')
     country = models.CharField(verbose_name='Страна ивента', max_length=100)
     event_start = models.DateField(verbose_name='Число начала ивента')

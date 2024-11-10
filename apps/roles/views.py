@@ -5,8 +5,17 @@ from rest_framework.response import Response
 
 from apps.users.models import User
 from apps.users.serializers import UserInfoSerializer
-from .models import Guide, GuideTour, GuidePassport
-from .serializers import GuideSerializer, GuideTourSerializer, GuidePassportSerializer
+from .models import (
+    Guide,
+    GuideTour,
+    GuidePassport, GuideTourExpectation
+)
+from .serializers import (
+    GuideSerializer,
+    GuideTourSerializer,
+    GuidePassportSerializer,
+    GuideTourCreateSerializer
+)
 
 
 @extend_schema(tags=['Guides'])
@@ -71,6 +80,43 @@ class GuideToursListView(generics.ListAPIView):
     serializer_class = GuideTourSerializer
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
+        user_id = self.kwargs.get('user_id')
+        if user_id is None:
+            return []
         qs = GuideTour.objects.filter(guide__user_id=user_id)
         return qs
+
+
+@extend_schema(tags=['Guides'])
+class GuideTourCreateView(generics.CreateAPIView):
+    queryset = GuideTour.objects.all()
+    serializer_class = GuideTourCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        user_id = kwargs.get('user_id')
+
+        guide = Guide.objects.get(user_id=user_id)
+        data['guide'] = guide.pk
+
+        expectations = data.pop('expectations')
+
+        organizational_details = data.pop('organizational_details')
+        schedules = data.pop('schedules')
+        photos = data.pop('photos')
+
+        serializer = self.serializer_class(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        serializer_data = serializer.data
+
+        for expectation in expectations:
+            expectation_obj = GuideTourExpectation.objects.create(
+                guide_tour_id=serializer_data['id'],
+                **expectation
+            )
+            expectation_obj.save()
+
+
+
+        return Response(serializer_data, status=201)

@@ -6,6 +6,42 @@ from helpers.main import make_tuple_choices
 LANGUAGES_CHOICES = make_tuple_choices('langs.json')
 
 
+class ModeOfTransportationChoices(models.TextChoices):
+    ON_FOOT = 'on_foot', 'Пешком'
+    BY_CAR = 'by_car', 'На авто'
+    INDOORS = 'indoors', 'В помещении'
+    BY_BIKE = 'by_bike', 'На велосипеде'
+    BY_BUS = 'by_bus', 'На автобусе'
+    ON_A_MOTORCYCLE = 'on_a_motorcycle', 'На мотоцикле'
+    ON_THE_SHIP = 'on_the_ship', 'На корабле'
+    OTHER = 'other', 'Другое (впишу сам)'
+
+    __empty__ = ''
+
+
+class TourDurationChoices(models.TextChoices):
+    HALF_OUR = 'half_our', 'Пол часа'
+    HOUR = 'hour', 'Час'
+    ONE_AND_HALF_OUR = 'one_and_half_our', '1,5 часа'
+
+    __empty__ = ''
+
+
+class NumberOfPeopleChoices(models.TextChoices):
+    WITH_CHILDREN = 'with_children', 'Можно с детьми'
+    PAY_FOR_CHILDREN = 'pay_for_children', 'Доплата за ребенка'
+
+    __empty__ = ''
+
+
+class WorkingWithOrders(models.TextChoices):
+    HALF_OUR = 'half_our', 'За пол часа'
+    HOUR = 'hour', 'За час'
+    ANY_TIME = 'any_time', 'Можно бронировать в любой момент'
+
+    __empty__ = ''
+
+
 class Guide(models.Model):
     user = models.OneToOneField(
         User,
@@ -50,78 +86,22 @@ class GuideLanguage(models.Model):
 
 
 class GuideTour(models.Model):
-    class TourDurationChoices(models.TextChoices):
-        HALF_OUR = 'half_our', 'Пол часа'
-        HOUR = 'hour', 'Час'
-        ONE_AND_HALF_OUR = 'one_and_half_our', '1,5 часа'
+    guide = models.ForeignKey(Guide, on_delete=models.CASCADE, verbose_name='Гид', related_name='routes')
 
-        __empty__ = ''
+    title = models.CharField(verbose_name='Название маршрута', max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
+    additional = models.TextField(verbose_name='Дополнительно', null=True, blank=True)
+    city = models.CharField(verbose_name='Город', max_length=100, null=True, blank=True)
+    gathering_place = models.CharField(verbose_name='Место встречи', max_length=100, null=True, blank=True)
+    language = models.CharField(verbose_name='Язык', max_length=250, null=True, blank=True)
+    duration = models.CharField(verbose_name='Длительность маршрута', max_length=150, null=True, blank=True)
+    participants_number = models.CharField(verbose_name='Количество участников', max_length=150, null=True, blank=True)
+    transportation_type = models.CharField(verbose_name='Способ передвижения', blank=True, null=True, max_length=100,
+                                           choices=ModeOfTransportationChoices.choices)
+    price = models.IntegerField(verbose_name='Цена')
+    working_with_orders = models.CharField(verbose_name='Работа с заказами',
+                                           choices=WorkingWithOrders.choices, max_length=50, null=True, blank=True)
 
-    class NumberOfPeopleChoices(models.TextChoices):
-        WITH_CHILDREN = 'with_children', 'Можно с детьми'
-        PAY_FOR_CHILDREN = 'pay_for_children', 'Доплата за ребенка'
-
-        __empty__ = ''
-
-    class ModeOfTransportationChoices(models.TextChoices):
-        ON_FOOT = 'on_foot', 'Пешком'
-        BY_CAR = 'by_car', 'На авто'
-        INDOORS = 'indoors', 'В помещении'
-        BY_BIKE = 'by_bike', 'На велосипеде'
-        BY_BUS = 'by_bus', 'На автобусе'
-        ON_A_MOTORCYCLE = 'on_a_motorcycle', 'На мотоцикле'
-        ON_THE_SHIP = 'on_the_ship', 'На корабле'
-        OTHER = 'other', 'Другое (впишу сам)'
-
-        __empty__ = ''
-
-    class WorkingWithOrders(models.TextChoices):
-        HALF_OUR = 'half_our', 'За пол часа'
-        HOUR = 'hour', 'За час'
-        ANY_TIME = 'any_time', 'Можно бронировать в любой момент'
-
-        __empty__ = ''
-
-    guide = models.ForeignKey(
-        Guide,
-        on_delete=models.CASCADE,
-        verbose_name='Гид'
-    )
-    title = models.CharField(verbose_name='Название маршрута', max_length=255)
-    description = models.TextField(verbose_name='Описание программы')
-    additional = models.TextField(verbose_name='Дополнительно')
-    city = models.CharField(verbose_name='Город', max_length=255)
-    gathering_place = models.TextField(verbose_name='Место встречи')
-    language = models.CharField(
-        verbose_name='Язык',
-        max_length=50,
-        choices=LANGUAGES_CHOICES,
-        null=True, blank=True
-    )
-    tour_duration = models.CharField(
-        verbose_name='Длительность проведения',
-        choices=TourDurationChoices.choices,
-        blank=True, null=True,
-        max_length=100
-    )
-    number_of_people = models.CharField(
-        verbose_name='Количество участников',
-        choices=NumberOfPeopleChoices.choices,
-        blank=True, null=True, max_length=100
-    )
-    mode_of_transportation = models.CharField(
-        verbose_name='Способ передвижения',
-        choices=ModeOfTransportationChoices.choices,
-        blank=True, null=True,
-        max_length=100
-    )
-    working_with_orders = models.CharField(
-        verbose_name='Работа с заказами',
-        choices=WorkingWithOrders.choices,
-        blank=True, null=True,
-        max_length=100
-    )
-    price = models.IntegerField(verbose_name='Цена', default=0)
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата добавления'

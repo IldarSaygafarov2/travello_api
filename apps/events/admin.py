@@ -33,7 +33,7 @@ class EventTourProgramAdmin(NestedStackedInline, TranslationStackedInline):
 
 
 class EventAdmin(NestedModelAdmin, TranslationAdmin):
-    list_display = ['pk', 'title', 'price', 'country', 'event_start', 'event_end', 'event_type']
+    list_display = ['pk', 'title', 'price', 'corporate_client_price', 'country', 'event_start', 'event_end', 'event_type']
     list_display_links = ['pk', 'title']
     list_editable = ['price', 'event_type', 'event_start', 'event_end', ]
     list_filter = ['event_type']

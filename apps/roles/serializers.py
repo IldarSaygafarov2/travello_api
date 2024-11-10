@@ -5,6 +5,7 @@ from apps.users.serializers import UserInfoSerializer, PassportSerializer
 from . import models
 from .models import Guide
 
+
 class GuideLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GuideLanguage
@@ -40,34 +41,18 @@ class GuideProfileSerializer(serializers.ModelSerializer):
         return obj.user.first_name
 
 
-class GuideTourCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.GuideTour
-        fields = [
-            'title',
-            'description',
-            'additional',
-            'city',
-            'gathering_place',
-            'language',
-            'tour_duration',
-            'number_of_people',
-            'mode_of_transportation',
-            'working_with_orders',
-            'price',
-        ]
 
 
 class GuideTourExpectationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GuideTourExpectation
-        fields = ['id', 'text']
+        fields = ['id', 'guide_tour', 'text']
 
 
 class GuideTourOrganizationalDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GuideTourOrganizationalDetail
-        fields = ['id', 'text']
+        fields = ['id', 'guide_tour', 'text']
 
 
 class GuideScheduleSerializer(serializers.ModelSerializer):
@@ -87,11 +72,11 @@ class GuideTourSerializer(serializers.ModelSerializer):
     organizational_details = GuideTourOrganizationalDetailSerializer(many=True)
     schedules = GuideScheduleSerializer(many=True)
     photos = GuideTourPhotoSerializer(many=True)
-    language = serializers.SerializerMethodField(method_name='get_language')
-    tour_duration = serializers.SerializerMethodField(method_name='get_tour_duration')
-    number_of_people = serializers.SerializerMethodField(method_name='get_number_of_people')
-    mode_of_transportation = serializers.SerializerMethodField(method_name='get_mode_of_transportation')
-    working_with_orders = serializers.SerializerMethodField(method_name='get_working_with_orders')
+    # language = serializers.SerializerMethodField(method_name='get_language')
+    # tour_duration = serializers.SerializerMethodField(method_name='get_tour_duration')
+    # number_of_people = serializers.SerializerMethodField(method_name='get_number_of_people')
+    # mode_of_transportation = serializers.SerializerMethodField(method_name='get_mode_of_transportation')
+    # working_with_orders = serializers.SerializerMethodField(method_name='get_working_with_orders')
 
     class Meta:
         model = models.GuideTour
@@ -103,10 +88,10 @@ class GuideTourSerializer(serializers.ModelSerializer):
             'city',
             'gathering_place',
             'language',
-            'tour_duration',
-            'number_of_people',
-            'mode_of_transportation',
-            'working_with_orders',
+            # 'tour_duration',
+            # 'number_of_people',
+            # 'mode_of_transportation',
+            # 'working_with_orders',
             'price',
             'expectations',
             'organizational_details',
@@ -114,24 +99,50 @@ class GuideTourSerializer(serializers.ModelSerializer):
             'photos',
         ]
 
-    @staticmethod
-    def get_language(obj: models.GuideTour) -> str:
-        return obj.get_language_display()
+    # @staticmethod
+    # def get_language(obj: models.GuideTour) -> str:
+    #     return obj.get_language_display()
+    #
+    # @staticmethod
+    # def get_tour_duration(obj: models.GuideTour) -> str:
+    #     return obj.get_tour_duration_display()
+    #
+    # @staticmethod
+    # def get_number_of_people(obj: models.GuideTour) -> str:
+    #     return obj.get_number_of_people_display()
+    #
+    # @staticmethod
+    # def get_mode_of_transportation(obj: models.GuideTour) -> str:
+    #     return obj.get_mode_of_transportation_display()
+    #
+    # @staticmethod
+    # def get_working_with_orders(obj: models.GuideTour) -> str:
+    #     return obj.get_working_with_orders_display()
 
-    @staticmethod
-    def get_tour_duration(obj: models.GuideTour) -> str:
-        return obj.get_tour_duration_display()
 
-    @staticmethod
-    def get_number_of_people(obj: models.GuideTour) -> str:
-        return obj.get_number_of_people_display()
+class GuideTourCreateSerializer(serializers.ModelSerializer):
+    expectations = GuideTourExpectationSerializer(many=True, required=False)
+    organizational_details = GuideTourOrganizationalDetailSerializer(many=True, required=False)
+    schedules = GuideScheduleSerializer(many=True, required=False)
+    photos = GuideTourPhotoSerializer(many=True, required=False)
 
-    @staticmethod
-    def get_mode_of_transportation(obj: models.GuideTour) -> str:
-        return obj.get_mode_of_transportation_display()
-
-    @staticmethod
-    def get_working_with_orders(obj: models.GuideTour) -> str:
-        return obj.get_working_with_orders_display()
-
-
+    class Meta:
+        model = models.GuideTour
+        fields = [
+            'id',
+            'guide',
+            'title',
+            'description',
+            'additional',
+            'city',
+            'gathering_place',
+            'language',
+            'duration',
+            'participants_number',
+            'transportation_type',
+            'price',
+            'expectations',
+            'organizational_details',
+            'schedules',
+            'photos',
+        ]

@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'apps.events.apps.EventsConfig',
     'apps.main.apps.MainConfig',
     'apps.hotels.apps.HotelsConfig',
-    'apps.notifications.apps.NotificationsConfig',
     'apps.corporate_clients.apps.CorporateClientsConfig',
     'apps.tours_favorites.apps.ToursFavoritesConfig',
     'apps.tours_booked.apps.ToursBookedConfig',
@@ -124,7 +123,6 @@ MODELTRANSLATION_TRANSLATION_FILES = (
     'apps.events.translation',
     'apps.hotels.translation',
     'apps.main.translation',
-    'apps.notifications.translation',
     'apps.reviews.translation',
 )
 # MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'

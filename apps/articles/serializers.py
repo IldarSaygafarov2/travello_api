@@ -6,7 +6,7 @@ from .models import Article, ArticleDecoratedTextItem, ArticleTextItem, ArticleI
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['id', 'title', 'short_description', 'preview_img', 'slug']
+        fields = ['id', 'title', 'short_description', 'preview_img', 'slug', 'show_on_home_page']
 
 
 class ArticleDecoratedTextItemSerializer(serializers.ModelSerializer):

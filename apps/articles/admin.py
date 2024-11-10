@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Article, ArticleTextItem, ArticleImageItem, ArticleTopParagraphs, ArticleDecoratedTextItem
 from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
+
+from .models import Article, ArticleTextItem, ArticleImageItem, ArticleTopParagraphs, ArticleDecoratedTextItem
+
 
 class ArticleTextItemInline(TranslationStackedInline):
     model = ArticleTextItem
@@ -24,9 +26,10 @@ class ArticleDecoratedTextItemInline(TranslationStackedInline):
 
 @admin.register(Article)
 class ArticleAdmin(TranslationAdmin):
-    list_display = ['id', 'title', 'published_at']
+    list_display = ['id', 'title', 'published_at', 'show_on_home_page']
     list_display_links = ['id', 'title']
     prepopulated_fields = {'slug': ('title',)}
+    list_editable = ['show_on_home_page']
     inlines = [
         ArticleTopParagraphsInline,
         ArticleTextItemInline,

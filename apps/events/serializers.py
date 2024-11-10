@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from apps.users.serializers import TouristSerializer, ChildrenSerializer
+
 from . import models
-from ..users.models import Tourist
 
 
 class EventGallerySerializer(serializers.ModelSerializer):
@@ -52,6 +51,7 @@ class EventSerializer(serializers.ModelSerializer):
             'slug',
             'preview',
             'price',
+            'corporate_client_price',
             'country',
             'event_start',
             'event_end',
@@ -73,8 +73,9 @@ class EventSimpleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Event
-        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'rating', 'event_start', 'event_end', 'event_type',
-                  'is_event_top']
+        fields = ['id', 'title', 'preview', 'slug', 'days', 'price', 'corporate_client_price', 'rating', 'event_start',
+                  'event_end', 'event_type', 'is_event_top']
 
-    def get_rating(self, obj):
+    @staticmethod
+    def get_rating(obj: models.Event):
         return obj.get_rating_display()

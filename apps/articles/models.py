@@ -9,6 +9,7 @@ class Article(models.Model):
     quote = models.CharField(verbose_name='Цитата', null=True, blank=True, max_length=100)
     published_at = models.DateField(auto_now_add=True)
     slug = models.SlugField(max_length=100, unique=True, null=True)
+    show_on_home_page = models.BooleanField(default=False, verbose_name='Показывать на главную стронице?')
 
     def __str__(self):
         return self.title
