@@ -58,7 +58,7 @@ class GuideTourOrganizationalDetailSerializer(serializers.ModelSerializer):
 class GuideScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GuideSchedule
-        fields = ['id', 'date', 'time']
+        fields = ['id', 'guide_tour', 'date', 'time']
 
 
 class GuideTourPhotoSerializer(serializers.ModelSerializer):

@@ -1,3 +1,5 @@
+from shutil import get_terminal_size
+
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
@@ -8,13 +10,16 @@ from apps.users.serializers import UserInfoSerializer
 from .models import (
     Guide,
     GuideTour,
-    GuidePassport, GuideTourExpectation
+    GuidePassport,
+    GuideTourExpectation,
+    GuideTourOrganizationalDetail, GuideSchedule
 )
 from .serializers import (
     GuideSerializer,
     GuideTourSerializer,
     GuidePassportSerializer,
-    GuideTourCreateSerializer
+    GuideTourCreateSerializer,
+    GuideTourExpectationSerializer, GuideTourOrganizationalDetailSerializer, GuideScheduleSerializer
 )
 
 
@@ -51,7 +56,7 @@ class GuideUpdateView(generics.UpdateAPIView):
         )
 
         guide_passport_serializer = GuidePassportSerializer(guide_passport, data=passport_data,
-                                                             partial=True)
+                                                            partial=True)
         guide_passport_serializer.is_valid(raise_exception=True)
         guide_passport_serializer.save()
 
@@ -87,6 +92,54 @@ class GuideToursListView(generics.ListAPIView):
         return qs
 
 
+def save_model_nested_data(data, serializer_data, model, serializer_class):
+    result = []
+
+    for item in data:
+        item['guide_tour'] = serializer_data['id']
+        guide_tour_id = item.pop('guide_tour')
+        obj = model.objects.create(
+            guide_tour_id=guide_tour_id,
+            **item
+        )
+        obj.save()
+        obj_serializer = serializer_class(obj)
+        result.append(obj_serializer.data)
+    return result
+
+
+# def save_tour_expectations(expectations, serializer_data):
+#     expectations_result = []
+#
+#     for expectation in expectations:
+#         expectation['guide_tour'] = serializer_data['id']
+#         expectation_obj = GuideTourExpectation.objects.create(
+#             guide_tour_id=expectation['guide_tour'],
+#             text=expectation['text'],
+#         )
+#         expectation_obj.save()
+#         expectations_data = GuideTourExpectationSerializer(expectation_obj)
+#         expectations_result.append(expectations_data.data)
+#
+#     return expectations_result
+#
+#
+# def save_organizational_details(organizational_details, serializer_data):
+#     result = []
+#
+#     for organizational_detail in organizational_details:
+#         organizational_detail['guide_tour'] = serializer_data['id']
+#         expectation_obj = GuideTourOrganizationalDetail.objects.create(
+#             guide_tour_id=organizational_detail['guide_tour'],
+#             text=organizational_detail['text'],
+#         )
+#         expectation_obj.save()
+#         expectations_data = GuideTourExpectationSerializer(expectation_obj)
+#         result.append(expectations_data.data)
+#
+#     return result
+
+
 @extend_schema(tags=['Guides'])
 class GuideTourCreateView(generics.CreateAPIView):
     queryset = GuideTour.objects.all()
@@ -105,18 +158,30 @@ class GuideTourCreateView(generics.CreateAPIView):
         schedules = data.pop('schedules')
         photos = data.pop('photos')
 
-        serializer = self.serializer_class(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        serializer_data = serializer.data
+        guide_route_serializer = self.serializer_class(data=data)
+        guide_route_serializer.is_valid(raise_exception=True)
+        guide_route_serializer.save()
+        serializer_data = guide_route_serializer.data
 
-        for expectation in expectations:
-            expectation_obj = GuideTourExpectation.objects.create(
-                guide_tour_id=serializer_data['id'],
-                **expectation
-            )
-            expectation_obj.save()
+        serializer_data['expectations'] = save_model_nested_data(
+            data=expectations,
+            serializer_data=serializer_data,
+            model=GuideTourExpectation,
+            serializer_class=GuideTourExpectationSerializer
+        )
 
+        serializer_data['organizational_details'] = save_model_nested_data(
+            data=organizational_details,
+            serializer_data=serializer_data,
+            model=GuideTourOrganizationalDetail,
+            serializer_class=GuideTourOrganizationalDetailSerializer
+        )
 
+        serializer_data['schedules'] = save_model_nested_data(
+            data=schedules,
+            serializer_data=serializer_data,
+            model=GuideSchedule,
+            serializer_class=GuideScheduleSerializer
+        )
 
         return Response(serializer_data, status=201)

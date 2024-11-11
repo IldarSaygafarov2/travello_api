@@ -1,7 +1,6 @@
 from ckeditor.fields import RichTextField
 from django.db import models
 
-from apps.users.models import Tourist, Children, User
 
 
 class HotelRatingChoices(models.TextChoices):
