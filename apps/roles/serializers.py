@@ -29,6 +29,18 @@ class GuideSerializer(serializers.ModelSerializer):
         fields = ['pk', 'info', 'passport_data', 'about_me', 'avatar', 'languages']
 
 
+class GuideListSerializer(serializers.ModelSerializer):
+    first_name = serializers.SerializerMethodField(method_name='get_first_name')
+
+    class Meta:
+        model = models.Guide
+        fields = ['id', 'first_name', 'avatar', 'experience', 'price']
+
+    @staticmethod
+    def get_first_name(obj: models.Guide) -> str:
+        return obj.user.first_name
+
+
 class GuideProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.SerializerMethodField(method_name='get_first_name')
 
@@ -39,8 +51,6 @@ class GuideProfileSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_first_name(obj: Guide) -> str:
         return obj.user.first_name
-
-
 
 
 class GuideTourExpectationSerializer(serializers.ModelSerializer):
@@ -72,6 +82,7 @@ class GuideTourSerializer(serializers.ModelSerializer):
     organizational_details = GuideTourOrganizationalDetailSerializer(many=True)
     schedules = GuideScheduleSerializer(many=True)
     photos = GuideTourPhotoSerializer(many=True)
+
     # language = serializers.SerializerMethodField(method_name='get_language')
     # tour_duration = serializers.SerializerMethodField(method_name='get_tour_duration')
     # number_of_people = serializers.SerializerMethodField(method_name='get_number_of_people')

@@ -76,7 +76,7 @@ class Hotel(models.Model):
                                        choices=HotelTypeOfAllocation.choices, null=True, blank=True)
     food_type = models.CharField(choices=HotelFoodChoices.choices, max_length=50, null=True, blank=True)
     facility = models.CharField(choices=HotelFacilitiesChoices.choices, max_length=50, null=True, blank=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotes', null=True, blank=True,
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_hotels', null=True, blank=True,
                               verbose_name='Тур')
 
     def __str__(self):
@@ -101,38 +101,11 @@ class HotelGallery(models.Model):
         verbose_name_plural = 'Фотки отеля'
 
 
-class HotelFacility(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='Отель', related_name='facilities')
-    name = models.CharField(verbose_name='Удобство', max_length=255)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Удобство отеля'
-        verbose_name_plural = 'Удобства отеля'
-
-
-class HotelEntertainment(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='entertainment', verbose_name='Отель')
-    name = models.TextField(verbose_name='Развлечение')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Развлечение'
-        verbose_name_plural = 'Развлечения'
-
-
 class HotelRoom(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='Отель', related_name='rooms')
     name = models.CharField(verbose_name='Название номера', max_length=255)
-    is_all_inclusive = models.BooleanField(default=True, verbose_name='Все включено?')
     description = models.TextField(verbose_name='Удобства в номере')
-    nights = models.IntegerField(verbose_name='Кол-во ночей')
     price = models.IntegerField(verbose_name='Цена')
-    until = models.DateField(verbose_name='До')
 
     def __str__(self):
         return f'{self.hotel.name}: {self.name}'

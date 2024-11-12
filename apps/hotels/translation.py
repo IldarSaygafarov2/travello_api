@@ -1,4 +1,5 @@
 from modeltranslation.translator import TranslationOptions, translator
+
 from . import models
 
 
@@ -8,18 +9,6 @@ class HotelsTranslationOptions(TranslationOptions):
         'country',
         'address',
         'full_description',
-    )
-
-
-class HotelFacilitiesTranslationOptions(TranslationOptions):
-    fields = (
-        'name',
-    )
-
-
-class HotelEntertainmentTranslationOptions(TranslationOptions):
-    fields = (
-        'name',
     )
 
 
@@ -37,7 +26,5 @@ class HotelRoomFacilitiesTranslationOptions(TranslationOptions):
 
 
 translator.register(models.Hotel, HotelsTranslationOptions)
-translator.register(models.HotelFacility, HotelFacilitiesTranslationOptions)
-translator.register(models.HotelEntertainment, HotelEntertainmentTranslationOptions)
 translator.register(models.HotelRoom, HotelRoomTranslationOptions)
 translator.register(models.HotelRoomFacilities, HotelRoomFacilitiesTranslationOptions)

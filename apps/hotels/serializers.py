@@ -31,11 +31,8 @@ class HotelRoomSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
-            'is_all_inclusive',
             'description',
-            'nights',
             'price',
-            'until',
             'hotel',
             'room_images',
             'room_facilities',
@@ -46,22 +43,12 @@ class HotelRoomSerializer(serializers.ModelSerializer):
 
 
 # hotel serializers start
-class HotelEntertainmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.HotelEntertainment
-        fields = ['id', 'name']
 
 
 class HotelGallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelGallery
         fields = ['id', 'photo']
-
-
-class HotelFacilitiesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.HotelFacility
-        fields = ['id', 'name']
 
 
 class HotelListSerializer(serializers.ModelSerializer):
@@ -83,8 +70,6 @@ class HotelListSerializer(serializers.ModelSerializer):
 
 class HotelDetailSerializer(serializers.ModelSerializer):
     hotel_gallery = HotelGallerySerializer(many=True, read_only=True)
-    hotel_facilities = HotelFacilitiesSerializer(many=True, read_only=True, source='facilities')
-    hotel_entertainment = HotelEntertainmentSerializer(many=True, read_only=True, source='entertainment')
     rooms = HotelRoomSerializer(many=True, read_only=True)
 
     allocation_type = serializers.SerializerMethodField(method_name='get_allocation_type')
@@ -103,8 +88,6 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             'total_people',
             'event',
             'hotel_gallery',
-            'hotel_facilities',
-            'hotel_entertainment',
             'rooms'
         ]
 

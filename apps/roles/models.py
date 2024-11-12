@@ -57,6 +57,7 @@ class Guide(models.Model):
         blank=True
     )
     experience = models.IntegerField(verbose_name='Стаж', null=True, blank=True)
+    price = models.IntegerField(verbose_name='Цена за тур', null=True, blank=True)
 
     def __str__(self):
         return self.user.first_name

@@ -16,6 +16,7 @@ from .models import (
 )
 from .serializers import (
     GuideSerializer,
+    GuideListSerializer,
     GuideTourSerializer,
     GuidePassportSerializer,
     GuideTourCreateSerializer,
@@ -185,3 +186,9 @@ class GuideTourCreateView(generics.CreateAPIView):
         )
 
         return Response(serializer_data, status=201)
+
+
+@extend_schema(tags=['Guides'])
+class GuideListView(generics.ListAPIView):
+    queryset = Guide.objects.all()
+    serializer_class = GuideListSerializer
