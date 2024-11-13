@@ -21,9 +21,6 @@ class HotelRoomFacilityInline(nested_admin.NestedStackedInline, TranslationStack
 
 
 class HotelRoomInline(nested_admin.NestedStackedInline, TranslationStackedInline):
-
-
-    
     fields = ['name', 'description', 'price']
     model = models.HotelRoom
     extra = 1

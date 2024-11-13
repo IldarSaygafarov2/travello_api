@@ -5,7 +5,15 @@ from rest_framework.validators import UniqueValidator
 
 from helpers.main import SMSService
 from . import messages
-from .models import User, Passport, Tourist, Children, UserTourRoute
+from .models import (
+    User,
+    Passport,
+    Tourist,
+    Children,
+    UserTourRoute,
+    UserTourHotel,
+    UserTourTransport
+)
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -209,9 +217,19 @@ class UserRouteSerializer(serializers.ModelSerializer):
         return []
 
 
+class UserTourHotelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserTourHotel
+        fields = [
+            'user_route',
+            'hotel'
+        ]
+
+
 class UserRouteCreateSerializer(serializers.ModelSerializer):
     tourists = TouristSerializer(many=True, source='user.tourists', required=False)
+    hotels = UserTourHotelSerializer(many=True, required=False)
 
     class Meta:
         model = UserTourRoute
-        fields = ['tourists']
+        fields = ['tourists', 'hotels']
