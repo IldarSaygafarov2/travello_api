@@ -21,6 +21,8 @@ class HotelRoomFacilityInline(TranslationStackedInline):
 
 @admin.register(models.HotelRoom)
 class HotelRoomAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'name']
+    list_display_links = ['pk', 'name']
     inlines = [HotelRoomImageInline, HotelRoomFacilityInline]
 
 

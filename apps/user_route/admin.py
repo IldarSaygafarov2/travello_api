@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import (
+    UserTourRoute,
+)
+
+
+@admin.register(UserTourRoute)
+class UserTourRouteAdmin(admin.ModelAdmin):
+    pass

@@ -7,6 +7,6 @@ from .views import (
 
 urlpatterns = [
     path('<int:pk>/routes/', UserTourRouteView.as_view(), name='user-routes'),
-    path('<int:pk>/routes/', UserTourCreateView.as_view(), name='user-routes-create'),
+    path('<int:pk>/routes/create', UserTourCreateView.as_view(), name='user-routes-create'),
 ]
 
