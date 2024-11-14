@@ -109,38 +109,6 @@ def save_model_nested_data(data, serializer_data, model, serializer_class):
     return result
 
 
-# def save_tour_expectations(expectations, serializer_data):
-#     expectations_result = []
-#
-#     for expectation in expectations:
-#         expectation['guide_tour'] = serializer_data['id']
-#         expectation_obj = GuideTourExpectation.objects.create(
-#             guide_tour_id=expectation['guide_tour'],
-#             text=expectation['text'],
-#         )
-#         expectation_obj.save()
-#         expectations_data = GuideTourExpectationSerializer(expectation_obj)
-#         expectations_result.append(expectations_data.data)
-#
-#     return expectations_result
-#
-#
-# def save_organizational_details(organizational_details, serializer_data):
-#     result = []
-#
-#     for organizational_detail in organizational_details:
-#         organizational_detail['guide_tour'] = serializer_data['id']
-#         expectation_obj = GuideTourOrganizationalDetail.objects.create(
-#             guide_tour_id=organizational_detail['guide_tour'],
-#             text=organizational_detail['text'],
-#         )
-#         expectation_obj.save()
-#         expectations_data = GuideTourExpectationSerializer(expectation_obj)
-#         result.append(expectations_data.data)
-#
-#     return result
-
-
 @extend_schema(tags=['Guides'])
 class GuideTourCreateView(generics.CreateAPIView):
     queryset = GuideTour.objects.all()

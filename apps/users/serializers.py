@@ -10,10 +10,8 @@ from .models import (
     Passport,
     Tourist,
     Children,
-    UserTourRoute,
-    UserTourHotel,
-    UserTourTransport
 )
+from apps.hotels.serializers import HotelDetailSerializer, HotelRoomSerializer
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -172,64 +170,4 @@ class UserInfoSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserRouteSerializer(serializers.ModelSerializer):
-    tourists = serializers.SerializerMethodField(method_name='get_tourists')
-    hotels = serializers.SerializerMethodField(method_name='get_hotels')
-    transports = serializers.SerializerMethodField(method_name='get_transports')
-    guide = serializers.SerializerMethodField(method_name='get_guide')
-    insurance = serializers.SerializerMethodField(method_name='get_insurance')
-    additional_services = serializers.SerializerMethodField(method_name='get_additional_services')
 
-    class Meta:
-        model = UserTourRoute
-        fields = [
-            'pk',
-            'tourists',
-            'hotels',
-            'transports',
-            'guide',
-            'insurance',
-            'additional_services'
-        ]
-
-    @staticmethod
-    def get_tourists(obj):
-        return []
-
-    @staticmethod
-    def get_hotels(obj):
-        return []
-
-    @staticmethod
-    def get_transports(obj):
-        return []
-
-    @staticmethod
-    def get_guide(obj):
-        return []
-
-    @staticmethod
-    def get_insurance(obj):
-        return []
-
-    @staticmethod
-    def get_additional_services(obj):
-        return []
-
-
-class UserTourHotelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserTourHotel
-        fields = [
-            'user_route',
-            'hotel'
-        ]
-
-
-class UserRouteCreateSerializer(serializers.ModelSerializer):
-    tourists = TouristSerializer(many=True, source='user.tourists', required=False)
-    hotels = UserTourHotelSerializer(many=True, required=False)
-
-    class Meta:
-        model = UserTourRoute
-        fields = ['tourists', 'hotels']

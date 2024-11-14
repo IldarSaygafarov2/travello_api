@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'apps.users_auth.apps.UsersAuthConfig',
     'apps.users.apps.UsersConfig',
+    'apps.user_route.apps.UserRouteConfig',
     'apps.articles.apps.ArticlesConfig',
     'apps.reviews.apps.ReviewsConfig',
     'apps.events.apps.EventsConfig',

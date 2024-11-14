@@ -5,6 +5,8 @@ from apps.tours_booked.views import EventBookingViewSet
 from apps.tours_favorites.views import FavoriteTourView
 from . import views
 
+from apps.user_route.urls import urlpatterns as user_route_urls
+
 router = routers.DefaultRouter()
 router.register('', views.UserDataView)
 
@@ -27,9 +29,9 @@ app_name = 'users'
 
 urlpatterns = [
     path('<int:pk>/info/update/', views.UserDataUpdateView.as_view(), name='user-data-update'),
-    path('<int:pk>/routes/', views.UserTourRouteView.as_view(), name='user-routes'),
-    path('<int:pk>/routes/', views.UserTourCreateView.as_view(), name='user-routes-create'),
+
 ]
+urlpatterns.extend(user_route_urls)
 
 urlpatterns += (router.urls +
                 tourists_router.urls +

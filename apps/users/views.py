@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 
 from . import serializers
-from .models import User, Tourist, Children, Passport, UserTourRoute
+from .models import User, Tourist, Children, Passport
 
 
 @extend_schema(tags=['Users'])
@@ -44,13 +44,3 @@ class ChildrenView(viewsets.ModelViewSet):
         return {'request': self.request, 'user_pk': self.kwargs['user_pk']}
 
 
-@extend_schema(tags=['Users'])
-class UserTourRouteView(generics.ListAPIView):
-    queryset = UserTourRoute.objects.all()
-    serializer_class = serializers.UserRouteSerializer
-
-
-@extend_schema(tags=['Users'])
-class UserTourCreateView(generics.CreateAPIView):
-    queryset = UserTourRoute.objects.all()
-    serializer_class = serializers.UserRouteCreateSerializer
