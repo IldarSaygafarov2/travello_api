@@ -145,7 +145,8 @@ class UserDataSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'birth_date', 'email', 'phone_number', 'gender', 'passport_data',
                   'tourists', 'children']
 
-    def get_passport_data(self, obj) -> ReturnDict:
+    @staticmethod
+    def get_passport_data(obj) -> ReturnDict:
         passport = obj.passport_data.first()
         serializer = PassportSerializer(passport, many=False)
         return serializer.data

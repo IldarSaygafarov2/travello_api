@@ -8,12 +8,13 @@ from apps.users.models import (
 )
 from apps.users.serializers import TouristSerializer
 from .models import (
-    UserTourRoute
+    UserTourRoute, UserTourHotel
 )
 from .serializers import (
     UserRouteSerializer,
-    UserRouteCreateSerializer
+    UserRouteCreateSerializer, UserTourHotelSerializer
 )
+from ..hotels.models import Hotel, HotelRoom
 
 
 @extend_schema(tags=['Users'])
@@ -52,12 +53,33 @@ class UserTourCreateView(generics.CreateAPIView):
             tourists_serializer = TouristSerializer(obj, many=False)
             tourists_data.append(tourists_serializer.data)
 
+
+
         user_route_serializer = self.serializer_class(data=data)
         user_route_serializer.is_valid(raise_exception=True)
         user_route_serializer.save()
-
         user_route_data = user_route_serializer.data
+
+        user_route_obj = UserTourRoute.objects.get(pk=user_route_data['id'])
+
         user_route_data['tourists'] = tourists_data
+        hotels_data = []
+        for hotel in hotels:
+            hotel_obj = Hotel.objects.get(pk=hotel['hotel'])
+            room_obj = HotelRoom.objects.get(pk=hotel['room'])
+
+            hotel['user_route'] = user_route_obj
+            hotel['hotel'] = hotel_obj
+            hotel['room'] = room_obj
+
+            obj = UserTourHotel.objects.create(**hotel)
+            obj.save()
+
+            user_hotels_serializer = UserTourHotelSerializer(obj, many=False)
+            hotels_data.append(user_hotels_serializer.data)
+
+        user_route_data['hotels'] = hotels_data
+
         return Response(user_route_data, status=201)
 
 

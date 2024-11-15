@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 
 from apps.users.serializers import TouristSerializer
-
+from apps.users.models import Tourist
 
 from .models import (
     UserTourRoute,
@@ -11,8 +11,7 @@ from .models import (
     UserRouteGuide,
     UserRouteAdditionalService
 )
-
-
+from ..hotels.models import Hotel
 
 
 class UserTourHotelSerializer(serializers.ModelSerializer):
@@ -51,12 +50,13 @@ class UserRouteAdditionalServiceSerializer(serializers.ModelSerializer):
 
 
 class UserRouteSerializer(serializers.ModelSerializer):
-    tourists = TouristSerializer(many=True)
-    hotels = UserTourHotelSerializer(many=True)
-    transports = UserTourTransportSerializer(many=True)
-    guide = UserRouteGuideSerializer(many=True)
-    insurance = serializers.SerializerMethodField(method_name='get_insurance')
-    additional_services = UserRouteAdditionalServiceSerializer(many=True)
+    tourists = serializers.SerializerMethodField(method_name='get_tourists')
+    hotels = serializers.SerializerMethodField(method_name='get_hotels')
+    # transports = UserTourTransportSerializer(many=True)
+    # guide = UserRouteGuideSerializer(many=True)
+    # additional_services = UserRouteAdditionalServiceSerializer(many=True)
+    #
+    # insurance = serializers.SerializerMethodField(method_name='get_insurance')
 
     class Meta:
         model = UserTourRoute
@@ -64,18 +64,22 @@ class UserRouteSerializer(serializers.ModelSerializer):
             'id',
             'tourists',
             'hotels',
-            'transports',
-            'guide',
-            'insurance',
-            'additional_services'
+            # 'transports',
+            # 'guide',
+            # 'insurance',
+            # 'additional_services'
         ]
 
     @staticmethod
-    def get_tourists(obj):
-        return []
+    def get_tourists(obj:  UserTourRoute):
+        tourists = Tourist.objects.filter(user=obj.user)
+        tourists_serializer = TouristSerializer(tourists, many=True)
+        return tourists_serializer.data
 
     @staticmethod
-    def get_hotels(obj):
+    def get_hotels(obj: UserTourRoute):
+        user_route_hotel = UserTourHotel.objects.filter(user_route=obj)
+        print(user_route_hotel)
         return []
 
     @staticmethod
@@ -104,4 +108,4 @@ class UserRouteCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserTourRoute
-        fields = ['user', 'tourists', 'hotels', 'transports', 'guides', 'additional_services']
+        fields = ['id', 'user', 'tourists', 'hotels', 'transports', 'guides', 'additional_services']
