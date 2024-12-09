@@ -7,12 +7,16 @@ from apps.users.models import (
     Tourist
 )
 from apps.users.serializers import TouristSerializer
+
 from .models import (
-    UserTourRoute, UserTourHotel
+    UserTourRoute,
+    UserTourHotel, UserTourTransport
 )
 from .serializers import (
     UserRouteSerializer,
-    UserRouteCreateSerializer, UserTourHotelSerializer
+    UserRouteCreateSerializer,
+    UserTourHotelSerializer,
+    UserTourTransportSerializer
 )
 from ..hotels.models import Hotel, HotelRoom
 
@@ -64,6 +68,7 @@ class UserTourCreateView(generics.CreateAPIView):
 
         user_route_data['tourists'] = tourists_data
         hotels_data = []
+        transport_data = []
         for hotel in hotels:
             hotel_obj = Hotel.objects.get(pk=hotel['hotel'])
             room_obj = HotelRoom.objects.get(pk=hotel['room'])
@@ -78,7 +83,18 @@ class UserTourCreateView(generics.CreateAPIView):
             user_hotels_serializer = UserTourHotelSerializer(obj, many=False)
             hotels_data.append(user_hotels_serializer.data)
 
+        for transport in transports:
+            transport['user_route'] = user_route_obj
+
+            transport_obj = UserTourTransport.objects.create(**transport)
+            transport_obj.save()
+
+            user_transport_serializer = UserTourTransportSerializer(transport_obj, many=False)
+            transport_data.append(user_transport_serializer.data)
+
+
         user_route_data['hotels'] = hotels_data
+        user_route_data['transports'] = transport_data
 
         return Response(user_route_data, status=201)
 

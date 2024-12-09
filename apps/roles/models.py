@@ -50,6 +50,7 @@ class Guide(models.Model):
         null=True, blank=True
     )
     about_me = models.TextField(verbose_name='О гиде', null=True, blank=True)
+    country = models.CharField(verbose_name='Страна', null=True, blank=True, max_length=100)
     avatar = models.ImageField(
         verbose_name='Фото гида',
         upload_to='guides/avatars/',

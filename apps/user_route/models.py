@@ -43,6 +43,7 @@ class UserRouteGuide(models.Model):
     guide = models.ForeignKey(Guide, on_delete=models.SET_NULL, null=True)
 
 
+
 class UserRouteAdditionalService(models.Model):
     user_route = models.ForeignKey(UserTourRoute, on_delete=models.CASCADE, related_name='user_additional_service')
     photo_video_shooting = models.BooleanField(default=False)
