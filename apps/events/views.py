@@ -6,21 +6,21 @@ from . import models, serializers
 from .filters import EventSearchFilter
 
 
-@extend_schema(tags=['Events'])
+@extend_schema(tags=["Events"])
 class EventViewSet(viewsets.ModelViewSet):
     queryset = models.Event.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('event_type',)
-    lookup_field = 'slug'
-    lookup_url_kwarg = 'slug'
+    filterset_fields = ("event_type",)
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == "list":
             return serializers.EventSimpleSerializer
         return serializers.EventSerializer
 
 
-@extend_schema(tags=['Events'])
+@extend_schema(tags=["Events"])
 class TopEventsListView(generics.ListAPIView):
     serializer_class = serializers.EventSimpleSerializer
 
@@ -28,11 +28,9 @@ class TopEventsListView(generics.ListAPIView):
         return models.Event.objects.filter(is_event_top=True)[:4]
 
 
-@extend_schema(tags=['Events'])
+@extend_schema(tags=["Events"])
 class EventSearchView(generics.ListAPIView):
     serializer_class = serializers.EventSimpleSerializer
     queryset = models.Event.objects.all()
     # filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = EventSearchFilter
-
-

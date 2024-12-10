@@ -80,8 +80,8 @@ def send_message_to_channel(**kwargs):
     '''
 
     url = settings.TG_API_URL.format(
-        token=settings.BOT_TOKEN,
-        channel_id=settings.CHANNEL_CHAT_ID,
+        token=settings.MAIN_BOT_TOKEN,
+        channel_id=settings.SUPPORT_CHANNEL,
         text=text
     )
     return requests.post(url, data={'reply_markup': json.dumps(keyboard)})

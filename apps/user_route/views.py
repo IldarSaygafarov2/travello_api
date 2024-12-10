@@ -7,7 +7,6 @@ from apps.users.models import (
     Tourist
 )
 from apps.users.serializers import TouristSerializer
-
 from .models import (
     UserTourRoute,
     UserTourHotel, UserTourTransport

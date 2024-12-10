@@ -1,17 +1,30 @@
-from django.conf import settings
-
-
 def create_event_booked_message(data: dict):
-    return f'''
-Бронь тура: <b>{data['event']}</b>
+    tourists = []
 
-Пользователь: <b>{data['user']}</b>
-Количество взрослых: <b>{data['total_adult']}</b>
-Количество детей: <b>{data['total_children']}</b>
-Тип тура: <b>{data['event_type']}</b>
-'''
+    _tourists = data.get("tourists")
 
+    for tourist in _tourists:
+        tourists.append(
+            f"""
+Имя: {tourist['first_name']}
+Фамилия: {tourist['lastname']}
+Дата рождения: {tourist['birth_date']}
+Серия и номер паспорта: {tourist['passport_seria_and_number']}
+Дата окончания паспорта: {tourist['expiration_date']}
+Пол: {tourist['gender']}
+Гражданство: {tourist['citizen']}
+        """
+        )
 
-def send_event_booked_message(channel_url: str, data: dict):
-    msg = create_event_booked_message(data)
-    url = settings.TG_API_URL
+    return f"""
+Бронь тура: {data['event']}
+
+Пользователь: {data['user']}
+Количество взрослых: {data['total_adult']}
+Количество детей: {data['total_children']}
+
+Данные отдыхающих:
+{'\n'.join(tourists)}
+
+Тип тура: {data['event_type']}
+"""

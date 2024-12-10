@@ -1,44 +1,75 @@
-from django.urls import reverse
+import requests
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
 from apps.events.models import Event
-from apps.users.models import User
-from . import serializers, models, utils
+from apps.users.models import Tourist, User
+from travello import settings
+from . import models, serializers, utils
 
 
-@extend_schema(tags=['Events Booking'])
+@extend_schema(tags=["Events Booking"])
 class EventBookingView(generics.ListCreateAPIView):
     serializer_class = serializers.EventBookingSerializer
     queryset = models.EventBooking.objects.all()
-    lookup_url_kwarg = 'event_id'
+    lookup_url_kwarg = "event_id"
 
     def create(self, request, *args, **kwargs):
         data = request.data
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        serializer_data = serializer.data
-        serializer_data_copy = serializer_data.copy()
 
-        user = User.objects.get(pk=serializer_data['user'])
-        event = Event.objects.get(pk=serializer_data['event'])
+        tourists = data["tourists"]
 
-        serializer_data_copy['user'] = user.username
-        serializer_data_copy['event'] = event.title
+        user = User.objects.get(pk=data["user"])
+        event = Event.objects.get(pk=data["event"])
 
-        tg_msg = utils.create_event_booked_message(serializer_data_copy)
+        for tourist in tourists:
+            obj, created = Tourist.objects.get_or_create(
+                user=user,
+                first_name=tourist["first_name"],
+                lastname=tourist["lastname"],
+                birth_date=tourist["birth_date"],
+                passport_seria_and_number=tourist["passport_seria_and_number"],
+                expiration_date=tourist["expiration_date"],
+                gender=tourist["gender"],
+                citizen=tourist["citizen"],
+            )
+            obj.save()
 
-        serializer_data['add_children_url'] = reverse('users:children-list', kwargs={'user_pk': data['user']})
-        serializer_data['add_tourist_url'] = reverse('users:tourist-list', kwargs={'user_pk': data['user']})
-        return Response(serializer_data)
+        new_book = models.EventBooking.objects.create(
+            user=user,
+            event=event,
+            event_type=data["event_type"],
+            total_adult=data["total_adult"],
+            total_children=data["total_children"],
+        )
+        new_book.save()
+
+        msg_obj = {
+            "user": user.get_full_name(),
+            "event": event.title,
+            "total_adult": data["total_adult"],
+            "total_children": data["total_children"],
+            "event_type": new_book.get_event_type_display(),
+            "tourists": tourists,
+        }
+
+        msg = utils.create_event_booked_message(msg_obj)
+        r = requests.post(
+            url=settings.TG_API_URL.format(
+                token=settings.MAIN_BOT_TOKEN,
+                channel_id=settings.TOUR_BOOKINGS_CHANNEL,
+                text=msg,
+            )
+        )
+        print(r.json())
+        return Response({"created": True})
 
 
-@extend_schema(tags=['User Events Booking'])
+@extend_schema(tags=["User Events Booking"])
 class EventBookingViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventBookingSerializer
     queryset = models.EventBooking.objects.all()
 
     def get_queryset(self):
-        return self.queryset.filter(user_id=self.kwargs['user_pk'])
+        return self.queryset.filter(user_id=self.kwargs["user_pk"])
