@@ -4,6 +4,7 @@ def create_event_booked_message(data: dict):
     _tourists = data.get("tourists")
 
     for tourist in _tourists:
+        _tourists = "\n".join(tourists)
         tourists.append(
             f"""
 Имя: {tourist['first_name']}
@@ -24,7 +25,7 @@ def create_event_booked_message(data: dict):
 Количество детей: {data['total_children']}
 
 Данные отдыхающих:
-{'\n'.join(tourists)}
+{_tourists}
 
 Тип тура: {data['event_type']}
 """
