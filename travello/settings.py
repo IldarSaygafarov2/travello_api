@@ -19,6 +19,7 @@ ALLOWED_HOSTS = [
     "travella-admin.uz",
     "travellatestapi.pythonanywhere.com",
     "f2a4-94-158-58-86.ngrok-free.app",
+    "travellaapiv2.pythonanywhere.com",
 ]
 
 INSTALLED_APPS = [
@@ -194,6 +195,6 @@ SIMPLE_JWT = {
 }
 
 MAIN_BOT_TOKEN = "7380386489:AAGz-1fshP6VdIfAHyN0cs-7iIPP9IRvaxI"
-CORPORATE_CLIENTS_CHANNEL = '@travella_corporate_clients'
-TOUR_BOOKINGS_CHANNEL = '@travella_tour_bookings'
-SUPPORT_CHANNEL = '@travella_support'
+CORPORATE_CLIENTS_CHANNEL = "@travella_corporate_clients"
+TOUR_BOOKINGS_CHANNEL = "@travella_tour_bookings"
+SUPPORT_CHANNEL = "@travella_support"
