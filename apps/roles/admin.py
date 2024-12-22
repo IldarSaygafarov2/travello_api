@@ -10,6 +10,7 @@ class GuideLangInline(admin.TabularInline):
 
 @admin.register(models.Guide)
 class GuideAdmin(admin.ModelAdmin):
+    list_display = ["pk", "user_id"]
     inlines = [GuideLangInline]
 
 
@@ -35,6 +36,7 @@ class GuideTourPhotoInline(admin.TabularInline):
 
 @admin.register(models.GuideTour)
 class GuideTourAdmin(admin.ModelAdmin):
+
     inlines = [
         GuideTourExpectationInline,
         GuideTourOrganizationalDetailInline,

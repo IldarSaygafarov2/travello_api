@@ -2,31 +2,31 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.response import Response
 
-from apps.users.models import (
-    User,
-    Tourist
-)
+from apps.users.models import User, Tourist
 from apps.users.serializers import TouristSerializer
 from .models import (
     UserTourRoute,
-    UserTourHotel, UserTourTransport
+    UserTourHotel,
+    UserTourTransport,
+    UserRouteAdditionalService,
 )
 from .serializers import (
     UserRouteSerializer,
     UserRouteCreateSerializer,
     UserTourHotelSerializer,
-    UserTourTransportSerializer
+    UserTourTransportSerializer,
+    UserRouteAdditionalServiceSerializer,
 )
 from ..hotels.models import Hotel, HotelRoom
 
 
-@extend_schema(tags=['Users'])
+@extend_schema(tags=["Users"])
 class UserTourRouteView(generics.ListAPIView):
     queryset = UserTourRoute.objects.all()
     serializer_class = UserRouteSerializer
 
 
-@extend_schema(tags=['Users'])
+@extend_schema(tags=["Users"])
 class UserTourCreateView(generics.CreateAPIView):
     queryset = UserTourRoute.objects.all()
     serializer_class = UserRouteCreateSerializer
@@ -34,47 +34,46 @@ class UserTourCreateView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
 
         # TODO: закончить добавление данных от конструктора
-        user_id = kwargs.get('pk')
+        user_id = kwargs.get("pk")
 
         data = request.data
 
-        tourists = data.pop('tourists')
-        hotels = data.pop('hotels')
-        transports = data.pop('transports')
-        guides = data.pop('guides')
-        additional_services = data.pop('additional_services')
+        tourists = data.pop("tourists")
+        hotels = data.pop("hotels")
+        transports = data.pop("transports")
+        guides = data.pop("guides")
+        additional_services = data.pop("additional_services")
 
         user = User.objects.get(pk=user_id)
 
-        data['user'] = user.pk
+        data["user"] = user.pk
 
         tourists_data = []
         for tourist in tourists:
-            tourist['user'] = user
+            tourist["user"] = user
             obj = Tourist.objects.create(**tourist)
             obj.save()
             tourists_serializer = TouristSerializer(obj, many=False)
             tourists_data.append(tourists_serializer.data)
-
-
 
         user_route_serializer = self.serializer_class(data=data)
         user_route_serializer.is_valid(raise_exception=True)
         user_route_serializer.save()
         user_route_data = user_route_serializer.data
 
-        user_route_obj = UserTourRoute.objects.get(pk=user_route_data['id'])
+        user_route_obj = UserTourRoute.objects.get(pk=user_route_data["id"])
 
-        user_route_data['tourists'] = tourists_data
+        user_route_data["tourists"] = tourists_data
         hotels_data = []
         transport_data = []
+        service_data = []
         for hotel in hotels:
-            hotel_obj = Hotel.objects.get(pk=hotel['hotel'])
-            room_obj = HotelRoom.objects.get(pk=hotel['room'])
+            hotel_obj = Hotel.objects.get(pk=hotel["hotel"])
+            room_obj = HotelRoom.objects.get(pk=hotel["room"])
 
-            hotel['user_route'] = user_route_obj
-            hotel['hotel'] = hotel_obj
-            hotel['room'] = room_obj
+            hotel["user_route"] = user_route_obj
+            hotel["hotel"] = hotel_obj
+            hotel["room"] = room_obj
 
             obj = UserTourHotel.objects.create(**hotel)
             obj.save()
@@ -83,17 +82,29 @@ class UserTourCreateView(generics.CreateAPIView):
             hotels_data.append(user_hotels_serializer.data)
 
         for transport in transports:
-            transport['user_route'] = user_route_obj
+            transport["user_route"] = user_route_obj
 
             transport_obj = UserTourTransport.objects.create(**transport)
             transport_obj.save()
 
-            user_transport_serializer = UserTourTransportSerializer(transport_obj, many=False)
+            user_transport_serializer = UserTourTransportSerializer(
+                transport_obj, many=False
+            )
             transport_data.append(user_transport_serializer.data)
 
+        for service in additional_services:
+            service["user_route"] = user_route_obj
+            service_obj = UserRouteAdditionalService.objects.create(**service)
+            service_obj.save()
 
-        user_route_data['hotels'] = hotels_data
-        user_route_data['transports'] = transport_data
+            user_service_serializer = UserRouteAdditionalServiceSerializer(
+                service_obj, many=False
+            )
+            service_data.append(user_service_serializer.data)
+
+        user_route_data["hotels"] = hotels_data
+        user_route_data["transports"] = transport_data
+        user_route_data["additional_services"] = service_data
 
         return Response(user_route_data, status=201)
 
