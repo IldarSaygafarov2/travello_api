@@ -53,6 +53,7 @@ class EventSerializer(serializers.ModelSerializer):
             "price",
             "corporate_client_price",
             "country",
+            "country_from",
             "event_start",
             "event_end",
             "days",
