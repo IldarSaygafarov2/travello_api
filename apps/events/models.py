@@ -167,3 +167,20 @@ class EventPriceNotIncluded(models.Model):
     class Meta:
         verbose_name = "Не включено в цену"
         verbose_name_plural = "Условия (Не включено в цену)"
+
+
+class EventImportantOption(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name="important_moments",
+        verbose_name="Тур",
+    )
+    title = models.CharField(max_length=200, verbose_name="Текст")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Важные моменты"
+        verbose_name_plural = "Важные моменты"

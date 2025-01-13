@@ -35,11 +35,18 @@ class EventPriceNotIncludedSerializer(serializers.ModelSerializer):
         fields = ["id", "title"]
 
 
+class EventImportantOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.EventImportantOption
+        fields = ["id", "title"]
+
+
 class EventSerializer(serializers.ModelSerializer):
     gallery = EventGallerySerializer(many=True, source="images_gallery")
     tour_program = EventTourProgramSerializer(many=True)
     price_included = EventPriceIncludedSerializer(many=True)
     price_not_included = EventPriceNotIncludedSerializer(many=True)
+    important_moments = EventImportantOptionSerializer(many=True)
 
     class Meta:
         model = models.Event
@@ -66,6 +73,7 @@ class EventSerializer(serializers.ModelSerializer):
             "tour_program",
             "price_included",
             "price_not_included",
+            "important_moments",
         ]
 
 
