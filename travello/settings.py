@@ -194,7 +194,7 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
 
-MAIN_BOT_TOKEN = "7380386489:AAGz-1fshP6VdIfAHyN0cs-7iIPP9IRvaxI"
+MAIN_BOT_TOKEN = "7380386489:AAHzMIiiSOpXRPV6f3j_YSNfQPsu0CdCKVg"
 CORPORATE_CLIENTS_CHANNEL = "@travella_corporate_clients"
 TOUR_BOOKINGS_CHANNEL = "@travella_tour_bookings"
 SUPPORT_CHANNEL = "@travella_support"
