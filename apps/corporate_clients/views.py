@@ -22,23 +22,28 @@ class CorporateClientRequestView(generics.CreateAPIView):
 
             documents_urls = get_documents_urls(data)
             msg = msg_for_corporate_client_request(data)
-            res = requests.post(
-                url=settings.TG_API_URL.format(
-                    token=settings.MAIN_BOT_TOKEN,
-                    channel_id=settings.CORPORATE_CLIENTS_CHANNEL,
-                    text=msg,
-                )
-            )
-            for field_name, url in documents_urls:
-                r = requests.post(
-                    url=settings.TG_SEND_DOCUMENT_URL.format(
+
+            try:
+                res = requests.post(
+                    url=settings.TG_API_URL.format(
                         token=settings.MAIN_BOT_TOKEN,
                         channel_id=settings.CORPORATE_CLIENTS_CHANNEL,
-                        document=url,
-                        caption=field_name,
+                        text=msg,
                     )
                 )
-                print(r.json())
+                for field_name, url in documents_urls:
+                    r = requests.post(
+                        url=settings.TG_SEND_DOCUMENT_URL.format(
+                            token=settings.MAIN_BOT_TOKEN,
+                            channel_id=settings.CORPORATE_CLIENTS_CHANNEL,
+                            document=url,
+                            caption=field_name,
+                        )
+                    )
+                    print(r.json())
+            except Exception as tg_error:
+                return Response(str(tg_error))
+
         except Exception as e:
             raise e
         return Response(data, exception=True)
