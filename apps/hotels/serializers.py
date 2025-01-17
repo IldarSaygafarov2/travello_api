@@ -4,22 +4,17 @@ from . import models
 
 # hotel room serializers start
 
+
 class HotelRoomImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelRoomImages
-        fields = [
-            'id',
-            'image'
-        ]
+        fields = ["id", "image"]
 
 
 class HotelRoomFacilitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelRoomFacilities
-        fields = [
-            'id',
-            'facility'
-        ]
+        fields = ["id", "facility"]
 
 
 class HotelRoomSerializer(serializers.ModelSerializer):
@@ -29,13 +24,13 @@ class HotelRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelRoom
         fields = [
-            'id',
-            'name',
-            'description',
-            'price',
-            'hotel',
-            'room_images',
-            'room_facilities',
+            "id",
+            "name",
+            "description",
+            "price",
+            "hotel",
+            "room_images",
+            "room_facilities",
         ]
 
 
@@ -48,16 +43,28 @@ class HotelRoomSerializer(serializers.ModelSerializer):
 class HotelGallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelGallery
-        fields = ['id', 'photo']
+        fields = ["id", "photo"]
 
 
 class HotelListSerializer(serializers.ModelSerializer):
-    reviews_quantity = serializers.SerializerMethodField(method_name='get_reviews_quantity')
-    rating = serializers.SerializerMethodField(method_name='get_rating')
+    reviews_quantity = serializers.SerializerMethodField(
+        method_name="get_reviews_quantity"
+    )
+    rating = serializers.SerializerMethodField(method_name="get_rating")
 
     class Meta:
         model = models.Hotel
-        fields = ['id', 'name', 'preview', 'city', 'country', 'rating', 'reviews_quantity']
+        fields = [
+            "id",
+            "name",
+            "preview",
+            "city",
+            "country",
+            "rating",
+            "reviews_quantity",
+            "averrage_price",
+            "minimum_price",
+        ]
 
     @staticmethod
     def get_reviews_quantity(obj) -> int:
@@ -72,27 +79,32 @@ class HotelDetailSerializer(serializers.ModelSerializer):
     hotel_gallery = HotelGallerySerializer(many=True, read_only=True)
     rooms = HotelRoomSerializer(many=True, read_only=True)
 
-    allocation_type = serializers.SerializerMethodField(method_name='get_allocation_type')
+    allocation_type = serializers.SerializerMethodField(
+        method_name="get_allocation_type"
+    )
 
     class Meta:
         model = models.Hotel
         fields = [
-            'id',
-            'name',
-            'country',
-            'address',
-            'full_description',
-            'allocation_type',
-            'stars',
-            'nights',
-            'total_people',
-            'event',
-            'hotel_gallery',
-            'rooms'
+            "id",
+            "name",
+            "averrage_price",
+            "minimum_price",
+            "country",
+            "address",
+            "full_description",
+            "allocation_type",
+            "stars",
+            "nights",
+            "total_people",
+            "event",
+            "hotel_gallery",
+            "rooms",
         ]
 
     @staticmethod
     def get_allocation_type(obj) -> str:
         return obj.get_allocation_type_display()
+
 
 # hotel serializers end

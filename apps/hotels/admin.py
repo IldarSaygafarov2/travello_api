@@ -21,17 +21,25 @@ class HotelRoomFacilityInline(TranslationStackedInline):
 
 @admin.register(models.HotelRoom)
 class HotelRoomAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'name']
-    list_display_links = ['pk', 'name']
+    list_display = ["pk", "name"]
+    list_display_links = ["pk", "name"]
     inlines = [HotelRoomImageInline, HotelRoomFacilityInline]
 
 
 @admin.register(models.Hotel)
 class HotelAdmin(TranslationAdmin):
-    list_display = ['id', 'name', 'stars', 'event', 'allocation_type']
-    list_display_links = ['id', 'name']
-    list_filter = ['event', 'allocation_type']
-    list_editable = ['event', 'allocation_type']
+    list_display = [
+        "id",
+        "name",
+        "averrage_price",
+        "minimum_price",
+        "stars",
+        "event",
+        "allocation_type",
+    ]
+    list_display_links = ["id", "name"]
+    list_filter = ["event", "allocation_type"]
+    list_editable = ["event", "allocation_type"]
     inlines = [
         HotelGalleryInline,
     ]
