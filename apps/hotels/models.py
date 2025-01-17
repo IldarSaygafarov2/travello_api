@@ -127,7 +127,9 @@ class Hotel(models.Model):
                 else 0
             )
             self.averrage_price = price
-            self.minimum_price = min([room.price for room in rooms])
+            self.minimum_price = (
+                min([room.price for room in rooms]) if rooms.count() else 0
+            )
 
         super().save(*args, **kwargs)
 
