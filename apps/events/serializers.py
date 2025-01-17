@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from apps.hotels.serializers import HotelListSerializer
 from . import models
 
 
@@ -47,6 +47,7 @@ class EventSerializer(serializers.ModelSerializer):
     price_included = EventPriceIncludedSerializer(many=True)
     price_not_included = EventPriceNotIncludedSerializer(many=True)
     important_moments = EventImportantOptionSerializer(many=True)
+    hotel = HotelListSerializer(many=False)
 
     class Meta:
         model = models.Event
@@ -74,6 +75,7 @@ class EventSerializer(serializers.ModelSerializer):
             "price_included",
             "price_not_included",
             "important_moments",
+            "hotel",
         ]
 
 

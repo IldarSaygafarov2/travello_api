@@ -97,7 +97,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             "stars",
             "nights",
             "total_people",
-            "event",
+            # "event",
             "hotel_gallery",
             "rooms",
         ]

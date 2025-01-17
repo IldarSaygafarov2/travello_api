@@ -2,7 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
 
-from apps.events.models import Event
+# from apps.events.models import Event
 
 
 class HotelStarsChoices(models.IntegerChoices):
@@ -94,14 +94,14 @@ class Hotel(models.Model):
     facility = models.CharField(
         choices=HotelFacilitiesChoices.choices, max_length=50, null=True, blank=True
     )
-    event = models.ForeignKey(
-        Event,
-        on_delete=models.CASCADE,
-        related_name="event_hotels",
-        null=True,
-        blank=True,
-        verbose_name="Тур",
-    )
+    # event = models.ForeignKey(
+    #     Event,
+    #     on_delete=models.CASCADE,
+    #     related_name="event_hotels",
+    #     null=True,
+    #     blank=True,
+    #     verbose_name="Тур",
+    # )
     minimum_price = models.FloatField(
         verbose_name="Минимальная цена номера",
         null=True,

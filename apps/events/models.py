@@ -1,6 +1,8 @@
 from ckeditor.fields import RichTextField
 from django.db import models
 
+from apps.hotels.models import Hotel
+
 
 class HotelRatingChoices(models.TextChoices):
     FOUR_POINT_FIVE = "four_five", "4.5+"
@@ -64,6 +66,13 @@ class Event(models.Model):
         verbose_name="Топовый тур?",
         default=False,
         help_text="Выберите этот пункт, если тур является популряным. Тур отобразится на главной странице",
+    )
+    hotel = models.ForeignKey(
+        Hotel,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Отель проживания",
     )
 
     def __str__(self):

@@ -34,12 +34,14 @@ class HotelAdmin(TranslationAdmin):
         "averrage_price",
         "minimum_price",
         "stars",
-        "event",
+        # "event",
         "allocation_type",
     ]
     list_display_links = ["id", "name"]
-    list_filter = ["event", "allocation_type"]
-    list_editable = ["event", "allocation_type"]
+    # list_filter = ["event", "allocation_type"]
+    list_filter = ["allocation_type"]
+    # list_editable = ["event", "allocation_type"]
+    list_editable = ["allocation_type"]
     inlines = [
         HotelGalleryInline,
     ]
