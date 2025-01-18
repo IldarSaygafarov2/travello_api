@@ -116,7 +116,9 @@ class Tourist(models.Model):
     )
     first_name = models.CharField(max_length=100, verbose_name="Имя", null=True)
     lastname = models.CharField(max_length=100, verbose_name="Фамилия", null=True)
-    birth_date = models.DateField(verbose_name="Дата рождения", null=True)
+    birth_date = models.CharField(
+        verbose_name="Дата рождения", null=True, max_length=20
+    )
     gender = models.CharField(
         verbose_name="Гендер",
         max_length=20,
@@ -127,8 +129,8 @@ class Tourist(models.Model):
     passport_seria_and_number = models.CharField(
         max_length=20, verbose_name="Серия и номер паспорта", null=True
     )
-    expiration_date = models.DateField(
-        verbose_name="Дата окончания паспорта", null=True
+    expiration_date = models.CharField(
+        verbose_name="Дата окончания паспорта", null=True, max_length=20
     )
     citizen = models.CharField(verbose_name="Гражданство", max_length=100, null=True)
 
@@ -155,7 +157,11 @@ class Children(models.Model):
         blank=True,
         choices=GenderChoices.choices,
     )
-    birth_date = models.DateField(verbose_name="Дата рождения", null=True)
+    birth_date = models.CharField(
+        verbose_name="Дата рождения",
+        null=True,
+        max_length=20,
+    )
     birth_certificate = models.FileField(
         verbose_name="Свидетельство о рождении",
         upload_to="users/children/birth_certificates/",
