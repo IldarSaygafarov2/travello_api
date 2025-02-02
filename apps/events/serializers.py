@@ -75,7 +75,6 @@ class EventSerializer(serializers.ModelSerializer):
             "price_included",
             "price_not_included",
             "important_moments",
-            "hotel",
         ]
 
 
