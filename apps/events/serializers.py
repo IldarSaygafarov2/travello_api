@@ -47,7 +47,6 @@ class EventSerializer(serializers.ModelSerializer):
     price_included = EventPriceIncludedSerializer(many=True)
     price_not_included = EventPriceNotIncludedSerializer(many=True)
     important_moments = EventImportantOptionSerializer(many=True)
-    hotel = HotelListSerializer(many=False)
 
     class Meta:
         model = models.Event
