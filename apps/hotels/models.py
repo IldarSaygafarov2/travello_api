@@ -49,6 +49,13 @@ class HotelFoodChoices(models.TextChoices):
     __empty__ = ""
 
 
+class HotelType(models.TextChoices):
+    WORLD = "world", "Мировой"
+    LOCAL = "uzbekistan", "По узбекистану"
+
+    __empty__ = "-"
+
+
 class HotelFacilitiesChoices(models.TextChoices):
     BAR = "bar", _("Бар")
     AIR_CONDITIONER = "air_conditioner", _("Кондиционер")
@@ -93,6 +100,12 @@ class Hotel(models.Model):
     )
     facility = models.CharField(
         choices=HotelFacilitiesChoices.choices, max_length=50, null=True, blank=True
+    )
+    hotel_type = models.CharField(
+        max_length=50,
+        choices=HotelType.choices,
+        null=True,
+        default=HotelType.LOCAL,
     )
     # event = models.ForeignKey(
     #     Event,

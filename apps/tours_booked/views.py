@@ -53,7 +53,7 @@ class EventBookingView(generics.ListCreateAPIView):
             "event_type": new_book.get_event_type_display(),
             "tourists": tourists,
         }
-        
+
         # print(tourists)
 
         msg = utils.create_event_booked_message(msg_obj)

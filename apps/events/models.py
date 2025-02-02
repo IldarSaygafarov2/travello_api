@@ -67,12 +67,11 @@ class Event(models.Model):
         default=False,
         help_text="Выберите этот пункт, если тур является популряным. Тур отобразится на главной странице",
     )
-    hotel = models.ForeignKey(
-        Hotel,
-        on_delete=models.SET_NULL,
+    hotel_name = models.CharField(
         null=True,
         blank=True,
         verbose_name="Отель проживания",
+        max_length=150,
     )
 
     def __str__(self):

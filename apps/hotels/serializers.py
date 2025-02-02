@@ -64,6 +64,7 @@ class HotelListSerializer(serializers.ModelSerializer):
             "reviews_quantity",
             "averrage_price",
             "minimum_price",
+            "hotel_type",
         ]
 
     @staticmethod
