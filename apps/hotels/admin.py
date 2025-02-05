@@ -1,6 +1,6 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
-
+from nested_inline import admin as nested_inline_admin
 from . import models
 
 
@@ -9,32 +9,31 @@ class HotelGalleryInline(admin.TabularInline):
     extra = 1
 
 
-class HotelRoomImageInline(admin.TabularInline):
+class HotelRoomImageInline(nested_inline_admin.NestedStackedInline):
     model = models.HotelRoomImages
     extra = 1
 
 
-class HotelRoomFacilityInline(TranslationStackedInline):
+class HotelRoomFacilityInline(TranslationStackedInline, nested_inline_admin.NestedStackedInline):
     model = models.HotelRoomFacilities
     extra = 1
 
 
-@admin.register(models.HotelRoom)
-class HotelRoomAdmin(admin.ModelAdmin):
-    list_display = ["pk", "name"]
-    list_display_links = ["pk", "name"]
+# @admin.register(models.HotelRoom)
+class HotelRoomInline(nested_inline_admin.NestedStackedInline):
+    model = models.HotelRoom
+    extra = 1
     inlines = [HotelRoomImageInline, HotelRoomFacilityInline]
 
 
 @admin.register(models.Hotel)
-class HotelAdmin(TranslationAdmin):
+class HotelAdmin(TranslationAdmin, nested_inline_admin.NestedModelAdmin):
     list_display = [
         "id",
         "name",
         "averrage_price",
         "minimum_price",
         "stars",
-        # "event",
         "allocation_type",
     ]
     list_display_links = ["id", "name"]
@@ -42,6 +41,4 @@ class HotelAdmin(TranslationAdmin):
     list_filter = ["allocation_type"]
     # list_editable = ["event", "allocation_type"]
     list_editable = ["allocation_type"]
-    inlines = [
-        HotelGalleryInline,
-    ]
+    inlines = [HotelGalleryInline, HotelRoomInline]

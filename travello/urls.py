@@ -20,6 +20,7 @@ urlpatterns = [
     path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/v1/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
     path('i18n/', include('django.conf.urls.i18n')),
+    # path(r'^_nested_admin/', include('nested_admin.urls')),
 ]
 
 if settings.DEBUG:

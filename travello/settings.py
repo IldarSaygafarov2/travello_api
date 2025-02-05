@@ -1,6 +1,5 @@
 import datetime
 import os
-
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -36,10 +35,12 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "ckeditor",
+    "nested_admin",
     "nested_inline",
     "django_filters",
     "corsheaders",
     "constance",
+
     "apps.users_auth.apps.UsersAuthConfig",
     "apps.users.apps.UsersConfig",
     "apps.user_route.apps.UserRouteConfig",
