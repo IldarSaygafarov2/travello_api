@@ -6,23 +6,20 @@ import nested_admin
 
 class HotelGalleryInline(nested_admin.NestedStackedInline):
     model = models.HotelGallery
-    extra = 1
+    
 
 
 class HotelRoomImageInline(nested_admin.NestedStackedInline):
     model = models.HotelRoomImages
-    extra = 1
 
 
 class HotelRoomFacilityInline(TranslationStackedInline, nested_admin.NestedStackedInline):
     model = models.HotelRoomFacilities
-    extra = 1
 
 
 # @admin.register(models.HotelRoom)
 class HotelRoomInline(nested_admin.NestedStackedInline):
     model = models.HotelRoom
-    extra = 1
     inlines = [HotelRoomImageInline, HotelRoomFacilityInline]
 
 
