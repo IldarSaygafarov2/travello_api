@@ -133,16 +133,19 @@ class Hotel(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.averrage_price:
-            rooms = self.rooms.all()
-            price = (
-                sum([room.price for room in rooms]) / rooms.count()
-                if rooms.count()
-                else 0
-            )
-            self.averrage_price = price
-            self.minimum_price = (
-                min([room.price for room in rooms]) if rooms.count() else 0
-            )
+            try:
+                rooms = self.rooms.all()
+                price = (
+                    sum([room.price for room in rooms]) / rooms.count()
+                    if rooms.count()
+                    else 0
+                )
+                self.averrage_price = price
+                self.minimum_price = (
+                    min([room.price for room in rooms]) if rooms.count() else 0
+                )
+            except Exception as e:
+                print(e)
 
         super().save(*args, **kwargs)
 
