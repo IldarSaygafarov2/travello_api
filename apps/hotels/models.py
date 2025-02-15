@@ -189,7 +189,7 @@ class HotelRoom(models.Model):
 
 
 def hotel_room_image_path(instance, filename):
-    return f"images/hotels/{instance.room.hotel.name}/{instance.room.name}/{filename}"
+    return f"images/hotels/hotel-{instance.room.hotel.id}/room-{instance.room.id}/{filename}"
 
 
 class HotelRoomImages(models.Model):
