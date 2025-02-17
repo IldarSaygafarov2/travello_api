@@ -1,9 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
 
+from travello.settings import AUTH_USER_MODEL
 # from apps.events.models import Event
-
+User = AUTH_USER_MODEL
 
 class HotelStarsChoices(models.IntegerChoices):
     ONE = 1, "1"
@@ -179,6 +180,7 @@ class HotelRoom(models.Model):
     name = models.CharField(verbose_name="Название номера", max_length=255)
     description = models.TextField(verbose_name="Удобства в номере")
     price = models.IntegerField(verbose_name="Цена")
+    is_all_inclusive = models.BooleanField(default=True, verbose_name='Все включено?')
 
     def __str__(self):
         return f"{self.hotel.name}: {self.name}"
@@ -226,3 +228,19 @@ class HotelRoomFacilities(models.Model):
     class Meta:
         verbose_name = "Удобство номера"
         verbose_name_plural = "Удобства номера"
+
+
+class HotelBooking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='Отель')
+    hotel_room = models.ForeignKey(HotelRoom, on_delete=models.SET_NULL, null=True, blank=True,
+                                   verbose_name='Номер в отеле')
+    tourists_quantity = models.CharField(max_length=10, verbose_name='Кол-во отдыхающих')
+    children_quantity = models.CharField(max_length=10, verbose_name='Кол-во детей')
+
+    def __str__(self):
+        return f'{self.user} - {self.hotel.name} - {self.hotel_room.name} - {self.tourists_quantity}'
+
+    class Meta:
+        verbose_name = 'Бронь отеля'
+        verbose_name_plural = 'Брони отелей'

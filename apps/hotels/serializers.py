@@ -31,6 +31,7 @@ class HotelRoomSerializer(serializers.ModelSerializer):
             "hotel",
             "room_images",
             "room_facilities",
+            'is_all_inclusive'
         ]
 
 
@@ -106,6 +107,12 @@ class HotelDetailSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_allocation_type(obj) -> str:
         return obj.get_allocation_type_display()
+
+
+class HotelBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.HotelBooking
+        fields = ['user', 'hotel', 'hotel_room', 'tourists_quantity', 'children_quantity']
 
 
 # hotel serializers end

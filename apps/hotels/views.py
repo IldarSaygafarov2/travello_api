@@ -3,7 +3,11 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import filters, generics
 from rest_framework.response import Response
 
+from travello import settings
 from . import models, serializers
+import requests
+
+from ..users.models import User
 
 
 @extend_schema(tags=["Hotels"])
@@ -56,3 +60,35 @@ class HotelRoomDetailView(generics.RetrieveAPIView):
 
         room_serializer = self.serializer_class(room.first(), many=False)
         return Response(room_serializer.data, status=200)
+
+
+@extend_schema(tags=["Hotels"])
+class HotelBookingView(generics.ListCreateAPIView):
+    queryset = models.HotelBooking.objects.all()
+    serializer_class = serializers.HotelBookingSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = super().create(request, *args, **kwargs)
+
+        print(data.data)
+        user = User.objects.get(pk=data.data['user'])
+        hotel = models.Hotel.objects.get(pk=data.data['hotel'])
+        hotel_room = models.HotelRoom.objects.get(pk=data.data['hotel_room'])
+        msg = f'''
+Бронь отеля
+
+Пользователь: {user.first_name} {user.last_name}
+Отель: {hotel.name}
+Комната в отеле: {hotel_room.name}
+Кол-во оnдыхающих: {data.data['tourists_quantity']}
+Кол-во детей: {data.data['children_quantity']}
+        '''
+        requests.post(
+            url=settings.TG_API_URL.format(
+                token=settings.MAIN_BOT_TOKEN,
+                channel_id=settings.TOUR_BOOKINGS_CHANNEL,
+                text=msg,
+            )
+        )
+
+        return data
