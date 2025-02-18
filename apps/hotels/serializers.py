@@ -90,6 +90,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            'preview',
             "averrage_price",
             "minimum_price",
             "country",

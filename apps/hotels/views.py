@@ -1,3 +1,4 @@
+import requests
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters, generics
@@ -5,8 +6,6 @@ from rest_framework.response import Response
 
 from travello import settings
 from . import models, serializers
-import requests
-
 from ..users.models import User
 
 
@@ -80,7 +79,7 @@ class HotelBookingView(generics.ListCreateAPIView):
 Пользователь: {user.first_name} {user.last_name}
 Отель: {hotel.name}
 Комната в отеле: {hotel_room.name}
-Кол-во оnдыхающих: {data.data['tourists_quantity']}
+Кол-во отдыхающих: {data.data['tourists_quantity']}
 Кол-во детей: {data.data['children_quantity']}
         '''
         requests.post(
