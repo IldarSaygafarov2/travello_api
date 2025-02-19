@@ -104,7 +104,8 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             # "event",
             "hotel_gallery",
             "rooms",
-            'is_all_inclusive'
+            'is_all_inclusive',
+            'price_for_child'
         ]
 
     @staticmethod

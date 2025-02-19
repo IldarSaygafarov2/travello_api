@@ -75,6 +75,8 @@ class Hotel(models.Model):
     city = models.CharField(verbose_name="Город", max_length=100, null=True, blank=True)
     address = models.CharField(verbose_name="Адрес", max_length=500)
     full_description = models.TextField(verbose_name="Полное описание")
+    price_for_child = models.IntegerField(default=0, null=True, blank=True, verbose_name='цена за ребенка',
+                                          help_text='данное поле является не обязательным для заполнения')
     stars = models.IntegerField(
         verbose_name="Кол-во звёзд отеля",
         choices=HotelStarsChoices.choices,
