@@ -128,6 +128,7 @@ class Hotel(models.Model):
         verbose_name="Средняя цена отеля",
         help_text="Высчитывается средняя стоимость номер отеля",
     )
+    is_all_inclusive = models.BooleanField(default=True, verbose_name='Все включено ?')
 
     def __str__(self):
         return self.name
