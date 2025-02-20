@@ -156,6 +156,7 @@ class Hotel(models.Model):
     class Meta:
         verbose_name = "Отель"
         verbose_name_plural = "Отели"
+        ordering = ['name']
 
 
 def gallery_image_path(instance, filename):
