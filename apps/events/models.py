@@ -77,6 +77,12 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        total_days = (self.event_end - self.event_start).days
+        self.days = total_days
+        self.nights = total_days - 1
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "Ивент"
         verbose_name_plural = "Ивенты"
