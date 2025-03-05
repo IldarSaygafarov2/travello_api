@@ -3,8 +3,10 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 from travello.settings import AUTH_USER_MODEL
+
 # from apps.events.models import Event
 User = AUTH_USER_MODEL
+
 
 class HotelStarsChoices(models.IntegerChoices):
     ONE = 1, "1"
@@ -75,8 +77,13 @@ class Hotel(models.Model):
     city = models.CharField(verbose_name="Город", max_length=100, null=True, blank=True)
     address = models.CharField(verbose_name="Адрес", max_length=500)
     full_description = models.TextField(verbose_name="Полное описание")
-    price_for_child = models.IntegerField(default=0, null=True, blank=True, verbose_name='цена за ребенка',
-                                          help_text='данное поле является не обязательным для заполнения')
+    price_for_child = models.IntegerField(
+        default=0,
+        null=True,
+        blank=True,
+        verbose_name="цена за ребенка",
+        help_text="данное поле является не обязательным для заполнения",
+    )
     stars = models.IntegerField(
         verbose_name="Кол-во звёзд отеля",
         choices=HotelStarsChoices.choices,
@@ -130,7 +137,7 @@ class Hotel(models.Model):
         verbose_name="Средняя цена отеля",
         help_text="Высчитывается средняя стоимость номер отеля",
     )
-    is_all_inclusive = models.BooleanField(default=True, verbose_name='Все включено ?')
+    is_all_inclusive = models.BooleanField(default=True, verbose_name="Все включено ?")
 
     def __str__(self):
         return self.name
@@ -156,7 +163,7 @@ class Hotel(models.Model):
     class Meta:
         verbose_name = "Отель"
         verbose_name_plural = "Отели"
-        ordering = ['name']
+        ordering = ["name"]
 
 
 def gallery_image_path(instance, filename):
@@ -184,7 +191,7 @@ class HotelRoom(models.Model):
     name = models.CharField(verbose_name="Название номера", max_length=255)
     description = models.TextField(verbose_name="Удобства в номере")
     price = models.IntegerField(verbose_name="Цена")
-    is_all_inclusive = models.BooleanField(default=True, verbose_name='Все включено?')
+    is_all_inclusive = models.BooleanField(default=True, verbose_name="Все включено?")
 
     def __str__(self):
         return f"{self.hotel.name}: {self.name}"
@@ -235,16 +242,25 @@ class HotelRoomFacilities(models.Model):
 
 
 class HotelBooking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='Отель')
-    hotel_room = models.ForeignKey(HotelRoom, on_delete=models.SET_NULL, null=True, blank=True,
-                                   verbose_name='Номер в отеле')
-    tourists_quantity = models.CharField(max_length=10, verbose_name='Кол-во отдыхающих')
-    children_quantity = models.CharField(max_length=10, verbose_name='Кол-во детей')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name="Отель")
+    hotel_room = models.ForeignKey(
+        HotelRoom,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Номер в отеле",
+    )
+    tourists_quantity = models.CharField(
+        max_length=10, verbose_name="Кол-во отдыхающих"
+    )
+    children_quantity = models.CharField(max_length=10, verbose_name="Кол-во детей")
 
     def __str__(self):
-        return f'{self.user} - {self.hotel.name} - {self.hotel_room.name} - {self.tourists_quantity}'
+        return f"{self.user} - {self.hotel.name} - {self.hotel_room.name} - {self.tourists_quantity}"
 
     class Meta:
-        verbose_name = 'Бронь отеля'
-        verbose_name_plural = 'Брони отелей'
+        verbose_name = "Бронь отеля"
+        verbose_name_plural = "Брони отелей"

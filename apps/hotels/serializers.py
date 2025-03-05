@@ -31,7 +31,7 @@ class HotelRoomSerializer(serializers.ModelSerializer):
             "hotel",
             "room_images",
             "room_facilities",
-            'is_all_inclusive'
+            "is_all_inclusive",
         ]
 
 
@@ -66,7 +66,8 @@ class HotelListSerializer(serializers.ModelSerializer):
             "averrage_price",
             "minimum_price",
             "hotel_type",
-            'is_all_inclusive'
+            "is_all_inclusive",
+            "stars",
         ]
 
     @staticmethod
@@ -91,7 +92,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
-            'preview',
+            "preview",
             "averrage_price",
             "minimum_price",
             "country",
@@ -104,8 +105,8 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             # "event",
             "hotel_gallery",
             "rooms",
-            'is_all_inclusive',
-            'price_for_child'
+            "is_all_inclusive",
+            "price_for_child",
         ]
 
     @staticmethod
@@ -116,7 +117,13 @@ class HotelDetailSerializer(serializers.ModelSerializer):
 class HotelBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HotelBooking
-        fields = ['user', 'hotel', 'hotel_room', 'tourists_quantity', 'children_quantity']
+        fields = [
+            "user",
+            "hotel",
+            "hotel_room",
+            "tourists_quantity",
+            "children_quantity",
+        ]
 
 
 # hotel serializers end
