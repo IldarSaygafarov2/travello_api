@@ -117,6 +117,7 @@ class Hotel(models.Model):
         null=True,
         default=HotelType.LOCAL,
     )
+    fee = models.FloatField(default=0.0, verbose_name="Наценка")
     # event = models.ForeignKey(
     #     Event,
     #     on_delete=models.CASCADE,

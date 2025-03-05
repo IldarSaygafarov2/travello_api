@@ -67,6 +67,7 @@ class HotelListSerializer(serializers.ModelSerializer):
             "minimum_price",
             "hotel_type",
             "is_all_inclusive",
+            "fee",
             "stars",
         ]
 
@@ -107,6 +108,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             "rooms",
             "is_all_inclusive",
             "price_for_child",
+            "fee",
         ]
 
     @staticmethod
