@@ -132,32 +132,20 @@ class Hotel(models.Model):
         blank=True,
         help_text="Высчитывается наименьшая стоимость номера данного отеля",
     )
-    averrage_price = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name="Средняя цена отеля",
-        help_text="Высчитывается средняя стоимость номер отеля",
-    )
     is_all_inclusive = models.BooleanField(default=True, verbose_name="Все включено ?")
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.averrage_price:
-            try:
-                rooms = self.rooms.all()
-                price = (
-                    sum([room.price for room in rooms]) / rooms.count()
-                    if rooms.count()
-                    else 0
-                )
-                self.averrage_price = price
-                self.minimum_price = (
-                    min([room.price for room in rooms]) if rooms.count() else 0
-                )
-            except Exception as e:
-                print(e)
+
+        try:
+            rooms = self.rooms.all()
+            self.minimum_price = (
+                min([room.price for room in rooms]) if rooms.count() else 0
+            )
+        except Exception as e:
+            print(e)
 
         super().save(*args, **kwargs)
 

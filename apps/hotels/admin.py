@@ -4,16 +4,18 @@ from . import models
 
 import nested_admin
 
+
 class HotelGalleryInline(nested_admin.NestedStackedInline):
     model = models.HotelGallery
-    
 
 
 class HotelRoomImageInline(nested_admin.NestedStackedInline):
     model = models.HotelRoomImages
 
 
-class HotelRoomFacilityInline(TranslationStackedInline, nested_admin.NestedStackedInline):
+class HotelRoomFacilityInline(
+    TranslationStackedInline, nested_admin.NestedStackedInline
+):
     model = models.HotelRoomFacilities
 
 
@@ -24,12 +26,11 @@ class HotelRoomInline(nested_admin.NestedStackedInline):
 
 
 @admin.register(models.Hotel)
-class HotelAdmin(TranslationAdmin,  nested_admin.NestedModelAdmin):
+class HotelAdmin(TranslationAdmin, nested_admin.NestedModelAdmin):
     model = models.Hotel
     list_display = [
         "id",
         "name",
-        "averrage_price",
         "minimum_price",
         "stars",
         "allocation_type",
