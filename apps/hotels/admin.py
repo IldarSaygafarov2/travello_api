@@ -37,7 +37,7 @@ class HotelAdmin(TranslationAdmin, nested_admin.NestedModelAdmin):
     ]
     list_display_links = ["id", "name"]
     # list_filter = ["event", "allocation_type"]
-    list_filter = ["allocation_type", "hotel_type", "stars"]
+    list_filter = ["allocation_type", "hotel_type", "stars", "city"]
     # list_editable = ["event", "allocation_type"]
     list_editable = ["allocation_type"]
     search_fields = ["name"]
