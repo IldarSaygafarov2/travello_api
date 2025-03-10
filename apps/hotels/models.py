@@ -132,7 +132,7 @@ class Hotel(models.Model):
         blank=True,
         help_text="Высчитывается наименьшая стоимость номера данного отеля",
     )
-    is_all_inclusive = models.BooleanField(default=True, verbose_name="Все включено ?")
+    is_all_inclusive = models.BooleanField(default=False, verbose_name="Все включено ?")
 
     def __str__(self):
         return self.name
@@ -180,7 +180,7 @@ class HotelRoom(models.Model):
     name = models.CharField(verbose_name="Название номера", max_length=255)
     description = models.TextField(verbose_name="Удобства в номере")
     price = models.IntegerField(verbose_name="Цена")
-    is_all_inclusive = models.BooleanField(default=True, verbose_name="Все включено?")
+    is_all_inclusive = models.BooleanField(default=False, verbose_name="Все включено?")
 
     def __str__(self):
         return f"{self.hotel.name}: {self.name}"
