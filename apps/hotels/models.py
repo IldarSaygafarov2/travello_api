@@ -118,14 +118,6 @@ class Hotel(models.Model):
         default=HotelType.LOCAL,
     )
     fee = models.FloatField(default=0.0, verbose_name="Наценка")
-    # event = models.ForeignKey(
-    #     Event,
-    #     on_delete=models.CASCADE,
-    #     related_name="event_hotels",
-    #     null=True,
-    #     blank=True,
-    #     verbose_name="Тур",
-    # )
     minimum_price = models.FloatField(
         verbose_name="Минимальная цена номера",
         null=True,
@@ -133,6 +125,19 @@ class Hotel(models.Model):
         help_text="Высчитывается наименьшая стоимость номера данного отеля",
     )
     is_all_inclusive = models.BooleanField(default=False, verbose_name="Все включено ?")
+
+    # price_for_resident_in_season = models.IntegerField(
+    #     default=0, verbose_name="Цена для резидентов в сезон"
+    # )
+    # price_for_resident_in_not_season = models.IntegerField(
+    #     default=0, verbose_name="цена для резидентов не в сезон"
+    # )
+    # price_for_not_resident_in_season = models.IntegerField(
+    #     default=0, verbose_name="Цена для нерезидентов в сезон"
+    # )
+    # price_for_not_resident_in_not_season = models.IntegerField(
+    #     default=0, verbose_name="Цена для нерезидентов в не сезон"
+    # )
 
     def __str__(self):
         return self.name
@@ -153,6 +158,40 @@ class Hotel(models.Model):
         verbose_name = "Отель"
         verbose_name_plural = "Отели"
         ordering = ["name"]
+
+
+class HotelPriceInSeason(models.Model):
+    hotel = models.ForeignKey(
+        "HotelRoom", on_delete=models.CASCADE, verbose_name="Отель"
+    )
+    start = models.DateField(verbose_name="Начало сезона")
+    end = models.DateField(verbose_name="Конец сезона")
+    price_for_resident = models.IntegerField(verbose_name="Цена для резидента")
+    price_for_not_resident = models.IntegerField(verbose_name="Цена для нерезидента")
+
+    def __str__(self):
+        return self.hotel.name
+
+    class Meta:
+        verbose_name = 'Цены в "сезон"'
+        verbose_name_plural = 'Цены в "сезон"'
+
+
+class HotelPriceInNotSeason(models.Model):
+    hotel = models.ForeignKey(
+        "HotelRoom", on_delete=models.CASCADE, verbose_name="Отель"
+    )
+    start = models.DateField(verbose_name="Начало не сезона")
+    end = models.DateField(verbose_name="Конец не сезона")
+    price_for_resident = models.IntegerField(verbose_name="Цена для резидента")
+    price_for_not_resident = models.IntegerField(verbose_name="Цена для нерезидента")
+
+    def __str__(self):
+        return self.hotel.name
+
+    class Meta:
+        verbose_name = 'Цены в "не сезон"'
+        verbose_name_plural = 'Цены в "не сезон"'
 
 
 def gallery_image_path(instance, filename):

@@ -17,9 +17,23 @@ class HotelRoomFacilitiesSerializer(serializers.ModelSerializer):
         fields = ["id", "facility"]
 
 
+class HotelSeasonPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.HotelPriceInSeason
+        fields = ["pk", "start", "end", "price_for_resident", "price_for_not_resident"]
+
+
+class HotelNotSeasonPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.HotelPriceInSeason
+        fields = ["pk", "start", "end", "price_for_resident", "price_for_not_resident"]
+
+
 class HotelRoomSerializer(serializers.ModelSerializer):
     room_images = HotelRoomImagesSerializer(many=True)
     room_facilities = HotelRoomFacilitiesSerializer(many=True)
+    price_in_season = HotelSeasonPriceSerializer(many=True)
+    price_not_in_season = HotelNotSeasonPriceSerializer(many=True)
 
     class Meta:
         model = models.HotelRoom
@@ -31,6 +45,8 @@ class HotelRoomSerializer(serializers.ModelSerializer):
             "hotel",
             "room_images",
             "room_facilities",
+            "price_in_season",
+            "price_not_in_season",
             "is_all_inclusive",
         ]
 
@@ -101,7 +117,6 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             "stars",
             "nights",
             "total_people",
-            # "event",
             "hotel_gallery",
             "rooms",
             "is_all_inclusive",

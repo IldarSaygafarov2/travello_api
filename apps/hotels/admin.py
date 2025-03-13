@@ -5,6 +5,14 @@ from . import models
 import nested_admin
 
 
+class HotelRoomSeasonPriceInline(nested_admin.NestedStackedInline):
+    model = models.HotelPriceInSeason
+
+
+class HotelRoomNotSeasonPriceInline(nested_admin.NestedStackedInline):
+    model = models.HotelPriceInNotSeason
+
+
 class HotelGalleryInline(nested_admin.NestedStackedInline):
     model = models.HotelGallery
 
@@ -22,7 +30,12 @@ class HotelRoomFacilityInline(
 # @admin.register(models.HotelRoom)
 class HotelRoomInline(nested_admin.NestedStackedInline):
     model = models.HotelRoom
-    inlines = [HotelRoomImageInline, HotelRoomFacilityInline]
+    inlines = [
+        HotelRoomImageInline,
+        HotelRoomFacilityInline,
+        HotelRoomSeasonPriceInline,
+        HotelRoomNotSeasonPriceInline,
+    ]
 
 
 @admin.register(models.Hotel)
