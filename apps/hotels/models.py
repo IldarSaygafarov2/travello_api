@@ -161,8 +161,11 @@ class Hotel(models.Model):
 
 
 class HotelPriceInSeason(models.Model):
-    hotel = models.ForeignKey(
-        "HotelRoom", on_delete=models.CASCADE, verbose_name="Отель"
+    hotel_room = models.ForeignKey(
+        "HotelRoom",
+        on_delete=models.CASCADE,
+        verbose_name="Отель",
+        related_name="price_in_season",
     )
     start = models.DateField(verbose_name="Начало сезона")
     end = models.DateField(verbose_name="Конец сезона")
@@ -178,8 +181,11 @@ class HotelPriceInSeason(models.Model):
 
 
 class HotelPriceInNotSeason(models.Model):
-    hotel = models.ForeignKey(
-        "HotelRoom", on_delete=models.CASCADE, verbose_name="Отель"
+    hotel_room = models.ForeignKey(
+        "HotelRoom",
+        on_delete=models.CASCADE,
+        verbose_name="Отель",
+        related_name="price_in_not_season",
     )
     start = models.DateField(verbose_name="Начало не сезона")
     end = models.DateField(verbose_name="Конец не сезона")
