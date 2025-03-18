@@ -199,3 +199,4 @@ MAIN_BOT_TOKEN = "7380386489:AAHzMIiiSOpXRPV6f3j_YSNfQPsu0CdCKVg"
 CORPORATE_CLIENTS_CHANNEL = "@travella_corporate_clients"
 TOUR_BOOKINGS_CHANNEL = "@travella_tour_bookings"
 SUPPORT_CHANNEL = "@travella_support"
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
