@@ -143,15 +143,8 @@ class Hotel(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-
-        try:
-            rooms = self.rooms.all()
-            self.minimum_price = (
-                min([room.price for room in rooms]) if rooms.count() else 0
-            )
-        except Exception as e:
-            print(e)
-
+        rooms = self.rooms.all()
+        self.minimum_price = min([room.price for room in rooms]) if rooms.count() else 0
         super().save(*args, **kwargs)
 
     class Meta:
