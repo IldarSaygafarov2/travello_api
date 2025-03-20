@@ -16,6 +16,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "review_type",
             "event",
             "hotel",
+            "photo",
         ]
 
 
