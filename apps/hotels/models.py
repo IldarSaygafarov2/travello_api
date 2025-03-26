@@ -142,10 +142,10 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        rooms = self.rooms.all()
-        self.minimum_price = min([room.price for room in rooms]) if rooms.count() else 0
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     rooms = self.rooms.all()
+    #     self.minimum_price = min([room.price for room in rooms]) if rooms.count() else 0
+    #     super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Отель"
@@ -166,7 +166,7 @@ class HotelPriceInSeason(models.Model):
     price_for_not_resident = models.IntegerField(verbose_name="Цена для нерезидента")
 
     def __str__(self):
-        return self.hotel.name
+        return self.hotel_room.name
 
     class Meta:
         verbose_name = 'Цены в "сезон"'
@@ -186,7 +186,7 @@ class HotelPriceInNotSeason(models.Model):
     price_for_not_resident = models.IntegerField(verbose_name="Цена для нерезидента")
 
     def __str__(self):
-        return self.hotel.name
+        return self.hotel_room.name
 
     class Meta:
         verbose_name = 'Цены в "не сезон"'
