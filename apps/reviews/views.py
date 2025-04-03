@@ -11,7 +11,7 @@ class ReviewList(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ("user_type",)
+    filterset_fields = ("user_type", "hotel")
 
 
 @extend_schema(tags=["Reviews"])
