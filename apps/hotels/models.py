@@ -125,7 +125,8 @@ class Hotel(models.Model):
         help_text="Высчитывается наименьшая стоимость номера данного отеля",
     )
     is_all_inclusive = models.BooleanField(default=False, verbose_name="Все включено ?")
-
+    map_code = models.TextField(verbose_name='Код для карты', null=True, blank=True)
+    
     # price_for_resident_in_season = models.IntegerField(
     #     default=0, verbose_name="Цена для резидентов в сезон"
     # )
