@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     "constance",
-
     "apps.users_auth.apps.UsersAuthConfig",
     "apps.users.apps.UsersConfig",
     "apps.user_route.apps.UserRouteConfig",
@@ -183,6 +182,7 @@ TG_SEND_DOCUMENT_URL = "https://api.telegram.org/bot{token}/sendDocument?chat_id
 
 JAZZMIN_SETTINGS = {"language_chooser": True}
 
+API_URL_MAIN = os.getenv("API_URL_MAIN")
 
 # Constance django
 CONSTANCE_CONFIG = {
@@ -196,7 +196,10 @@ SIMPLE_JWT = {
 }
 
 MAIN_BOT_TOKEN = "7380386489:AAHzMIiiSOpXRPV6f3j_YSNfQPsu0CdCKVg"
+
 CORPORATE_CLIENTS_CHANNEL = "@travella_corporate_clients"
 TOUR_BOOKINGS_CHANNEL = "@travella_tour_bookings"
 SUPPORT_CHANNEL = "@travella_support"
+CONSTRUCTOR_CHANNEL = "@travella_tour_constructor"
+
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None

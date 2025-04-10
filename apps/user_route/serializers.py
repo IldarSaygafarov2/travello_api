@@ -95,6 +95,7 @@ class UserRouteCreateSerializer(serializers.ModelSerializer):
         model = UserTourRoute
         fields = [
             "id",
+            "created_at",
             "user",
             "tourists",
             "hotels",

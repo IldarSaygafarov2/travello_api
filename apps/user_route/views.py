@@ -1,3 +1,4 @@
+from datetime import datetime
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.response import Response
@@ -17,6 +18,8 @@ from .serializers import (
     UserTourTransportSerializer,
     UserRouteAdditionalServiceSerializer,
 )
+from travello import settings
+import requests
 from ..hotels.models import Hotel, HotelRoom
 
 
@@ -32,7 +35,6 @@ class UserTourCreateView(generics.CreateAPIView):
     serializer_class = UserRouteCreateSerializer
 
     def create(self, request, *args, **kwargs):
-
         # TODO: закончить добавление данных от конструктора
         user_id = kwargs.get("pk")
 
@@ -106,15 +108,44 @@ class UserTourCreateView(generics.CreateAPIView):
         user_route_data["transports"] = transport_data
         user_route_data["additional_services"] = service_data
 
+        tg_messages = "Бронь тура(Конструктор)\n\n"
+        tg_messages = f"Дата брони: {datetime.strptime(user_route_data['created_at'], '%Y-%m-%d')}\n\n"
+
+        tg_messages += f"{user.get_full_name()}\n{user.phone_number} / {user.email}\n\n"
+        tg_messages += f'Кол-во туристов: {len(user_route_data["tourists"])}\n\n'
+        tg_messages += f'Отель: {", ".join([Hotel.objects.get(pk=int(obj.get('hotel'))).name for obj in hotels_data])}\n'
+        tg_messages += f'Номер: {", ".join([HotelRoom.objects.get(pk=int(obj.get('room'))).name for obj in hotels_data])}\n\n'
+
+        tg_messages += f"{settings.API_URL_MAIN}/admin/user_route/usertourroute/{user_route_data['id']}/change/"
+        requests.post(
+            url=settings.TG_API_URL.format(
+                token=settings.MAIN_BOT_TOKEN,
+                channel_id=settings.CONSTRUCTOR_CHANNEL,
+                text=tg_messages,
+            )
+        )
         return Response(user_route_data, status=201)
 
 
 """
+Бронь тура(Конструктов)
+
+ФИО
+
+Номер телефона / email
+
+Кол-во туристов: 
+Отель: 
+Номер: 
+
+Ссылка на фулл данные
 {
-  "user": 0,
+  "id": 10,
+  "user": 14,
   "tourists": [
     {
-      "user": 0,
+      "id": 29,
+      "user": 14,
       "first_name": "tourist 1",
       "lastname": "tourist 1",
       "birth_date": "2024-11-14",
@@ -126,14 +157,14 @@ class UserTourCreateView(generics.CreateAPIView):
   ],
   "hotels": [
     {
-      "user_route": 0,
+      "user_route": 10,
       "hotel": 1,
       "room": 1
     }
   ],
   "transports": [
     {
-      "user_route": 0,
+      "user_route": 10,
       "transport_type": "group",
       "transfer_type": "type 1",
       "from_to": "hotel",
@@ -141,18 +172,60 @@ class UserTourCreateView(generics.CreateAPIView):
       "number_of_tourists": 3
     }
   ],
-  "guides": [
-    {
-      "user_route": 0,
-      "guide": 1
-    }
-  ],
   "additional_services": [
     {
-      "user_route": 0,
+      "user_route": 10,
       "photo_video_shooting": true,
       "open_sim_card": false
     }
   ]
+}
+"""
+
+"""
+{
+    "user": 0,
+    "tourists": [
+        {
+            "user": 0,
+            "first_name": "tourist 1",
+            "lastname": "tourist 1",
+            "birth_date": "2024-11-14",
+            "passport_seria_and_number": "ab312311",
+            "expiration_date": "2024-11-14",
+            "gender": "male",
+            "citizen": "uzbekistan"
+        }
+    ],
+    "hotels": [
+        {
+            "user_route": 0,
+            "hotel": 1,
+            "room": 1
+        }
+    ],
+    "transports": [
+        {
+            "user_route": 0,
+            "transport_type": "group",
+            "transfer_type": "type 1",
+            "from_to": "hotel",
+            "hotel_details": "some hotel",
+            "number_of_tourists": 3
+        }
+    ],
+    "guides": [
+        {
+            "user_route": 0,
+            "guide": 1
+        }
+    ],
+    "additional_services": [
+        {
+            "user_route": 0,
+            "photo_video_shooting": true,
+            "open_sim_card": false
+        }
+    ]
 }
 """

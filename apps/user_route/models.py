@@ -12,6 +12,9 @@ class UserTourRoute(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
+    def __str__(self):
+        return f"{self.user.username} - {self.created_at}"
+
     class Meta:
         verbose_name = "Тур пользователя"
         verbose_name_plural = "Туры пользователя"
@@ -25,6 +28,10 @@ class UserTourHotel(models.Model):
         Hotel, on_delete=models.SET_NULL, related_name="user_tour_route", null=True
     )
     room = models.ForeignKey(HotelRoom, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Отель"
+        verbose_name_plural = "Отели"
 
 
 class UserTourTransport(models.Model):
@@ -49,6 +56,10 @@ class UserTourTransport(models.Model):
     hotel_details = models.CharField(verbose_name="Данные гостиницы", max_length=500)
     number_of_tourists = models.IntegerField(verbose_name="Количество туристов")
 
+    class Meta:
+        verbose_name = "Транспорт"
+        verbose_name_plural = "Транспорты"
+
 
 class UserRouteGuide(models.Model):
     user_route = models.ForeignKey(
@@ -59,6 +70,10 @@ class UserRouteGuide(models.Model):
     date_from = models.DateField(null=True)
     date_to = models.DateField(null=True)
 
+    class Meta:
+        verbose_name = "Гид"
+        verbose_name_plural = "Гиды"
+
 
 class UserRouteAdditionalService(models.Model):
     user_route = models.ForeignKey(
@@ -66,3 +81,7 @@ class UserRouteAdditionalService(models.Model):
     )
     photo_video_shooting = models.BooleanField(default=False)
     open_sim_card = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Дополнительная услуга"
+        verbose_name_plural = "Дополнительные услуги"
