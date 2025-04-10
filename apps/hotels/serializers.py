@@ -122,7 +122,7 @@ class HotelDetailSerializer(serializers.ModelSerializer):
             "is_all_inclusive",
             "price_for_child",
             "fee",
-            "map_code"
+            "map_code",
         ]
 
     @staticmethod

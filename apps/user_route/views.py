@@ -109,7 +109,7 @@ class UserTourCreateView(generics.CreateAPIView):
         user_route_data["additional_services"] = service_data
 
         tg_messages = "Бронь тура(Конструктор)\n\n"
-        tg_messages = f"Дата брони: {datetime.strptime(user_route_data['created_at'], '%Y-%m-%d')}\n\n"
+        tg_messages = f"Дата брони: {user_route_data['created_at']}\n\n"
 
         tg_messages += f"{user.get_full_name()}\n{user.phone_number} / {user.email}\n\n"
         tg_messages += f'Кол-во туристов: {len(user_route_data["tourists"])}\n\n'
