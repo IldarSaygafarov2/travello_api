@@ -200,8 +200,8 @@ class UserTourCreateView(generics.CreateAPIView):
     "hotels": [
         {
             "user_route": 0,
-            "hotel": 1,
-            "room": 1
+            "hotel": 325,
+            "room": 546
         }
     ],
     "transports": [
