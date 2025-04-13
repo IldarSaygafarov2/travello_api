@@ -4,25 +4,15 @@ from . import models
 
 
 class HotelsTranslationOptions(TranslationOptions):
-    fields = (
-        'name',
-        'country',
-        'address',
-        'full_description',
-    )
+    fields = ("name", "country", "address", "full_description", "map_code")
 
 
 class HotelRoomTranslationOptions(TranslationOptions):
-    fields = (
-        'name',
-        'description'
-    )
+    fields = ("name", "description")
 
 
 class HotelRoomFacilitiesTranslationOptions(TranslationOptions):
-    fields = (
-        'facility',
-    )
+    fields = ("facility",)
 
 
 translator.register(models.Hotel, HotelsTranslationOptions)

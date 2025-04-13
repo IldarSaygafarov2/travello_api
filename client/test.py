@@ -1,4 +1,10 @@
-# import requests
+import requests
+
+# print(
+#     requests.get(
+#         "http://127.0.0.1:8000/api/v1/hotels/1/", headers={"Accept-Language": "uz"}
+#     ).json()
+# )
 # from bs4 import BeautifulSoup
 #
 # # endpoint = 'http://127.0.0.1:8000/api/v1/main/services/steps/'
@@ -25,5 +31,3 @@
 #
 # with open('langs.json', 'w', encoding='utf-8') as f:
 #     json.dump(res, f, ensure_ascii=False, indent=4)
-
-
